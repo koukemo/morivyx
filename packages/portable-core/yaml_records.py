@@ -157,9 +157,9 @@ def plain_key(token):
     # YAML 1.2 Core scalar resolution: a key spelling must remain a string.
     if re.fullmatch(r"[-+]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][-+]?[0-9]+)?", token):
         return False
-    if re.fullmatch(r"[-+]?(?:0o[0-7]+|0x[0-9a-fA-F]+)", token) or token.lower() in (
-        ".nan", ".inf", "+.inf", "-.inf"
-    ):
+    if re.fullmatch(r"(?:0o[0-7]+|0x[0-9a-fA-F]+)", token) or token in (
+        ".nan", ".NaN", ".NAN"
+    ) or re.fullmatch(r"[-+]?\.(?:inf|Inf|INF)", token):
         return False
     return not any(ord(c) < 0x20 for c in token) and not re.search(r"[\x7f-\x84\x86-\x9f\ufffe\uffff]", token)
 
