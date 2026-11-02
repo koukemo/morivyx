@@ -77,6 +77,32 @@ class YamlRecordTests(unittest.TestCase):
             with self.subTest(source=source), self.assertRaises(ValueError):
                 read_yaml(source)
 
+    def test_sequence_separation_width_and_compact_indentation(self):
+        for width in [1, 2, 3, 7]:
+            gap = " " * width
+            column = " " * (3 + width)
+            cases = [
+                (f'items:\n  -{gap}"  text  "\n', {"items": ["  text  "]}),
+                (f'items:\n  -{gap}0\n  -{gap}false\n  -{gap}[]\n', {"items": [0, False, []]}),
+                (f'items:\n  -{gap}first: "one"\n{column}second: "two"\n', {"items": [{"first": "one", "second": "two"}]}),
+                (f'items:\n  -{gap}-{gap}"one"\n{column}-{gap}"two"\n', {"items": [["one", "two"]]}),
+                (f'items:\n  -{gap}? "first"\n{column}: "one"\n', {"items": [{"first": "one"}]}),
+            ]
+            for source, expected in cases:
+                with self.subTest(width=width, source=source):
+                    self.assertEqual(read_yaml(source), expected)
+
+    def test_sequence_spacing_does_not_relax_invalid_input_or_depth(self):
+        for source in [
+            'items:\n  -   first: "one"\n    second: "two"\n',
+            'items:\n  -   ? "first"\n     : "one"\n',
+            'items:\n  -   \n', 'items:\n  -   unquoted\n',
+            'items:\n  -\t"one"\n',
+            'items:\n  ' + '-   ' * (MAX_DEPTH + 2) + '"end"\n',
+        ]:
+            with self.subTest(source=source[:100]), self.assertRaises(ValueError):
+                read_yaml(source)
+
     def test_input_encoding_and_bounds(self):
         for source in [b"x: \xff\n", b"\xef\xbb\xbfx: 1\n", b"x: 1\r\n",
                        b"x:\t1\n", b"x: 1", b"x: 1\n\n", b"x: 1\n \n", b"x: \x00\n",
