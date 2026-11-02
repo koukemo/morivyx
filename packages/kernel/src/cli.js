@@ -21,6 +21,16 @@ import { diffPackages } from "./semantic-diff.js";
 import { tracePackage } from "./trace-query.js";
 import { validatePackage } from "./validator.js";
 import { readYamlRecord } from "./yaml-reader.js";
+import { assertSupportedNodeVersion } from "./node-runtime.js";
+
+try {
+  assertSupportedNodeVersion();
+} catch (error) {
+  process.stdout.write(`${JSON.stringify({ valid: false, issues: [{
+    code: error.code, path: "/runtime/node", message: error.message,
+  }] }, null, 2)}\n`);
+  process.exit(1);
+}
 
 const [command, ...arguments_] = process.argv.slice(2);
 const commands = new Set([
