@@ -56,6 +56,9 @@ function validateScalar(node, path, key = false) {
   if (node.anchor || node.tag) {
     invalid(path, "YAML の anchor または custom tag を使えません。");
   }
+  if (typeof node.value === "string" && !node.value.isWellFormed()) {
+    invalid(path, "YAML の文字列に対にならない UTF-16 の文字コードを使えません。");
+  }
   if (key) {
     if (node.type === "BLOCK_LITERAL" || node.type === "BLOCK_FOLDED") {
       invalid(path, "YAML の項目名にも block scalar を使えません。");
