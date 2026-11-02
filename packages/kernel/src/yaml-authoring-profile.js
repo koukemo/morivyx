@@ -33,6 +33,9 @@ export function decodeYamlSource(bytes, path) {
   if (source.includes("\t")) {
     invalid(path, "YAML にタブを使えません。");
   }
+  if (/[\x00-\x08\x0b\x0c\x0e-\x1f]/u.test(source)) {
+    invalid(path, "YAML に生の制御文字を使えません。二重引用符内のエスケープで表します。");
+  }
   if (!source.endsWith("\n") || /\n *\n$/.test(source)) {
     invalid(path, "YAML の末尾改行は一件だけにします。");
   }
@@ -56,6 +59,9 @@ function validateScalar(node, path, key = false) {
   if (key) {
     if (typeof node.value !== "string") {
       invalid(path, "YAML の項目名は文字列でなければなりません。");
+    }
+    if (node.type === "PLAIN" && /[\x7f-\x84\x86-\x9f\ufffe\uffff]/u.test(node.value)) {
+      invalid(path, "印字できない項目名は二重引用符内のエスケープで表します。");
     }
     return;
   }

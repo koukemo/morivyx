@@ -1,5 +1,5 @@
 import { normalizeNfc } from "./unicode-nfc.js";
-import { stringify } from "yaml";
+import { Document, visit } from "yaml";
 import { canonicalJson, compareUnicode } from "./canonical.js";
 import { PackageError } from "./errors.js";
 import {
@@ -355,11 +355,22 @@ export function serializeYamlRecord(record) {
       );
     }
     validateLogicalNullPolicy(record, format, record.status);
-    return stringify(writer(record), {
+    const options = {
       defaultStringType: "QUOTE_DOUBLE",
       defaultKeyType: "PLAIN",
       lineWidth: 0,
+    };
+    const document = new Document(writer(record), null, options);
+    visit(document, {
+      Scalar(_key, node) {
+        if (typeof node.value === "string" && /[\t\r\x7f-\x9f\ufffe\uffff]/u.test(node.value)) {
+          node.type = "QUOTE_DOUBLE";
+        }
+      },
     });
+    return document.toString(options).replace(/[\t\r\x7f-\x9f\ufffe\uffff]/gu, (character) =>
+      `\\u${character.codePointAt(0).toString(16).padStart(4, "0")}`,
+    );
   } catch (error) {
     if (error instanceof PackageError) {
       throw error;

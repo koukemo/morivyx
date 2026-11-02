@@ -125,7 +125,7 @@ def plain_key(token):
         ".nan", ".inf", "+.inf", "-.inf"
     ):
         return False
-    return not any(ord(c) < 0x20 for c in token)
+    return not any(ord(c) < 0x20 for c in token) and not re.search(r"[\x7f-\x84\x86-\x9f\ufffe\uffff]", token)
 
 
 def key_value(token):
@@ -307,7 +307,7 @@ def field_order(format_id, path):
 def yaml_quote(text):
     # JSON escapes are YAML double-quoted escapes. Escape additional YAML line
     # and control characters so physical line folding cannot change the value.
-    return re.sub(r"[\x7f-\x9f\u2028\u2029]", lambda m: f"\\u{ord(m[0]):04x}", quote(text))
+    return re.sub(r"[\x7f-\x9f\u2028\u2029\ufffe\uffff]", lambda m: f"\\u{ord(m[0]):04x}", quote(text))
 
 
 def write_yaml(record):
@@ -353,7 +353,7 @@ def write_yaml(record):
         if type(value) is dict and value:
             lines = []
             for key, child in value.items():
-                key = key if plain_key(key) else yaml_quote(key)
+                key = key if plain_key(key) and not re.search(r"[\x7f-\x9f]", key) else yaml_quote(key)
                 if type(child) in (dict, list) and child:
                     lines.append(prefix + key + ":")
                     lines.extend(render(child, indent + 2))
