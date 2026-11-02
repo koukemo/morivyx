@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import {
   canonicalJson,
   compareUnicode,
@@ -133,7 +134,7 @@ function validateSemanticDiffInput({
 }
 
 function text(value) {
-  return typeof value === "string" ? value.normalize("NFC") : "";
+  return typeof value === "string" ? normalizeNfc(value) : "";
 }
 
 function assertKind(kind) {
@@ -338,7 +339,7 @@ function schemaEntries(schemaLock, path) {
       Array.isArray(entry) ||
       typeof entry.schemaId !== "string" ||
       entry.schemaId.length === 0 ||
-      entries.has(entry.schemaId.normalize("NFC"))
+      entries.has(normalizeNfc(entry.schemaId))
     ) {
       throw new PackageError(
         "SEMANTIC_DIFF_INPUT_INVALID",
@@ -346,7 +347,7 @@ function schemaEntries(schemaLock, path) {
         "Schema 固定情報の Schema ID が不正または重複しています。",
       );
     }
-    entries.set(entry.schemaId.normalize("NFC"), entry);
+    entries.set(normalizeNfc(entry.schemaId), entry);
   }
   return entries;
 }

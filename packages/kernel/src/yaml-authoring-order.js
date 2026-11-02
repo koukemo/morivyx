@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { isMap, isPair, isScalar, isSeq } from "yaml";
 import { PackageError } from "./errors.js";
 import {
@@ -46,7 +47,7 @@ function mapPair(node, key) {
       isPair(pair) &&
       isScalar(pair.key) &&
       typeof pair.key.value === "string" &&
-      pair.key.value.normalize("NFC") === key,
+      normalizeNfc(pair.key.value) === key,
   );
 }
 
@@ -54,7 +55,7 @@ function mapKeys(node) {
   if (!isMap(node)) {
     return [];
   }
-  return node.items.map((pair) => pair.key.value.normalize("NFC"));
+  return node.items.map((pair) => normalizeNfc(pair.key.value));
 }
 
 function compareUnicode(left, right) {
@@ -143,7 +144,7 @@ function validateUnknownMapOrder(node, path) {
   }
   validateSortedMap(node, path);
   for (const pair of node.items) {
-    const key = pair.key.value.normalize("NFC");
+    const key = normalizeNfc(pair.key.value);
     validateUnknownMapOrder(pair.value, pointerChild(path, key));
   }
 }

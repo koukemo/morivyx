@@ -23,7 +23,7 @@ Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorial
 - Node.jsの保存APIと、Pythonによる出力及び明示した新規領域への復旧。
 - 読取専用の取込とプラグイン境界、既存の補助関数。
 
-PythonはCoreを対象とする選択済みの26モジュールであり、Node.jsのすべての機能を同じ方法で実装したものではありません。
+PythonはCoreを対象とする選択済みの27モジュールであり、Node.jsのすべての機能を同じ方法で実装したものではありません。
 本人認証済みの採用操作、鍵運用、実モデル、外部実行、連合と実機の試作、専用閲覧サイトは含めません。
 既存SDKの読取専用の提案比較と承認照合を、実験用の採用経路の製品化と読み替えません。
 
@@ -59,6 +59,7 @@ GitHubからのソース配布、ローカルでの導入と梱包は可能で�
 
 - [仕様の入口](docs/README.md)
 - [Pythonの範囲](packages/portable-core/README.md)
+- [文字の正規化とUnicodeの版](docs/unicode-normalization.md)
 - [ライセンス本文](LICENSE)と[権利表示](NOTICE)
 - [外部依存の表示](THIRD_PARTY_NOTICES.md)
 - [初版の同梱ファイルの由来と検査値](SOURCE-MANIFEST.json)

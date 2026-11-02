@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { compareUnicode } from "./canonical.js";
 import { PackageError } from "./errors.js";
 
@@ -113,8 +114,8 @@ export function validateSchemaLock(schemaLock, filePath = "") {
       );
     }
     const current = [
-      schema.schemaId.normalize("NFC"),
-      schema.version.normalize("NFC"),
+      normalizeNfc(schema.schemaId),
+      normalizeNfc(schema.version),
     ];
     if (
       previous &&

@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { compareUnicode } from "./canonical.js";
 import { PackageError } from "./errors.js";
 
@@ -95,7 +96,7 @@ function assertStringSet(
     if (itemPattern && !itemPattern.test(item)) {
       invalid(filePath, itemPointer, "名前空間付きIDが必要です。");
     }
-    const current = item.normalize("NFC");
+    const current = normalizeNfc(item);
     if (previous !== undefined && compareUnicode(previous, current) >= 0) {
       invalid(
         filePath,
@@ -115,7 +116,7 @@ function assertSortedEntries(value, filePath, pointer, key, validateEntry) {
   value.forEach((entry, index) => {
     const entryPointer = `${pointer}/${index}`;
     validateEntry(entry, entryPointer);
-    const current = entry[key].normalize("NFC");
+    const current = normalizeNfc(entry[key]);
     if (previous !== undefined && compareUnicode(previous, current) >= 0) {
       invalid(
         filePath,
@@ -149,10 +150,10 @@ function validateEntityType(entityType, filePath, pointer) {
       { allowEmpty: false },
     );
     const required = new Set(
-      entityType.requiredAttributes.map((value) => value.normalize("NFC")),
+      entityType.requiredAttributes.map((value) => normalizeNfc(value)),
     );
     entityType.optionalAttributes.forEach((value, index) => {
-      if (required.has(value.normalize("NFC"))) {
+      if (required.has(normalizeNfc(value))) {
         invalid(
           filePath,
           `${pointer}/optionalAttributes/${index}`,
@@ -214,7 +215,7 @@ function validateAuthoringOrders(authoringOrders, filePath) {
     const seen = new Set();
     values.forEach((value, index) => {
       assertText(value, filePath, `${pointer}/${index}`);
-      const normalized = value.normalize("NFC");
+      const normalized = normalizeNfc(value);
       if (seen.has(normalized)) {
         invalid(
           filePath,

@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { compareUnicode } from "./canonical.js";
 
 function issue(code, phase, elementId, path, relatedId = "") {
@@ -10,7 +11,7 @@ function pointerChild(path, value) {
 }
 
 function text(value) {
-  return typeof value === "string" ? value.normalize("NFC") : "";
+  return typeof value === "string" ? normalizeNfc(value) : "";
 }
 
 function relationDefinitions(schemas) {

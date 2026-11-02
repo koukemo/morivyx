@@ -12,7 +12,7 @@ import math
 from pathlib import Path
 import re
 import sys
-import unicodedata
+from unicode_nfc import normalize_nfc
 
 
 TIMESTAMP = re.compile(
@@ -45,7 +45,7 @@ CONTRACTS = {
 def unicode_text(value):
     if type(value) is not str or any(0xD800 <= ord(c) <= 0xDFFF for c in value):
         raise ValueError("expected a Unicode scalar string")
-    return unicodedata.normalize("NFC", value)
+    return normalize_nfc(value)
 
 
 def timestamp_text(value):

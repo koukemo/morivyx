@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { stringify } from "yaml";
 import { canonicalJson, compareUnicode } from "./canonical.js";
 import { PackageError } from "./errors.js";
@@ -140,7 +141,7 @@ function validateLogicalNullPolicy(value, format, rootStatus, path = "") {
     return;
   }
   for (const [rawKey, entryValue] of Object.entries(value)) {
-    const key = rawKey.normalize("NFC");
+    const key = normalizeNfc(rawKey);
     validateLogicalNullPolicy(
       entryValue,
       format,
@@ -154,7 +155,7 @@ function normalizedEntries(value, path) {
   const entries = [];
   const keys = new Set();
   for (const [rawKey, entryValue] of Object.entries(value)) {
-    const key = rawKey.normalize("NFC");
+    const key = normalizeNfc(rawKey);
     if (keys.has(key)) {
       invalid(
         pointerChild(path, key),
@@ -344,7 +345,7 @@ const RECORD_WRITERS = new Map([
 export function serializeYamlRecord(record) {
   try {
     validateLogicalStructure(record);
-    const format = record?.format?.normalize?.("NFC");
+    const format = typeof record?.format === "string" ? normalizeNfc(record.format) : undefined;
     const writer = RECORD_WRITERS.get(format);
     if (!writer) {
       throw new PackageError(

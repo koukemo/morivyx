@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { compareUnicode, graphRootDigest } from "./canonical.js";
 import { validateGraphConstraints } from "./graph-constraints.js";
 import { readGraphPackage } from "./package-reader.js";
@@ -39,7 +40,7 @@ function issue(code, phase, elementId = "", path = "", relatedId = "") {
 }
 
 function text(value) {
-  return typeof value === "string" ? value.normalize("NFC") : "";
+  return typeof value === "string" ? normalizeNfc(value) : "";
 }
 
 export function compareIssues(left, right) {
@@ -236,7 +237,7 @@ function duplicateIssues(elements, field, path) {
     if (typeof element[field] !== "string") {
       continue;
     }
-    const value = element[field].normalize("NFC");
+    const value = normalizeNfc(element[field]);
     const group = groups.get(value) ?? [];
     group.push(text(element.id));
     groups.set(value, group);
