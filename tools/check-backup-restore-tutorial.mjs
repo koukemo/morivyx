@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { copyFile, mkdir, mkdtemp, readdir, readFile, realpath, rm, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readdir, readFile, realpath, rm, stat, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,6 +37,20 @@ try {
   const original = await snapshot(sample);
   const nestedOutput = execute(python, ["-B", "examples/backup-restore/export.py", join(sample, "base/.morivyx"), join(sample, "base/.morivyx/backup.json")], { expected: 1 });
   assert.equal(nestedOutput.error.code, "BACKUP_OUTPUT_IN_SOURCE");
+  const sourceAlias = join(root, "source-alias");
+  await symlink(join(sample, "base/.morivyx"), sourceAlias);
+  const aliasOutput = execute(python, ["-B", "examples/backup-restore/export.py", join(sample, "base/.morivyx"), join(sourceAlias, "backup.json")], { expected: 1 });
+  assert.equal(aliasOutput.error.code, "BACKUP_OUTPUT_IN_SOURCE");
+  let caseAliasChecked = false;
+  try {
+    const alias = join(sample, "base/.MORIVYX"), aliasInfo = await stat(alias);
+    const originalInfo = await stat(join(sample, "base/.morivyx"));
+    if (aliasInfo.dev === originalInfo.dev && aliasInfo.ino === originalInfo.ino) {
+      const refused = execute(python, ["-B", "examples/backup-restore/export.py", join(sample, "base/.morivyx"), join(alias, "backup.json")], { expected: 1 });
+      assert.equal(refused.error.code, "BACKUP_OUTPUT_IN_SOURCE");
+      caseAliasChecked = true;
+    }
+  } catch (error) { if (error.code !== "ENOENT") throw error; }
   assert.deepEqual(await snapshot(sample), original);
   const backups = [];
   for (const name of ["base", "after"]) {
@@ -123,7 +137,7 @@ try {
   console.log(JSON.stringify({ valid: true, packages: backups.length, files: backups.map(b => b.receipt.files),
     sourceUnchangedBeforeRemoval: true, sourceRemovedBeforeRestore: true, nodeAndGitAbsentFromChildPath: true,
     restoredBytesMatchExport: true, rootAndSchemaDigestsMatch: true, existingBackupsAndTargetsUnchanged: true,
-    wrongPinsCreateNoTarget: true, malformedInputsCreateNoTarget: true, outputsInsideSourceRefused: true,
+    wrongPinsCreateNoTarget: true, malformedInputsCreateNoTarget: true, outputsInsideSourceRefused: true, caseAliasChecked,
     python: selectedPython, node: process.versions.node }, null, 2));
 } finally {
   await rm(root, { recursive: true, force: true });
