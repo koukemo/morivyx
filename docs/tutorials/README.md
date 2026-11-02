@@ -6,6 +6,40 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 
 # Morivyxを使い始める
 
+## 実行環境を選ぶ
+
+既存の正本を読む場合は、Pythonだけでも始められます。
+同梱した手順で判断を新しく保存したり、移行先を作ったりする場合は、Node.jsの統合した入口を使います。
+
+| 行いたい操作 | この公開版で使う環境 |
+|---|---|
+| YAMLを読む、既存の正本を検証する | [Pythonだけで実行可能](python-only.md)。Node.jsのCLIからも読取と検証を実行できる |
+| 既存の正本から索引を作って調べる | [Node.jsとPythonの両方の入口](graph-index.md)がある。手順の最初のサンプル作成にはNode.jsを使う |
+| 判断を作成して保存する、改訂する、関係を加える | [Node.jsで判断を保存](getting-started.md)し、[改訂](revise-decision.md)と[関係の追加](trace-relations.md)へ進む。Pythonでの再読取は任意 |
+| Schemaを変えて別の保存先へ移行する | [準備と移行先の保存はNode.js](schema-migration.md)の手順を使う。Pythonでは移行結果を再読取して照合する |
+| 正本を出力する、受け取ったJSONを新しい先へ復旧する | [出力と復旧にはPythonだけ](backup-restore.md)を使える。手順のサンプルを最初から作る場合はNode.jsも使う |
+| 自分のNode.jsアプリへ組み込む | [Node.jsとnpm](installed-node.md)を使う。Pythonの導入は不要 |
+
+Node.jsの最低要件は`26.13.0`です。
+Pythonは`3.14`と`3.15`で確認しています。
+Pythonによる安全なファイルの読取と復旧にはPOSIXの操作が必要で、同梱の手順はmacOSで確認しています。
+Pythonは変更一覧と移行の適用計算も扱いますが、ここで案内する判断や移行の保存手順と同一の統合CLIを提供するものではありません。
+
+例では、Node.jsのCLIには正本を含むプロジェクトのフォルダーを渡します。
+Pythonのファイル読取には、その中の`.morivyx`を明示します。
+下の`/path/to/project`は、実際の保存先へ置き換えます。
+
+```sh
+node packages/kernel/src/cli.js inspect /path/to/project
+python3 packages/portable-core/package_records.py /path/to/project/.morivyx
+```
+
+![既存の正本の読取と出力及び復旧はPythonだけでも開始でき、判断の保存と移行の統合手順にはNode.jsを使い、サンプル作成と照合の環境を分ける流れ](../diagrams/runtime-choice.png)
+
+[図の生成元](../diagrams/runtime-choice.mmd)
+
+## 目的から手順を選ぶ
+
 | 試したいこと | 手順 | 得られる結果 |
 |---|---|---|
 | 自分の正本を検査する | [正本を検査して失敗の原因を切り分ける](validate-package.md) | 読取と検証の違い、終了コードと失敗箇所を確認する |

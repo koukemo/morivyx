@@ -60,6 +60,7 @@ python3 packages/portable-core/package_validation.py /path/to/package/.morivyx
 ファイルの安全な読取にはPOSIXの操作が必要で、この手順はmacOSで確認しています。
 入力や既存ファイルを上書きする操作ではありません。
 
-実データを作るところから試す場合は、[判断の保存と差分の手順](getting-started.md)を使えます。
+実データを作るところから試す場合は、Node.jsを使う[判断の保存と差分の手順](getting-started.md)へ進めます。
 正本を持ち運ぶ場合は、[JSONへの出力と新しい保存先への復元](backup-restore.md)へ進めます。
+[実行環境の比較](README.md#実行環境を選ぶ)で、Pythonだけの操作とNode.jsを使う準備や保存の手順を確認できます。
 [Pythonの対象範囲](../../packages/portable-core/README.md)と[利用手順の入口](README.md)も参照できます。
