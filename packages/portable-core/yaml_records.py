@@ -314,15 +314,16 @@ def read_yaml(source):
         compact_depth = 0
         explicit_key = False
         while True:
-            while text.startswith("- ") and (
-                text[2:].startswith(("- ", "? ")) or text[2:] == "?" or mapping_pair(text[2:]) is not None
-            ):
+            while text.startswith("- "):
+                payload = text[1:].lstrip(" ")
+                if not (payload.startswith(("- ", "? ")) or payload == "?" or mapping_pair(payload) is not None):
+                    break
                 compact_depth += 1
                 if compact_depth > MAX_DEPTH:
                     raise ValueError("compact YAML nesting too deep")
                 lines.append((indent, "-"))
-                indent += 2
-                text = text[2:]
+                indent += len(text) - len(payload)
+                text = payload
             if text == "?" or text.startswith("? "):
                 key, payload, payload_indent = explicit_pair(text, indent)
                 if payload in ("-", "?") or payload.startswith(("- ", "? ")) or mapping_pair(payload) is not None:
@@ -336,7 +337,7 @@ def read_yaml(source):
                 explicit_key = True
             break
         pair = mapping_pair(text, check_implicit_length=not explicit_key)
-        rest = text[2:] if text.startswith("- ") else pair[1] if pair is not None else ""
+        rest = text[1:].lstrip(" ") if text.startswith("- ") else pair[1] if pair is not None else ""
         if rest.startswith('"') and not closes_double_quote(rest, 1):
             fragments = [text]
             while True:
@@ -381,7 +382,7 @@ def read_yaml(source):
             if sequence:
                 if text != "-" and not text.startswith("- "):
                     raise ValueError("mixed block sequence and mapping")
-                result.append(value(text[2:] if text != "-" else "", indent, depth))
+                result.append(value(text[1:].lstrip(" ") if text != "-" else "", indent, depth))
             else:
                 pair = mapping_pair(text)
                 if pair is None:

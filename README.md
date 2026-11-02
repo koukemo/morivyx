@@ -68,6 +68,7 @@ GitHubからのソース配布、ローカルでの導入と梱包は可能で�
 - [YAML項目名の長さの数え方](docs/yaml-key-length.md)
 - [YAML項目名の禁止表記と直し方](docs/yaml-key-style.md)
 - [YAML引用文字列の折り返しと正しい文字コード](docs/yaml-folding.md)
+- [YAML配列の区切り空白と入れ子](docs/yaml-sequence-spacing.md)
 - [ライセンス本文](LICENSE)と[権利表示](NOTICE)
 - [外部依存の表示](THIRD_PARTY_NOTICES.md)
 - [初版の同梱ファイルの由来と検査値](SOURCE-MANIFEST.json)
