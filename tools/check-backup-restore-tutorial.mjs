@@ -93,9 +93,18 @@ try {
   const badPinTarget = join(parent, "bad-pin");
   assert.equal(restore(backups[0].path, badPinTarget, "not-a-digest", 1).error.code, "BACKUP_PIN_INVALID");
   await assert.rejects(stat(badPinTarget), { code: "ENOENT" });
+  const baseJson = await readFile(backups[0].path);
+  const exactLimitData = Buffer.concat([baseJson, Buffer.alloc(8 * 1024 * 1024 - baseJson.length, 0x20)]);
+  const oversizedData = Buffer.concat([exactLimitData, Buffer.from(" ")]);
+  assert.deepEqual(JSON.parse(oversizedData), backups[0].files);
+  const exactLimitPath = join(isolated, "exact-limit.json");
+  await writeFile(exactLimitPath, exactLimitData);
+  const boundaryReceipt = restore(exactLimitPath, join(parent, "exact-limit"), sha(exactLimitData));
+  assert.equal(boundaryReceipt.restored, true);
+  assert.equal(boundaryReceipt.rootDigest, backups[0].receipt.rootDigest);
   for (const [name, data, code] of [
     ["duplicate", Buffer.from('{"revision.yaml":"","revision.yaml":""}'), "BACKUP_INPUT_INVALID"],
-    ["oversized", Buffer.alloc(8 * 1024 * 1024 + 1, 0x20), "BACKUP_INPUT_INVALID"],
+    ["oversized", oversizedData, "BACKUP_INPUT_INVALID"],
   ]) {
     const path = join(isolated, `${name}.json`), target = join(parent, name);
     await writeFile(path, data);
@@ -137,7 +146,8 @@ try {
   console.log(JSON.stringify({ valid: true, packages: backups.length, files: backups.map(b => b.receipt.files),
     sourceUnchangedBeforeRemoval: true, sourceRemovedBeforeRestore: true, nodeAndGitAbsentFromChildPath: true,
     restoredBytesMatchExport: true, rootAndSchemaDigestsMatch: true, existingBackupsAndTargetsUnchanged: true,
-    wrongPinsCreateNoTarget: true, malformedInputsCreateNoTarget: true, outputsInsideSourceRefused: true, caseAliasChecked,
+    wrongPinsCreateNoTarget: true, malformedInputsCreateNoTarget: true, exactInputLimitRestored: true,
+    outputsInsideSourceRefused: true, caseAliasChecked,
     python: selectedPython, node: process.versions.node }, null, 2));
 } finally {
   await rm(root, { recursive: true, force: true });
