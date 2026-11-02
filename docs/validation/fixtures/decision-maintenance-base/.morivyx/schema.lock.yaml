@@ -1,0 +1,7 @@
+format: "morivyx.schema-lock/0.1"
+stableIdScheme: "urn-uuid-v4"
+digestAlgorithm: "sha256"
+schemas:
+  - schemaId: "morivyx.core"
+    version: "0.1"
+    digest: "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"

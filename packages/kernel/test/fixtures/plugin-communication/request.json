@@ -1,0 +1,17 @@
+{
+  "format": "morivyx.plugin-run-request/0.1",
+  "runId": "run:repository-fixture",
+  "plugin": {
+    "id": "morivyx.repository-importer.dev",
+    "version": "0.1.0"
+  },
+  "capability": {
+    "id": "repository.read-file",
+    "effect": "read-only"
+  },
+  "input": {
+    "repositoryRoot": "fixture-repository-root",
+    "externalId": "repository:fixture",
+    "locator": "source.txt"
+  }
+}

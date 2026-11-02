@@ -1,0 +1,32 @@
+flowchart TB
+    SOURCE["Markdown 正本<br/>Relation の要素数"]
+    KIND{"要素数の種類"}
+    ZERO["零件以上<br/>minCount: 0"]
+    CONDITIONAL["条件付き<br/>minCount: 0<br/>専用 Invariant で検査"]
+    ONE_OR_MORE["一件以上<br/>minCount: 1"]
+    EXACT_ONE["一件<br/>minCount: 1<br/>maxCount: 1"]
+    SCHEMA["機械可読 Core Schema"]
+    DEFINITION["Schema 内容の digest を再計算"]
+    LOCK["Schema 固定情報の digest を再計算"]
+    VECTORS["検査値と fixture を更新"]
+
+    SOURCE --> KIND
+    KIND -->|一般の Relation| ZERO
+    KIND -->|produces・根拠・反証| CONDITIONAL
+    KIND -->|evaluates| ONE_OR_MORE
+    KIND -->|against| EXACT_ONE
+    ZERO --> SCHEMA
+    CONDITIONAL --> SCHEMA
+    ONE_OR_MORE --> SCHEMA
+    EXACT_ONE --> SCHEMA
+    SCHEMA --> DEFINITION --> LOCK --> VECTORS
+
+    classDef source fill:#eef5f3,stroke:#315f5b,color:#173735,stroke-width:2px;
+    classDef decision fill:#fff4de,stroke:#9b5b2c,color:#4f2a12,stroke-width:2px;
+    classDef rule fill:#e5f1ec,stroke:#0e6b67,color:#173735,stroke-width:2px;
+    classDef output fill:#e6f4e8,stroke:#3f7d47,color:#1d4022,stroke-width:2px;
+
+    class SOURCE source;
+    class KIND decision;
+    class ZERO,CONDITIONAL,ONE_OR_MORE,EXACT_ONE rule;
+    class SCHEMA,DEFINITION,LOCK,VECTORS output;

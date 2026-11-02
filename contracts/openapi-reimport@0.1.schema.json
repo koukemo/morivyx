@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:openapi-reimport:0.1",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "externalIdentity", "locator", "previous", "current", "status", "issues"],
+  "properties": {
+    "format": { "const": "morivyx.openapi-import-comparison/0.1" },
+    "externalIdentity": {
+      "oneOf": [{ "type": "null" }, {
+        "type": "object", "additionalProperties": false, "required": ["system", "externalId"],
+        "properties": { "system": { "const": "openapi" }, "externalId": { "type": "string", "minLength": 1 } }
+      }]
+    },
+    "locator": { "type": ["string", "null"] },
+    "previous": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Descriptor" }] },
+    "current": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Resolved" }, { "$ref": "#/$defs/Missing" }] },
+    "status": { "enum": ["current", "stale", "missing", "invalid"] },
+    "issues": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["code"], "properties": { "code": { "type": "string", "pattern": "^OPENAPI_REIMPORT_[A-Z_]+$" } } } }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "Descriptor": {
+      "type": "object", "additionalProperties": false, "required": ["digest", "digestRule", "retrievedAt"],
+      "properties": { "digest": { "$ref": "#/$defs/digest" }, "digestRule": { "const": "sha256-utf8-document" }, "retrievedAt": { "type": "string", "format": "date-time" } }
+    },
+    "Resolved": {
+      "type": "object", "additionalProperties": false, "required": ["status", "digest", "digestRule", "retrievedAt"],
+      "properties": { "status": { "const": "resolved" }, "digest": { "$ref": "#/$defs/digest" }, "digestRule": { "const": "sha256-utf8-document" }, "retrievedAt": { "type": "string", "format": "date-time" } }
+    },
+    "Missing": {
+      "type": "object", "additionalProperties": false, "required": ["status", "failureCode", "documentDigest", "digestRule"],
+      "properties": { "status": { "const": "missing" }, "failureCode": { "const": "OPENAPI_IMPORT_TARGET_MISSING" }, "documentDigest": { "$ref": "#/$defs/digest" }, "digestRule": { "const": "sha256-utf8-document" } }
+    }
+  }
+}

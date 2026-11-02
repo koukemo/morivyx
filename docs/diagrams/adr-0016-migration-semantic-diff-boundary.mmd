@@ -1,0 +1,32 @@
+%%{init: {"flowchart": {"wrappingWidth": 340}}}%%
+flowchart TB
+    subgraph ordinary["通常の semantic diff"]
+        base["基準 GraphRevision"]
+        shared["同じ Schema 固定情報"]
+        target["対象 GraphRevision"]
+        diff["morivyx.semantic-diff/0.1<br/>schemaLockDigest を一つ保持"]
+        base --> shared
+        target --> shared
+        base --> diff
+        target --> diff
+        shared --> diff
+    end
+
+    subgraph migrationPlan["Migration 計画差分"]
+        source["変換元 GraphRevision"]
+        sourceLock["sourceSchemaLockDigest"]
+        planned["morivyx.migration-semantic-diff/0.1<br/>両側の固定情報を保持"]
+        targetLock["targetSchemaLockDigest"]
+        resulting["変換先 GraphRevision"]
+        reportDigest["専用の内容 digest<br/>morivyx:migration-semantic-diff:v1"]
+        migration["Migration<br/>plannedSemanticDiffDigest"]
+
+        source --> planned
+        sourceLock --> planned
+        targetLock --> planned
+        resulting --> planned
+        planned -->|"専用接頭辞で計算する"| reportDigest
+        reportDigest -->|"照合する"| migration
+    end
+
+    planned -.->|"root digest の対象外"| root["正規 Graph の root digest"]

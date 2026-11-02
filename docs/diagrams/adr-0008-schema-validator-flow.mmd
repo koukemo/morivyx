@@ -1,0 +1,38 @@
+flowchart TB
+    INPUT["変更内容と使う規則"]
+    LOCK["1. 規則の版を固定する<br/>いつも同じ規則を使う"]
+    CHECK["2. 決めた順に検査する<br/>読取 → 必須項目 → 重複 → 関係先 → 循環<br/>状態・来歴・承認 → 運用条件"]
+    RESULT{"問題があるか"}
+    PASS["問題なし<br/>受け入れ候補として返す"]
+    FAIL["問題あり<br/>場所と理由を同じ順で返す"]
+    KEEP["検査では内容を変更しない"]
+    MOVE["版を変える作業は別に行う"]
+
+    INPUT --> LOCK --> CHECK --> RESULT
+    RESULT -->|ない| PASS
+    RESULT -->|ある| FAIL
+    CHECK -.-> KEEP --> MOVE
+
+    S["Schema<br/>検査規則"]
+    V["Validator<br/>順番に検査する機能"]
+    M["Migration<br/>版を変える別作業"]
+
+    S -.-> LOCK
+    V -.-> CHECK
+    M -.-> MOVE
+
+    classDef input fill:#eef5f3,stroke:#315f5b,color:#173735,stroke-width:2px;
+    classDef process fill:#e5f1ec,stroke:#0e6b67,color:#173735,stroke-width:2px;
+    classDef decision fill:#fff4de,stroke:#9b5b2c,color:#4f2a12,stroke-width:2px;
+    classDef success fill:#e6f4e8,stroke:#3f7d47,color:#1d4022,stroke-width:2px;
+    classDef issue fill:#f9e5e1,stroke:#9b4d45,color:#512521,stroke-width:2px;
+    classDef boundary fill:#f0ecf7,stroke:#6b5891,color:#302746,stroke-width:2px;
+    classDef term fill:#f7f7f4,stroke:#6a7371,color:#263331,stroke-dasharray:5 4;
+
+    class INPUT input;
+    class LOCK,CHECK process;
+    class RESULT decision;
+    class PASS success;
+    class FAIL issue;
+    class KEEP,MOVE boundary;
+    class S,V,M term;

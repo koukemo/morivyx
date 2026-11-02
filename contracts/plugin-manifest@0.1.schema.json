@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:plugin-manifest:0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "identity",
+    "compatibility",
+    "capabilities",
+    "supplyChain",
+    "migrations"
+  ],
+  "properties": {
+    "format": { "const": "morivyx.plugin-manifest/0.1" },
+    "identity": { "$ref": "#/$defs/Identity" },
+    "compatibility": { "$ref": "#/$defs/Compatibility" },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/Capability" }
+    },
+    "supplyChain": { "$ref": "#/$defs/SupplyChain" },
+    "migrations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "StringSet": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "Identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "packageDigest", "distributor"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "packageDigest": { "$ref": "#/$defs/Digest" },
+        "distributor": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["communicationContracts", "coreSchemas", "profileSchemas"],
+      "properties": {
+        "communicationContracts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "coreSchemas": { "$ref": "#/$defs/StringSet" },
+        "profileSchemas": { "$ref": "#/$defs/StringSet" }
+      }
+    },
+    "Permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["graphRead", "fileRead", "network", "secrets", "devices"],
+      "properties": {
+        "graphRead": { "$ref": "#/$defs/StringSet" },
+        "fileRead": { "$ref": "#/$defs/StringSet" },
+        "network": { "$ref": "#/$defs/StringSet" },
+        "secrets": { "$ref": "#/$defs/StringSet" },
+        "devices": { "$ref": "#/$defs/StringSet" }
+      }
+    },
+    "Resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeoutMs", "maxOutputBytes"],
+      "properties": {
+        "timeoutMs": { "type": "integer", "minimum": 1 },
+        "maxOutputBytes": { "type": "integer", "minimum": 1 },
+        "maxMemoryBytes": { "type": "integer", "minimum": 1 },
+        "maxCostUnits": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "Capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "effect",
+        "inputFormat",
+        "outputFormat",
+        "permissions",
+        "retry",
+        "resources"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "effect": {
+          "enum": [
+            "pure",
+            "read-only",
+            "artifact-write",
+            "external-effect",
+            "physical-effect"
+          ]
+        },
+        "inputFormat": { "type": "string", "minLength": 1 },
+        "outputFormat": { "type": "string", "minLength": 1 },
+        "permissions": { "$ref": "#/$defs/Permissions" },
+        "retry": {
+          "enum": [
+            "idempotent",
+            "safe-to-retry",
+            "reconcile-required",
+            "manual-recovery"
+          ]
+        },
+        "resources": { "$ref": "#/$defs/Resources" }
+      }
+    },
+    "SupplyChain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "signatureDigest": { "$ref": "#/$defs/Digest" },
+        "sbomDigest": { "$ref": "#/$defs/Digest" }
+      }
+    }
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "source": "docs/validation/stage-0-reference-graphs.md",
+  "schema": "docs/schema/morivyx.core@0.1.yaml",
+  "examples": [
+    {
+      "id": "logical-graph-design-decision",
+      "title": "論理Graphの設計判断",
+      "entities": [
+        { "alias": "goal", "type": "core.goal" },
+        { "alias": "criterion", "type": "core.criterion" },
+        { "alias": "decision", "type": "core.decision" },
+        { "alias": "selected-option", "type": "core.option" },
+        { "alias": "rejected-option", "type": "core.option" },
+        { "alias": "supporting-knowledge", "type": "core.knowledge" },
+        { "alias": "challenging-knowledge", "type": "core.knowledge" },
+        { "alias": "plan", "type": "core.plan" },
+        { "alias": "execution", "type": "core.execution" },
+        { "alias": "artifact", "type": "core.artifact" },
+        { "alias": "verification", "type": "core.verification" },
+        { "alias": "observation", "type": "core.observation" },
+        { "alias": "learning", "type": "core.learning" }
+      ],
+      "relations": [
+        { "from": "goal", "predicate": "has_criterion", "to": "criterion" },
+        { "from": "decision", "predicate": "addresses", "to": "goal" },
+        { "from": "decision", "predicate": "considers", "to": "selected-option" },
+        { "from": "decision", "predicate": "considers", "to": "rejected-option" },
+        { "from": "decision", "predicate": "selects", "to": "selected-option" },
+        { "from": "decision", "predicate": "supported_by", "to": "supporting-knowledge" },
+        { "from": "decision", "predicate": "challenged_by", "to": "challenging-knowledge" },
+        { "from": "decision", "predicate": "governs", "to": "plan" },
+        { "from": "decision", "predicate": "governs", "to": "artifact" },
+        { "from": "plan", "predicate": "pursues", "to": "goal" },
+        { "from": "execution", "predicate": "executes", "to": "plan" },
+        { "from": "execution", "predicate": "produces", "to": "artifact" },
+        { "from": "verification", "predicate": "evaluates", "to": "artifact" },
+        { "from": "verification", "predicate": "against", "to": "criterion" },
+        { "from": "verification", "predicate": "produces", "to": "observation" },
+        { "from": "learning", "predicate": "derived_from", "to": "observation" },
+        { "from": "learning", "predicate": "triggers", "to": "plan" }
+      ],
+      "queries": [
+        {
+          "queryId": "why-artifact-exists",
+          "focus": "artifact",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "execution", "predicate": "produces", "to": "artifact" },
+            { "from": "execution", "predicate": "executes", "to": "plan" },
+            { "from": "plan", "predicate": "pursues", "to": "goal" }
+          ]]
+        },
+        {
+          "queryId": "governing-decision",
+          "focus": "artifact",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "decision", "predicate": "governs", "to": "artifact" }
+          ]]
+        },
+        {
+          "queryId": "decision-evidence",
+          "focus": "decision",
+          "status": "complete",
+          "missing": [],
+          "paths": [
+            [{ "from": "decision", "predicate": "supported_by", "to": "supporting-knowledge" }],
+            [{ "from": "decision", "predicate": "challenged_by", "to": "challenging-knowledge" }]
+          ]
+        },
+        {
+          "queryId": "goal-achievement-evidence",
+          "focus": "goal",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "goal", "predicate": "has_criterion", "to": "criterion" },
+            { "from": "verification", "predicate": "against", "to": "criterion" },
+            { "from": "verification", "predicate": "produces", "to": "observation" }
+          ]]
+        },
+        {
+          "queryId": "observation-triggered-change",
+          "focus": "observation",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "learning", "predicate": "derived_from", "to": "observation" },
+            { "from": "learning", "predicate": "triggers", "to": "plan" }
+          ]]
+        }
+      ]
+    },
+    {
+      "id": "terminology-approval",
+      "title": "用語の承認",
+      "entities": [
+        { "alias": "goal", "type": "core.goal" },
+        { "alias": "criterion", "type": "core.criterion" },
+        { "alias": "decision", "type": "core.decision" },
+        { "alias": "selected-option", "type": "core.option" },
+        { "alias": "rejected-option", "type": "core.option" },
+        { "alias": "supporting-knowledge", "type": "core.knowledge" },
+        { "alias": "challenging-knowledge", "type": "core.knowledge" },
+        { "alias": "plan", "type": "core.plan" },
+        { "alias": "execution", "type": "core.execution" },
+        { "alias": "artifact", "type": "core.artifact" },
+        { "alias": "verification", "type": "core.verification" },
+        { "alias": "observation", "type": "core.observation" },
+        { "alias": "learning", "type": "core.learning" }
+      ],
+      "relations": [
+        { "from": "goal", "predicate": "has_criterion", "to": "criterion" },
+        { "from": "decision", "predicate": "addresses", "to": "goal" },
+        { "from": "decision", "predicate": "considers", "to": "selected-option" },
+        { "from": "decision", "predicate": "considers", "to": "rejected-option" },
+        { "from": "decision", "predicate": "selects", "to": "selected-option" },
+        { "from": "decision", "predicate": "supported_by", "to": "supporting-knowledge" },
+        { "from": "decision", "predicate": "challenged_by", "to": "challenging-knowledge" },
+        { "from": "decision", "predicate": "governs", "to": "plan" },
+        { "from": "decision", "predicate": "governs", "to": "artifact" },
+        { "from": "plan", "predicate": "pursues", "to": "goal" },
+        { "from": "execution", "predicate": "executes", "to": "plan" },
+        { "from": "execution", "predicate": "produces", "to": "artifact" },
+        { "from": "verification", "predicate": "evaluates", "to": "artifact" },
+        { "from": "verification", "predicate": "against", "to": "criterion" },
+        { "from": "verification", "predicate": "produces", "to": "observation" },
+        { "from": "learning", "predicate": "derived_from", "to": "observation" },
+        { "from": "learning", "predicate": "triggers", "to": "plan" }
+      ],
+      "queries": [
+        {
+          "queryId": "why-artifact-exists",
+          "focus": "artifact",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "execution", "predicate": "produces", "to": "artifact" },
+            { "from": "execution", "predicate": "executes", "to": "plan" },
+            { "from": "plan", "predicate": "pursues", "to": "goal" }
+          ]]
+        },
+        {
+          "queryId": "governing-decision",
+          "focus": "artifact",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "decision", "predicate": "governs", "to": "artifact" }
+          ]]
+        },
+        {
+          "queryId": "decision-evidence",
+          "focus": "decision",
+          "status": "complete",
+          "missing": [],
+          "paths": [
+            [{ "from": "decision", "predicate": "supported_by", "to": "supporting-knowledge" }],
+            [{ "from": "decision", "predicate": "challenged_by", "to": "challenging-knowledge" }]
+          ]
+        },
+        {
+          "queryId": "goal-achievement-evidence",
+          "focus": "goal",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "goal", "predicate": "has_criterion", "to": "criterion" },
+            { "from": "verification", "predicate": "against", "to": "criterion" },
+            { "from": "verification", "predicate": "produces", "to": "observation" }
+          ]]
+        },
+        {
+          "queryId": "observation-triggered-change",
+          "focus": "observation",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "learning", "predicate": "derived_from", "to": "observation" },
+            { "from": "learning", "predicate": "triggers", "to": "plan" }
+          ]]
+        }
+      ]
+    },
+    {
+      "id": "readme-external-reference",
+      "title": "README.mdの外部参照",
+      "entities": [
+        { "alias": "goal", "type": "core.goal" },
+        { "alias": "criterion", "type": "core.criterion" },
+        { "alias": "decision", "type": "core.decision" },
+        { "alias": "supporting-knowledge", "type": "core.knowledge" },
+        { "alias": "challenging-knowledge", "type": "core.knowledge" },
+        { "alias": "record-plan", "type": "core.plan" },
+        { "alias": "retrieval-execution", "type": "core.execution" },
+        { "alias": "artifact", "type": "core.artifact" },
+        { "alias": "external-source", "type": "core.external-source" },
+        { "alias": "verification", "type": "core.verification" },
+        { "alias": "observation", "type": "core.observation" },
+        { "alias": "learning", "type": "core.learning" },
+        { "alias": "update-plan", "type": "core.plan" }
+      ],
+      "relations": [
+        { "from": "goal", "predicate": "has_criterion", "to": "criterion" },
+        { "from": "decision", "predicate": "addresses", "to": "goal" },
+        { "from": "decision", "predicate": "supported_by", "to": "supporting-knowledge" },
+        { "from": "decision", "predicate": "challenged_by", "to": "challenging-knowledge" },
+        { "from": "decision", "predicate": "governs", "to": "artifact" },
+        { "from": "record-plan", "predicate": "pursues", "to": "goal" },
+        { "from": "retrieval-execution", "predicate": "executes", "to": "record-plan" },
+        { "from": "retrieval-execution", "predicate": "produces", "to": "artifact" },
+        { "from": "artifact", "predicate": "derived_from", "to": "external-source" },
+        { "from": "verification", "predicate": "evaluates", "to": "artifact" },
+        { "from": "verification", "predicate": "against", "to": "criterion" },
+        { "from": "verification", "predicate": "produces", "to": "observation" },
+        { "from": "learning", "predicate": "derived_from", "to": "observation" },
+        { "from": "learning", "predicate": "triggers", "to": "update-plan" }
+      ],
+      "queries": [
+        {
+          "queryId": "why-artifact-exists",
+          "focus": "artifact",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "retrieval-execution", "predicate": "produces", "to": "artifact" },
+            { "from": "retrieval-execution", "predicate": "executes", "to": "record-plan" },
+            { "from": "record-plan", "predicate": "pursues", "to": "goal" }
+          ]]
+        },
+        {
+          "queryId": "governing-decision",
+          "focus": "artifact",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "decision", "predicate": "governs", "to": "artifact" }
+          ]]
+        },
+        {
+          "queryId": "decision-evidence",
+          "focus": "decision",
+          "status": "complete",
+          "missing": [],
+          "paths": [
+            [{ "from": "decision", "predicate": "supported_by", "to": "supporting-knowledge" }],
+            [{ "from": "decision", "predicate": "challenged_by", "to": "challenging-knowledge" }]
+          ]
+        },
+        {
+          "queryId": "goal-achievement-evidence",
+          "focus": "goal",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "goal", "predicate": "has_criterion", "to": "criterion" },
+            { "from": "verification", "predicate": "against", "to": "criterion" },
+            { "from": "verification", "predicate": "produces", "to": "observation" }
+          ]]
+        },
+        {
+          "queryId": "observation-triggered-change",
+          "focus": "observation",
+          "status": "complete",
+          "missing": [],
+          "paths": [[
+            { "from": "learning", "predicate": "derived_from", "to": "observation" },
+            { "from": "learning", "predicate": "triggers", "to": "update-plan" }
+          ]]
+        }
+      ]
+    }
+  ]
+}

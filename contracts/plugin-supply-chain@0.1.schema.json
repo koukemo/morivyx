@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:plugin-supply-chain:0.1",
+  "description": "取得済み配布物の内容一致を記録する。配布者や署名者の真正性、実行許可を保証しない。",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "plugin", "source", "expectedPackageDigest", "package", "signature", "sbom", "status", "authenticity", "issues"],
+  "properties": {
+    "format": { "const": "morivyx.plugin-supply-chain/0.1" },
+    "plugin": { "oneOf": [
+      { "type": "null" },
+      { "type": "object", "additionalProperties": false, "required": ["id", "version", "distributor"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "version": { "type": "string", "minLength": 1 },
+          "distributor": { "type": "string", "minLength": 1 }
+        } }
+    ] },
+    "source": { "type": ["string", "null"], "minLength": 1 },
+    "expectedPackageDigest": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Digest" }] },
+    "package": { "$ref": "#/$defs/Artifact" },
+    "signature": { "$ref": "#/$defs/Artifact" },
+    "sbom": { "$ref": "#/$defs/Artifact" },
+    "status": { "enum": ["matched", "mismatch", "incomplete", "invalid"] },
+    "authenticity": { "const": "not-verified" },
+    "issues": { "type": "array", "maxItems": 3,
+      "items": { "type": "object", "additionalProperties": false, "required": ["code"],
+        "properties": {
+          "code": { "type": "string", "pattern": "^PLUGIN_SUPPLY_CHAIN_[A-Z_]+$" },
+          "artifact": { "enum": ["package", "signature", "sbom"] }
+        } }
+    }
+  },
+  "$defs": {
+    "Digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "Artifact": { "oneOf": [
+      { "type": "null" },
+      { "type": "object", "additionalProperties": false,
+        "required": ["expectedDigest", "actualDigest", "byteLength", "status"],
+        "properties": {
+          "expectedDigest": { "$ref": "#/$defs/Digest" },
+          "actualDigest": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Digest" }] },
+          "byteLength": { "type": ["integer", "null"], "minimum": 0, "maximum": 16777216 },
+          "status": { "enum": ["matched", "mismatch", "missing"] }
+        } }
+    ] }
+  }
+}

@@ -1,0 +1,504 @@
+format: "morivyx.schema/0.1"
+schemaId: "morivyx.core"
+version: "0.1"
+stableIdScheme: "urn-uuid-v4"
+digestAlgorithm: "sha256"
+reviewStates:
+  - "approved"
+  - "proposed"
+  - "rejected"
+  - "unreviewed"
+entityTypes:
+  - typeId: "core.actor"
+    requiredAttributes:
+      - "actorKind"
+      - "name"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.artifact"
+    requiredAttributes:
+      - "artifactKind"
+      - "uri"
+    optionalAttributes:
+      - "digest"
+      - "externalVersion"
+      - "mediaType"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.constraint"
+    requiredAttributes:
+      - "rule"
+      - "severity"
+    optionalAttributes:
+      - "condition"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.context"
+    requiredAttributes:
+      - "scope"
+    optionalAttributes:
+      - "environment"
+      - "timeRange"
+      - "trustBoundary"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.criterion"
+    requiredAttributes:
+      - "evaluationRule"
+      - "method"
+      - "necessity"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.decision"
+    requiredAttributes:
+      - "consequences"
+      - "question"
+      - "rationale"
+    optionalAttributes:
+      - "challengeReview"
+      - "revisitTriggers"
+    lifecycle:
+      - "accepted"
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.execution"
+    requiredAttributes:
+      - "actor"
+      - "executedAt"
+      - "outcome"
+    optionalAttributes:
+      - "idempotencyKey"
+      - "inputs"
+    lifecycle:
+      - "accepted"
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.external-source"
+    requiredAttributes:
+      - "externalId"
+      - "system"
+    optionalAttributes:
+      - "snapshotAt"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.goal"
+    requiredAttributes:
+      - "beneficiaries"
+      - "scope"
+      - "statement"
+    optionalAttributes:
+      - "horizon"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.intent"
+    requiredAttributes:
+      - "motivation"
+      - "priority"
+    optionalAttributes:
+      - "interpretation"
+      - "nonNegotiables"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.knowledge"
+    requiredAttributes:
+      - "claim"
+      - "epistemicState"
+      - "scope"
+    optionalAttributes:
+      - "confidence"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.learning"
+    requiredAttributes:
+      - "insight"
+    optionalAttributes:
+      - "confidence"
+      - "recommendedChange"
+    lifecycle:
+      - "active"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.observation"
+    requiredAttributes:
+      - "method"
+      - "observedAt"
+      - "value"
+    lifecycle:
+      - "accepted"
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.option"
+    requiredAttributes:
+      - "description"
+    optionalAttributes:
+      - "tradeoffs"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.plan"
+    requiredAttributes:
+      - "actions"
+    optionalAttributes:
+      - "dependencies"
+      - "stopConditions"
+    lifecycle:
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+  - typeId: "core.verification"
+    requiredAttributes:
+      - "method"
+      - "result"
+    lifecycle:
+      - "accepted"
+      - "active"
+      - "deprecated"
+      - "draft"
+      - "retracted"
+      - "superseded"
+relationTypes:
+  - predicate: "addresses"
+    sourceTypes:
+      - "core.decision"
+    targetTypes:
+      - "core.goal"
+      - "core.intent"
+      - "core.knowledge"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "against"
+    sourceTypes:
+      - "core.verification"
+    targetTypes:
+      - "core.criterion"
+    minCount: 1
+    maxCount: 1
+    cycle: "not_applicable"
+  - predicate: "challenged_by"
+    sourceTypes:
+      - "core.decision"
+      - "core.knowledge"
+    targetTypes:
+      - "core.knowledge"
+      - "core.observation"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "considers"
+    sourceTypes:
+      - "core.decision"
+    targetTypes:
+      - "core.option"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "constrained_by"
+    sourceTypes:
+      - "core.execution"
+      - "core.goal"
+      - "core.intent"
+      - "core.plan"
+    targetTypes:
+      - "core.constraint"
+      - "core.knowledge"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "depends_on"
+    sourceTypes:
+      - "core.actor"
+      - "core.artifact"
+      - "core.constraint"
+      - "core.context"
+      - "core.criterion"
+      - "core.decision"
+      - "core.execution"
+      - "core.external-source"
+      - "core.goal"
+      - "core.intent"
+      - "core.knowledge"
+      - "core.learning"
+      - "core.observation"
+      - "core.option"
+      - "core.plan"
+      - "core.verification"
+    targetTypes:
+      - "core.actor"
+      - "core.artifact"
+      - "core.constraint"
+      - "core.context"
+      - "core.criterion"
+      - "core.decision"
+      - "core.execution"
+      - "core.external-source"
+      - "core.goal"
+      - "core.intent"
+      - "core.knowledge"
+      - "core.learning"
+      - "core.observation"
+      - "core.option"
+      - "core.plan"
+      - "core.verification"
+    minCount: 0
+    maxCount: null
+    cycle: "allowed"
+  - predicate: "derived_from"
+    sourceTypes:
+      - "core.artifact"
+      - "core.learning"
+    targetTypes:
+      - "core.actor"
+      - "core.artifact"
+      - "core.constraint"
+      - "core.context"
+      - "core.criterion"
+      - "core.decision"
+      - "core.execution"
+      - "core.external-source"
+      - "core.goal"
+      - "core.intent"
+      - "core.knowledge"
+      - "core.learning"
+      - "core.observation"
+      - "core.option"
+      - "core.plan"
+      - "core.verification"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "evaluates"
+    sourceTypes:
+      - "core.verification"
+    targetTypes:
+      - "core.artifact"
+      - "core.execution"
+      - "core.goal"
+    minCount: 1
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "executes"
+    sourceTypes:
+      - "core.execution"
+    targetTypes:
+      - "core.plan"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "governs"
+    sourceTypes:
+      - "core.decision"
+    targetTypes:
+      - "core.artifact"
+      - "core.execution"
+      - "core.plan"
+      - "core.verification"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "has_criterion"
+    sourceTypes:
+      - "core.goal"
+    targetTypes:
+      - "core.criterion"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "interprets"
+    sourceTypes:
+      - "core.intent"
+    targetTypes:
+      - "core.goal"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "observes"
+    sourceTypes:
+      - "core.observation"
+    targetTypes:
+      - "core.artifact"
+      - "core.context"
+      - "core.execution"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "produces"
+    sourceTypes:
+      - "core.execution"
+      - "core.verification"
+    targetTypes:
+      - "core.artifact"
+      - "core.observation"
+    minCount: 0
+    maxCount: 1
+    cycle: "not_applicable"
+  - predicate: "pursues"
+    sourceTypes:
+      - "core.plan"
+    targetTypes:
+      - "core.goal"
+      - "core.intent"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "realizes"
+    sourceTypes:
+      - "core.artifact"
+    targetTypes:
+      - "core.intent"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "refines"
+    sourceTypes:
+      - "core.goal"
+    targetTypes:
+      - "core.goal"
+    minCount: 0
+    maxCount: null
+    cycle: "forbidden"
+  - predicate: "selects"
+    sourceTypes:
+      - "core.decision"
+    targetTypes:
+      - "core.option"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "supersedes"
+    sourceTypes:
+      - "core.actor"
+      - "core.artifact"
+      - "core.constraint"
+      - "core.context"
+      - "core.criterion"
+      - "core.decision"
+      - "core.execution"
+      - "core.external-source"
+      - "core.goal"
+      - "core.intent"
+      - "core.knowledge"
+      - "core.learning"
+      - "core.observation"
+      - "core.option"
+      - "core.plan"
+      - "core.verification"
+    targetTypes:
+      - "core.actor"
+      - "core.artifact"
+      - "core.constraint"
+      - "core.context"
+      - "core.criterion"
+      - "core.decision"
+      - "core.execution"
+      - "core.external-source"
+      - "core.goal"
+      - "core.intent"
+      - "core.knowledge"
+      - "core.learning"
+      - "core.observation"
+      - "core.option"
+      - "core.plan"
+      - "core.verification"
+    minCount: 0
+    maxCount: null
+    cycle: "forbidden"
+  - predicate: "supported_by"
+    sourceTypes:
+      - "core.decision"
+      - "core.knowledge"
+      - "core.learning"
+    targetTypes:
+      - "core.artifact"
+      - "core.knowledge"
+      - "core.observation"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "triggers"
+    sourceTypes:
+      - "core.learning"
+    targetTypes:
+      - "core.decision"
+      - "core.goal"
+      - "core.plan"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+  - predicate: "updates"
+    sourceTypes:
+      - "core.learning"
+    targetTypes:
+      - "core.knowledge"
+    minCount: 0
+    maxCount: null
+    cycle: "not_applicable"
+authoringOrders:
+  root:
+    - "format"
+    - "kind"
+    - "id"
+    - "type"
+    - "typeVersion"
+    - "revision"
+    - "lifecycle"
+    - "reviewState"
+    - "attributes"
+    - "provenance"
+    - "extensions"
+  attributes: []
+  provenance:
+    - "method"
+    - "actor"
+    - "recordedAt"

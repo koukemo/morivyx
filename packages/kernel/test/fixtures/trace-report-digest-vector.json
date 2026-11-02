@@ -1,0 +1,86 @@
+{
+  "name": "Trace Report digest normalization",
+  "expected": {
+    "canonicalByteLength": 988,
+    "canonicalJson": "{\"evaluatedAt\":\"2026-08-02T00:00:00Z\",\"focusId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440000\",\"format\":\"morivyx.trace-report/0.1\",\"graphRevision\":\"graph:stage-1-package-v1\",\"missing\":[],\"paths\":[{\"hops\":[{\"fromId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440002\",\"fromRevision\":\"sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6\",\"predicate\":\"governs\",\"toId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440000\",\"toRevision\":\"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"}]},{\"hops\":[{\"fromId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440003\",\"fromRevision\":\"sha256:3333333333333333333333333333333333333333333333333333333333333333\",\"predicate\":\"governs\",\"toId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440000\",\"toRevision\":\"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"}]}],\"queryId\":\"governing-decision\",\"schemaLockDigest\":\"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\",\"status\":\"complete\"}",
+    "digest": "sha256:c88fef392c60162c5359be137a36b774b30c95f157a40e8fa771ea93934202de"
+  },
+  "cases": [
+    {
+      "name": "authoring order and source forms",
+      "report": {
+        "format": "morivyx.trace-report/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440010",
+        "queryId": "governing-decision",
+        "graphRevision": "graph:stage-1-package-v1",
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "focusId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "evaluatedAt": "2026-08-02T09:00:00+09:00",
+        "status": "complete",
+        "paths": [
+          {
+            "hops": [
+              {
+                "fromId": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+                "predicate": "governs",
+                "toId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "fromRevision": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+                "toRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62"
+              }
+            ]
+          },
+          {
+            "hops": [
+              {
+                "fromId": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+                "predicate": "governs",
+                "toId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "fromRevision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+                "toRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62"
+              }
+            ]
+          }
+        ],
+        "missing": []
+      }
+    },
+    {
+      "name": "mapping order and normalized forms",
+      "report": {
+        "missing": [],
+        "paths": [
+          {
+            "hops": [
+              {
+                "toRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+                "fromRevision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+                "toId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "predicate": "governs",
+                "fromId": "urn:uuid:550e8400-e29b-41d4-a716-446655440002"
+              }
+            ]
+          },
+          {
+            "hops": [
+              {
+                "toRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+                "fromRevision": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+                "toId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "predicate": "governs",
+                "fromId": "urn:uuid:550e8400-e29b-41d4-a716-446655440003"
+              }
+            ]
+          }
+        ],
+        "status": "complete",
+        "evaluatedAt": "2026-08-02T00:00:00Z",
+        "focusId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "graphRevision": "graph:stage-1-package-v1",
+        "queryId": "governing-decision",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440013",
+        "format": "morivyx.trace-report/0.1"
+      }
+    }
+  ]
+}

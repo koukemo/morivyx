@@ -1,0 +1,82 @@
+{
+  "name": "Revision ID",
+  "expected": {
+    "canonicalByteLength": 519,
+    "canonicalJson": "{\"attributes\":{\"observedAt\":\"2026-07-28T01:12:14Z\",\"recordedAt\":\"2026-07-28T01:15:00Z\",\"stringValues\":[\"true\",\"01\",\"null\"]},\"extensions\":{\"example.test/unknown\":{\"ordered\":[\"A\",\"B\"],\"value\":\"é\"}},\"format\":\"morivyx.git-graph/0.1\",\"id\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440000\",\"kind\":\"entity\",\"lifecycle\":\"draft\",\"provenance\":{\"actor\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440001\",\"method\":\"observed\",\"recordedAt\":\"2026-07-28T01:15:00Z\"},\"reviewState\":\"unreviewed\",\"type\":\"core.observation\",\"typeVersion\":\"0.1\"}",
+    "digest": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62"
+  },
+  "cases": [
+    {
+      "name": "authoring order and source forms",
+      "element": {
+        "format": "morivyx.git-graph/0.1",
+        "kind": "entity",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "type": "core.observation",
+        "typeVersion": "0.1",
+        "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+        "lifecycle": "draft",
+        "reviewState": "unreviewed",
+        "attributes": {
+          "observedAt": "2026-07-28T10:12:14+09:00",
+          "recordedAt": "2026-07-28T10:15:00+09:00",
+          "stringValues": [
+            "true",
+            "01",
+            "null"
+          ]
+        },
+        "provenance": {
+          "method": "observed",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-28T10:15:00+09:00"
+        },
+        "extensions": {
+          "example.test/unknown": {
+            "ordered": [
+              "A",
+              "B"
+            ],
+            "value": "é"
+          }
+        }
+      }
+    },
+    {
+      "name": "mapping order and normalized forms",
+      "element": {
+        "extensions": {
+          "example.test/unknown": {
+            "value": "é",
+            "ordered": [
+              "A",
+              "B"
+            ]
+          }
+        },
+        "provenance": {
+          "recordedAt": "2026-07-28T01:15:00Z",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "method": "observed"
+        },
+        "attributes": {
+          "stringValues": [
+            "true",
+            "01",
+            "null"
+          ],
+          "recordedAt": "2026-07-28T01:15:00Z",
+          "observedAt": "2026-07-28T01:12:14Z"
+        },
+        "reviewState": "unreviewed",
+        "lifecycle": "draft",
+        "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+        "typeVersion": "0.1",
+        "type": "core.observation",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "kind": "entity",
+        "format": "morivyx.git-graph/0.1"
+      }
+    }
+  ]
+}

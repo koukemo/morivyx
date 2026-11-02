@@ -1,0 +1,3322 @@
+{
+  "format": "morivyx-first-public-source@0.1",
+  "sourceCommit": "a8e6899dc64bc8443f4c479192171dc335a396a3",
+  "sdkVersion": "0.1.0",
+  "builderSha256": "063ab4dfeec2e5232b243a0c59cb3a5dd44bd1b131303cbfab3b003472d0c8e7",
+  "license": "Apache-2.0",
+  "thirdParty": [
+    {
+      "name": "yaml",
+      "version": "2.9.1",
+      "license": "ISC",
+      "url": "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz",
+      "integrity": "sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==",
+      "archiveSha256": "4ef6c54cf559b8a207b7b518378230805a1c84af239b14960e8c67c7d59de5d3",
+      "licenseSha256": "5bba27375d93e9119f76c1015f7672cf9ad5f70952296e0842fb2243d6376869",
+      "licenseBytes": 738
+    }
+  ],
+  "pythonCoreModules": 26,
+  "pythonUnitTestFiles": 34,
+  "excluded": [
+    "source Git history",
+    "experiments",
+    "review-site",
+    "saved archives",
+    "live measurement inputs",
+    "standalone live isolation audit tools",
+    "proposed normative contracts"
+  ],
+  "documentationTransformations": [
+    {
+      "path": "README.md",
+      "nonBundledReferencesUnlinked": 1,
+      "workspacePathRedacted": false
+    },
+    {
+      "path": "docs/adr/0004-repository-working-agreement.md",
+      "nonBundledReferencesUnlinked": 1,
+      "workspacePathRedacted": false
+    },
+    {
+      "path": "docs/adr/0008-schema-registry-and-validator-contract.md",
+      "nonBundledReferencesUnlinked": 1,
+      "workspacePathRedacted": false
+    },
+    {
+      "path": "docs/adr/0017-network-acquisition-and-isolated-conversion.md",
+      "nonBundledReferencesUnlinked": 10,
+      "workspacePathRedacted": false
+    },
+    {
+      "path": "docs/architecture/06-serialization-strategy.md",
+      "nonBundledReferencesUnlinked": 1,
+      "workspacePathRedacted": false
+    },
+    {
+      "path": "docs/schema/morivyx-core-0-1.md",
+      "nonBundledReferencesUnlinked": 4,
+      "workspacePathRedacted": false
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "inputKind": "generated",
+      "sourcePath": null,
+      "inputSha256": null,
+      "mode": 420,
+      "bytes": 45,
+      "sha256": "46a9ae63d2ee9f6d7c89f5bce58eb4fed162d1a8e39f718e2e864931cab78ba2"
+    },
+    {
+      "path": "LICENSE",
+      "inputKind": "git-blob",
+      "sourcePath": "LICENSE",
+      "inputSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "mode": 420,
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "NOTICE",
+      "inputKind": "git-blob",
+      "sourcePath": "NOTICE",
+      "inputSha256": "efef40c42618150331225cef12a6fffbb79e16921389cbc41da97a5aa3ea0e61",
+      "mode": 420,
+      "bytes": 343,
+      "sha256": "efef40c42618150331225cef12a6fffbb79e16921389cbc41da97a5aa3ea0e61"
+    },
+    {
+      "path": "README.md",
+      "inputKind": "builder-template",
+      "sourcePath": "release/first-public/README.md",
+      "inputSha256": "4953b0df1fa99725313921385d916d504bb75b79e16973096280ce9b720258e6",
+      "mode": 420,
+      "bytes": 2901,
+      "sha256": "1891e82c07a669dda55f3151321d0d9817149aaaaebd3dd2246527a9b3ef7c9f"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "inputKind": "builder-template",
+      "sourcePath": "release/first-public/THIRD_PARTY_NOTICES.md",
+      "inputSha256": "9ac272f9b1254869f00ad3b76a31639aad7cbabe834d4880d46c7cd57354f715",
+      "mode": 420,
+      "bytes": 1220,
+      "sha256": "9ac272f9b1254869f00ad3b76a31639aad7cbabe834d4880d46c7cd57354f715"
+    },
+    {
+      "path": "contracts/figma-importer@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/figma-importer@0.1.schema.json",
+      "inputSha256": "1cbc94aa900e823f38d685eea6518d75742b8cca1925900be94f0456be4c3056",
+      "mode": 420,
+      "bytes": 3035,
+      "sha256": "1cbc94aa900e823f38d685eea6518d75742b8cca1925900be94f0456be4c3056"
+    },
+    {
+      "path": "contracts/figma-reimport@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/figma-reimport@0.1.schema.json",
+      "inputSha256": "5f7d17078a924b89ee4abdab3466afe8454ec3a26c2c240775ea157b475cd96b",
+      "mode": 420,
+      "bytes": 2508,
+      "sha256": "5f7d17078a924b89ee4abdab3466afe8454ec3a26c2c240775ea157b475cd96b"
+    },
+    {
+      "path": "contracts/github-importer@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/github-importer@0.1.schema.json",
+      "inputSha256": "7d6f2d4bb27d34f6b7768df787d9bee98eb67c76bc1dde343cee0c861c5d8f1c",
+      "mode": 420,
+      "bytes": 3333,
+      "sha256": "7d6f2d4bb27d34f6b7768df787d9bee98eb67c76bc1dde343cee0c861c5d8f1c"
+    },
+    {
+      "path": "contracts/github-reimport@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/github-reimport@0.1.schema.json",
+      "inputSha256": "bc2c573eb0cabb64da8a83f36d185863ea072875d48d10dce89ace283f37b9c5",
+      "mode": 420,
+      "bytes": 5315,
+      "sha256": "bc2c573eb0cabb64da8a83f36d185863ea072875d48d10dce89ace283f37b9c5"
+    },
+    {
+      "path": "contracts/import-availability@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/import-availability@0.1.schema.json",
+      "inputSha256": "b040581ccbd730cdf5f4717f67e1eb7ad4f06025a23d9ca2fbc7e875f02f55dd",
+      "mode": 420,
+      "bytes": 1664,
+      "sha256": "b040581ccbd730cdf5f4717f67e1eb7ad4f06025a23d9ca2fbc7e875f02f55dd"
+    },
+    {
+      "path": "contracts/import-presence@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/import-presence@0.1.schema.json",
+      "inputSha256": "7b63354543195dd9047978e7b4ab0839b133dc10bdf5d3ee0d142986beedd9c4",
+      "mode": 420,
+      "bytes": 1772,
+      "sha256": "7b63354543195dd9047978e7b4ab0839b133dc10bdf5d3ee0d142986beedd9c4"
+    },
+    {
+      "path": "contracts/import-snapshot-creation@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/import-snapshot-creation@0.1.schema.json",
+      "inputSha256": "033ec8e20f3fadc1d9be840d4334c4c8e0a2c7f90f7e41db2c7b4ffc971d8808",
+      "mode": 420,
+      "bytes": 1360,
+      "sha256": "033ec8e20f3fadc1d9be840d4334c4c8e0a2c7f90f7e41db2c7b4ffc971d8808"
+    },
+    {
+      "path": "contracts/import-snapshot-revision@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/import-snapshot-revision@0.1.schema.json",
+      "inputSha256": "8d7d06d588b1f8548578fbc1c630c46f56b70220072ad68f39a9886870d1f2d6",
+      "mode": 420,
+      "bytes": 1485,
+      "sha256": "8d7d06d588b1f8548578fbc1c630c46f56b70220072ad68f39a9886870d1f2d6"
+    },
+    {
+      "path": "contracts/openapi-operation@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/openapi-operation@0.1.schema.json",
+      "inputSha256": "1e877c6bcf268fed2ee9cc2bfbaae882ec8023e4c1a001c584971c47105f8592",
+      "mode": 420,
+      "bytes": 2431,
+      "sha256": "1e877c6bcf268fed2ee9cc2bfbaae882ec8023e4c1a001c584971c47105f8592"
+    },
+    {
+      "path": "contracts/openapi-reimport@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/openapi-reimport@0.1.schema.json",
+      "inputSha256": "4fa5b19e67192e1a8c166c358787c08c1f6068c53927407f07d8350361c266e6",
+      "mode": 420,
+      "bytes": 2276,
+      "sha256": "4fa5b19e67192e1a8c166c358787c08c1f6068c53927407f07d8350361c266e6"
+    },
+    {
+      "path": "contracts/plugin-communication@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/plugin-communication@0.1.schema.json",
+      "inputSha256": "1738c7eadb1161dd8dae8a271bc0e9711c6e67163276f0f098ae4d09c2f39fef",
+      "mode": 420,
+      "bytes": 4010,
+      "sha256": "1738c7eadb1161dd8dae8a271bc0e9711c6e67163276f0f098ae4d09c2f39fef"
+    },
+    {
+      "path": "contracts/plugin-host-policy@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/plugin-host-policy@0.1.schema.json",
+      "inputSha256": "f6f81a989e3678a40d56d70176b4995dea7dc3f26d50c45b02976cc3a629539b",
+      "mode": 420,
+      "bytes": 2059,
+      "sha256": "f6f81a989e3678a40d56d70176b4995dea7dc3f26d50c45b02976cc3a629539b"
+    },
+    {
+      "path": "contracts/plugin-isolated-run@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/plugin-isolated-run@0.1.schema.json",
+      "inputSha256": "136c068e61edc687bbc3343828ef36f4f634be13dbea7dca1267d934f44667fc",
+      "mode": 420,
+      "bytes": 1532,
+      "sha256": "136c068e61edc687bbc3343828ef36f4f634be13dbea7dca1267d934f44667fc"
+    },
+    {
+      "path": "contracts/plugin-manifest@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/plugin-manifest@0.1.schema.json",
+      "inputSha256": "bbdb817d48f92f91ad46c128e5024d78cc7d3846500282498565c37b4ca51e75",
+      "mode": 420,
+      "bytes": 4057,
+      "sha256": "bbdb817d48f92f91ad46c128e5024d78cc7d3846500282498565c37b4ca51e75"
+    },
+    {
+      "path": "contracts/plugin-supply-chain@0.1.schema.json",
+      "inputKind": "git-blob",
+      "sourcePath": "contracts/plugin-supply-chain@0.1.schema.json",
+      "inputSha256": "3eaf27b9495f8e466d7bbc0125abcee8b11f59700a84757c1b4198bc3a11bfd5",
+      "mode": 420,
+      "bytes": 2291,
+      "sha256": "3eaf27b9495f8e466d7bbc0125abcee8b11f59700a84757c1b4198bc3a11bfd5"
+    },
+    {
+      "path": "docs/README.md",
+      "inputKind": "builder-template",
+      "sourcePath": "release/first-public/docs-index.md",
+      "inputSha256": "172212a04577ee4e3e4df85910a26000cc52018633d8fc40ea4bd6742e67ddf8",
+      "mode": 420,
+      "bytes": 2499,
+      "sha256": "540eba66217e42e62dfc3db50bafd978d13e6ebebc3457bb6d94d0f30428f370"
+    },
+    {
+      "path": "docs/adr/0001-graph-first-semantic-kernel.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0001-graph-first-semantic-kernel.md",
+      "inputSha256": "9ca274b8992aa112512351db0f55f57ca66b2cfb2f7684a8cd3ec923ef0c4785",
+      "mode": 420,
+      "bytes": 3605,
+      "sha256": "9ca274b8992aa112512351db0f55f57ca66b2cfb2f7684a8cd3ec923ef0c4785"
+    },
+    {
+      "path": "docs/adr/0002-canonical-graph-and-derived-artifacts.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0002-canonical-graph-and-derived-artifacts.md",
+      "inputSha256": "6f7db813a41304dfa99b81fed218eb621c0ba7dde89501b61e4d9b76bb6b9be4",
+      "mode": 420,
+      "bytes": 3390,
+      "sha256": "6f7db813a41304dfa99b81fed218eb621c0ba7dde89501b61e4d9b76bb6b9be4"
+    },
+    {
+      "path": "docs/adr/0003-plugins-propose-kernel-commits.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0003-plugins-propose-kernel-commits.md",
+      "inputSha256": "2885805b3325b9e48788ac5a103728e92ec10937a0d1b76dfd6196d7366d0d91",
+      "mode": 420,
+      "bytes": 2748,
+      "sha256": "2885805b3325b9e48788ac5a103728e92ec10937a0d1b76dfd6196d7366d0d91"
+    },
+    {
+      "path": "docs/adr/0004-repository-working-agreement.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0004-repository-working-agreement.md",
+      "inputSha256": "1e345d059160e73f17b803fe0428db14bd512a449b76ed8caac98d37d0e20437",
+      "mode": 420,
+      "bytes": 1266,
+      "sha256": "fdbd1e4734f57b2fa8aa306cf968ee7b7786d9e1972e2c2043af4c16cbb3074d"
+    },
+    {
+      "path": "docs/adr/0005-controlled-terminology.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0005-controlled-terminology.md",
+      "inputSha256": "fb4f6faed2c79438afbbdf10371d7f7eb7834f58b0f77adadbacdc554a746695",
+      "mode": 420,
+      "bytes": 3122,
+      "sha256": "fb4f6faed2c79438afbbdf10371d7f7eb7834f58b0f77adadbacdc554a746695"
+    },
+    {
+      "path": "docs/adr/0006-stage-0-graph-constraints.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0006-stage-0-graph-constraints.md",
+      "inputSha256": "dfff4863e0899fbf8e1fb53be70cd289a2b79cb7ee21770abd5f05cccd5f3243",
+      "mode": 420,
+      "bytes": 8822,
+      "sha256": "dfff4863e0899fbf8e1fb53be70cd289a2b79cb7ee21770abd5f05cccd5f3243"
+    },
+    {
+      "path": "docs/adr/0007-git-authoring-and-canonical-form.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0007-git-authoring-and-canonical-form.md",
+      "inputSha256": "5c7b7a8c32cf72f0febb83a4ce293736267a288b367d63b0357ed3e5fdbb1fd2",
+      "mode": 420,
+      "bytes": 8613,
+      "sha256": "5c7b7a8c32cf72f0febb83a4ce293736267a288b367d63b0357ed3e5fdbb1fd2"
+    },
+    {
+      "path": "docs/adr/0008-schema-registry-and-validator-contract.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0008-schema-registry-and-validator-contract.md",
+      "inputSha256": "bec16341f46d0b011cd52b7df2a71c8702f8a3f6c6d3f2c6f74263111cdf0e2e",
+      "mode": 420,
+      "bytes": 9189,
+      "sha256": "4da36b08f16c98556090b5ca816fbb24b92418ff268c0169d76b8fb8d7665ea3"
+    },
+    {
+      "path": "docs/adr/0009-graph-package-and-revision-records.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0009-graph-package-and-revision-records.md",
+      "inputSha256": "23ca7a3dda4d53437addb3b21462f56ff9c39cf00104b6ba4981ef8c9e67d61b",
+      "mode": 420,
+      "bytes": 10835,
+      "sha256": "23ca7a3dda4d53437addb3b21462f56ff9c39cf00104b6ba4981ef8c9e67d61b"
+    },
+    {
+      "path": "docs/adr/0010-changeset-format-and-apply-rules.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0010-changeset-format-and-apply-rules.md",
+      "inputSha256": "61617add004fd059fd5fdaa7acdef794333c21264fd158d1f4ab8a1c29006de5",
+      "mode": 420,
+      "bytes": 8004,
+      "sha256": "61617add004fd059fd5fdaa7acdef794333c21264fd158d1f4ab8a1c29006de5"
+    },
+    {
+      "path": "docs/adr/0011-schema-definition-digest.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0011-schema-definition-digest.md",
+      "inputSha256": "be6ca855c1d05fcbb05bf958f99158e34d38803f92dc08c302ac08923e466f32",
+      "mode": 420,
+      "bytes": 7663,
+      "sha256": "be6ca855c1d05fcbb05bf958f99158e34d38803f92dc08c302ac08923e466f32"
+    },
+    {
+      "path": "docs/adr/0012-trace-query-and-semantic-diff.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0012-trace-query-and-semantic-diff.md",
+      "inputSha256": "19f66751b3ac15c0708d8986731004e7de0fab3ecef69096bdc0f64b76bc912e",
+      "mode": 420,
+      "bytes": 13720,
+      "sha256": "19f66751b3ac15c0708d8986731004e7de0fab3ecef69096bdc0f64b76bc912e"
+    },
+    {
+      "path": "docs/adr/0013-migration-format-and-boundaries.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0013-migration-format-and-boundaries.md",
+      "inputSha256": "467d2c83cf4d4c496196134a4c1116b79e076778f6f1ac3bbd6180a792123a8a",
+      "mode": 420,
+      "bytes": 9200,
+      "sha256": "467d2c83cf4d4c496196134a4c1116b79e076778f6f1ac3bbd6180a792123a8a"
+    },
+    {
+      "path": "docs/adr/0014-external-artifact-stale-detection.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0014-external-artifact-stale-detection.md",
+      "inputSha256": "f51569ca0714186e674d3a09e8d39c78c959092f43cb23160dab21217eb2ced8",
+      "mode": 420,
+      "bytes": 11629,
+      "sha256": "f51569ca0714186e674d3a09e8d39c78c959092f43cb23160dab21217eb2ced8"
+    },
+    {
+      "path": "docs/adr/0015-external-artifact-report-persistence.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0015-external-artifact-report-persistence.md",
+      "inputSha256": "95545d1a8bda2405d97fe1a46de89602fd5907ef5839b8ccd068de2e5a97ba0b",
+      "mode": 420,
+      "bytes": 8398,
+      "sha256": "95545d1a8bda2405d97fe1a46de89602fd5907ef5839b8ccd068de2e5a97ba0b"
+    },
+    {
+      "path": "docs/adr/0016-migration-semantic-diff-boundary.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0016-migration-semantic-diff-boundary.md",
+      "inputSha256": "a46b81fa6525c8e1d068f28e84758e7e39a46ecd547e76e9e433a6e03c1892d9",
+      "mode": 420,
+      "bytes": 7608,
+      "sha256": "a46b81fa6525c8e1d068f28e84758e7e39a46ecd547e76e9e433a6e03c1892d9"
+    },
+    {
+      "path": "docs/adr/0017-network-acquisition-and-isolated-conversion.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/adr/0017-network-acquisition-and-isolated-conversion.md",
+      "inputSha256": "890cb38f6a19dca83412732a72c239dd40284118740bbe10b0455a98e93ad148",
+      "mode": 420,
+      "bytes": 18652,
+      "sha256": "0d98fbdcd49f9eca768ef00ec4460f32a3dea4c5949abec76f67fd3d077222b1"
+    },
+    {
+      "path": "docs/architecture/01-foundation.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/01-foundation.md",
+      "inputSha256": "18de06c1c5f6b236fd2834cc705fd1e01d89a182f15ae1911f8d866bb06b2310",
+      "mode": 420,
+      "bytes": 5213,
+      "sha256": "18de06c1c5f6b236fd2834cc705fd1e01d89a182f15ae1911f8d866bb06b2310"
+    },
+    {
+      "path": "docs/architecture/02-core-concepts.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/02-core-concepts.md",
+      "inputSha256": "23138461055ba41f867a3c1180c1c257c26107c610662bb1c181f9fe6560bcc6",
+      "mode": 420,
+      "bytes": 6359,
+      "sha256": "23138461055ba41f867a3c1180c1c257c26107c610662bb1c181f9fe6560bcc6"
+    },
+    {
+      "path": "docs/architecture/03-core-meta-model.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/03-core-meta-model.md",
+      "inputSha256": "0ddd7342abfcea94ee9fbf6e485e5d31dd2f84b430004f61ea16419e4aa837fe",
+      "mode": 420,
+      "bytes": 12753,
+      "sha256": "0ddd7342abfcea94ee9fbf6e485e5d31dd2f84b430004f61ea16419e4aa837fe"
+    },
+    {
+      "path": "docs/architecture/04-goals-decisions-traceability.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/04-goals-decisions-traceability.md",
+      "inputSha256": "c5bd537a536aad88eb7c4560695de719efc043757e02d28ab9dbe26a3c6c0ac9",
+      "mode": 420,
+      "bytes": 8983,
+      "sha256": "c5bd537a536aad88eb7c4560695de719efc043757e02d28ab9dbe26a3c6c0ac9"
+    },
+    {
+      "path": "docs/architecture/05-plugin-architecture.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/05-plugin-architecture.md",
+      "inputSha256": "8d5615e29f3017d2bd488ad3e7c8b3deb88e1ee2aab8e0cae8f2c5054386a027",
+      "mode": 420,
+      "bytes": 9594,
+      "sha256": "8d5615e29f3017d2bd488ad3e7c8b3deb88e1ee2aab8e0cae8f2c5054386a027"
+    },
+    {
+      "path": "docs/architecture/06-serialization-strategy.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/06-serialization-strategy.md",
+      "inputSha256": "a83db120f878cda0c70381a657b0fdb93b787f6301d903da31b630fd69ef1995",
+      "mode": 420,
+      "bytes": 10186,
+      "sha256": "b490a78f7b875de4978325eb67760443e03b133c0343ed9e17a75e2eea5326ef"
+    },
+    {
+      "path": "docs/architecture/07-mvp-scope.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/architecture/07-mvp-scope.md",
+      "inputSha256": "85f3e7f5bff86f5e799c65a04b726b0caed086adae4ad609b4a04d7a8d90f1d2",
+      "mode": 420,
+      "bytes": 6719,
+      "sha256": "85f3e7f5bff86f5e799c65a04b726b0caed086adae4ad609b4a04d7a8d90f1d2"
+    },
+    {
+      "path": "docs/diagrams/adr-0008-schema-validator-flow.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0008-schema-validator-flow.mmd",
+      "inputSha256": "dc9d81eab63872740e525389b4f88f7240a7cf6c63f2dfc800979cfe24eedec9",
+      "mode": 420,
+      "bytes": 1601,
+      "sha256": "dc9d81eab63872740e525389b4f88f7240a7cf6c63f2dfc800979cfe24eedec9"
+    },
+    {
+      "path": "docs/diagrams/adr-0008-schema-validator-flow.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0008-schema-validator-flow.png",
+      "inputSha256": "78c5c84329b70c5faee771440d1f6e67b3e991f130be3c6f68609b2a70578c59",
+      "mode": 420,
+      "bytes": 190331,
+      "sha256": "78c5c84329b70c5faee771440d1f6e67b3e991f130be3c6f68609b2a70578c59"
+    },
+    {
+      "path": "docs/diagrams/adr-0009-package-digests.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0009-package-digests.mmd",
+      "inputSha256": "a3155206f91fdad964f7f784ccaa5fb206b4998d61cdfcf2fb6517292773723f",
+      "mode": 420,
+      "bytes": 1190,
+      "sha256": "a3155206f91fdad964f7f784ccaa5fb206b4998d61cdfcf2fb6517292773723f"
+    },
+    {
+      "path": "docs/diagrams/adr-0009-package-digests.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0009-package-digests.png",
+      "inputSha256": "dff963435d47014cd685d2ddc2fdf86ea81a8b7314d037c6ea089c29a418f842",
+      "mode": 420,
+      "bytes": 334910,
+      "sha256": "dff963435d47014cd685d2ddc2fdf86ea81a8b7314d037c6ea089c29a418f842"
+    },
+    {
+      "path": "docs/diagrams/adr-0010-changeset-apply.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0010-changeset-apply.mmd",
+      "inputSha256": "72abe6066d8ec5a4df64c1c2a42a75bfcd63268f9fbfbaf86dce931b5d044ac0",
+      "mode": 420,
+      "bytes": 847,
+      "sha256": "72abe6066d8ec5a4df64c1c2a42a75bfcd63268f9fbfbaf86dce931b5d044ac0"
+    },
+    {
+      "path": "docs/diagrams/adr-0010-changeset-apply.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0010-changeset-apply.png",
+      "inputSha256": "df04f780b11bd7d867a8881f695628ff2e63fe8109212d50f78cf4d647a2fbbb",
+      "mode": 420,
+      "bytes": 255995,
+      "sha256": "df04f780b11bd7d867a8881f695628ff2e63fe8109212d50f78cf4d647a2fbbb"
+    },
+    {
+      "path": "docs/diagrams/adr-0011-schema-definition-digest.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0011-schema-definition-digest.mmd",
+      "inputSha256": "64a8919332eb91b9b0087fea152965115097e93784c812e4b6df999061a40fd0",
+      "mode": 420,
+      "bytes": 683,
+      "sha256": "64a8919332eb91b9b0087fea152965115097e93784c812e4b6df999061a40fd0"
+    },
+    {
+      "path": "docs/diagrams/adr-0011-schema-definition-digest.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0011-schema-definition-digest.png",
+      "inputSha256": "4b6e338a88c5e2d8ebbc13549c7002c79aa7043c1c00abdb61cd55332da97f19",
+      "mode": 420,
+      "bytes": 202480,
+      "sha256": "4b6e338a88c5e2d8ebbc13549c7002c79aa7043c1c00abdb61cd55332da97f19"
+    },
+    {
+      "path": "docs/diagrams/adr-0012-trace-query-semantic-diff.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0012-trace-query-semantic-diff.mmd",
+      "inputSha256": "3824c448c2a1fe75d5d64a718296e5dca517609f4761801a54774d6489b7d270",
+      "mode": 420,
+      "bytes": 745,
+      "sha256": "3824c448c2a1fe75d5d64a718296e5dca517609f4761801a54774d6489b7d270"
+    },
+    {
+      "path": "docs/diagrams/adr-0012-trace-query-semantic-diff.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0012-trace-query-semantic-diff.png",
+      "inputSha256": "18ef20a24a358b051734db9eac7e9952914d7c6da75e8533d79e5a5cff7a31f9",
+      "mode": 420,
+      "bytes": 215216,
+      "sha256": "18ef20a24a358b051734db9eac7e9952914d7c6da75e8533d79e5a5cff7a31f9"
+    },
+    {
+      "path": "docs/diagrams/adr-0013-migration-format.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0013-migration-format.mmd",
+      "inputSha256": "618f4aedbb3535bd28f8080c1cd1d5979d70db5df622bc9ee415bbd042492758",
+      "mode": 420,
+      "bytes": 757,
+      "sha256": "618f4aedbb3535bd28f8080c1cd1d5979d70db5df622bc9ee415bbd042492758"
+    },
+    {
+      "path": "docs/diagrams/adr-0013-migration-format.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0013-migration-format.png",
+      "inputSha256": "1c70a42f2c04d026c82dc2bd68902c6d2ced92c8ad0d4abf037280f162a24083",
+      "mode": 420,
+      "bytes": 226260,
+      "sha256": "1c70a42f2c04d026c82dc2bd68902c6d2ced92c8ad0d4abf037280f162a24083"
+    },
+    {
+      "path": "docs/diagrams/adr-0014-external-artifact-stale-detection.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0014-external-artifact-stale-detection.mmd",
+      "inputSha256": "7d1e8e202f5b3a4865f4c0f1f95f3ca2b198a1c9c742685617bfab47f45f5fc5",
+      "mode": 420,
+      "bytes": 1185,
+      "sha256": "7d1e8e202f5b3a4865f4c0f1f95f3ca2b198a1c9c742685617bfab47f45f5fc5"
+    },
+    {
+      "path": "docs/diagrams/adr-0014-external-artifact-stale-detection.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0014-external-artifact-stale-detection.png",
+      "inputSha256": "95af48dd9d4afab869f6bec4db8678c52a05391a448b864a526ccfc65b4b52fd",
+      "mode": 420,
+      "bytes": 315525,
+      "sha256": "95af48dd9d4afab869f6bec4db8678c52a05391a448b864a526ccfc65b4b52fd"
+    },
+    {
+      "path": "docs/diagrams/adr-0015-external-artifact-report-persistence.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0015-external-artifact-report-persistence.mmd",
+      "inputSha256": "c8cba5612c6b4be281095f3d0d4dc1e9a5d2a664384984b9fa433bff0362b6a1",
+      "mode": 420,
+      "bytes": 981,
+      "sha256": "c8cba5612c6b4be281095f3d0d4dc1e9a5d2a664384984b9fa433bff0362b6a1"
+    },
+    {
+      "path": "docs/diagrams/adr-0015-external-artifact-report-persistence.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0015-external-artifact-report-persistence.png",
+      "inputSha256": "afebe14917aeca3b97d62d8ad9fe41fa75131324a9813e0cd35c47f2eaec2a85",
+      "mode": 420,
+      "bytes": 389276,
+      "sha256": "afebe14917aeca3b97d62d8ad9fe41fa75131324a9813e0cd35c47f2eaec2a85"
+    },
+    {
+      "path": "docs/diagrams/adr-0016-migration-semantic-diff-boundary.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0016-migration-semantic-diff-boundary.mmd",
+      "inputSha256": "4f03b1076250f8c7edcf256eb181ad3c6a2de9b3f1f33fab125666c70a8dbee4",
+      "mode": 420,
+      "bytes": 1237,
+      "sha256": "4f03b1076250f8c7edcf256eb181ad3c6a2de9b3f1f33fab125666c70a8dbee4"
+    },
+    {
+      "path": "docs/diagrams/adr-0016-migration-semantic-diff-boundary.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0016-migration-semantic-diff-boundary.png",
+      "inputSha256": "ecaa1e29c58a48f063d8de30cf001299dad08776a2f791780dd56a3f6ac6aba7",
+      "mode": 420,
+      "bytes": 218139,
+      "sha256": "ecaa1e29c58a48f063d8de30cf001299dad08776a2f791780dd56a3f6ac6aba7"
+    },
+    {
+      "path": "docs/diagrams/adr-0017-acceptance.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0017-acceptance.mmd",
+      "inputSha256": "92055ede36d7f1cc8d7d55f4c1ad5764e9053c54cfc04ba7191047f140e6f698",
+      "mode": 420,
+      "bytes": 402,
+      "sha256": "92055ede36d7f1cc8d7d55f4c1ad5764e9053c54cfc04ba7191047f140e6f698"
+    },
+    {
+      "path": "docs/diagrams/adr-0017-acceptance.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/adr-0017-acceptance.png",
+      "inputSha256": "2005f4cd8369b9167b0aeb8931d3749e6f78fa47b5ba9e2acc2377bb0ce35715",
+      "mode": 420,
+      "bytes": 290527,
+      "sha256": "2005f4cd8369b9167b0aeb8931d3749e6f78fa47b5ba9e2acc2377bb0ce35715"
+    },
+    {
+      "path": "docs/diagrams/core-relation-cardinality.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/core-relation-cardinality.mmd",
+      "inputSha256": "2c1f5ea5fb6eee8b2d9cc6c5ba7e76a69cacff1af691f59966a65f0e2c97c4fb",
+      "mode": 420,
+      "bytes": 1321,
+      "sha256": "2c1f5ea5fb6eee8b2d9cc6c5ba7e76a69cacff1af691f59966a65f0e2c97c4fb"
+    },
+    {
+      "path": "docs/diagrams/core-relation-cardinality.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/core-relation-cardinality.png",
+      "inputSha256": "0d9a3dcc22dd2b404b29a5051e75c80bfe4c3b34e40bddc86d830f0d71e1d269",
+      "mode": 420,
+      "bytes": 210755,
+      "sha256": "0d9a3dcc22dd2b404b29a5051e75c80bfe4c3b34e40bddc86d830f0d71e1d269"
+    },
+    {
+      "path": "docs/diagrams/morivyx-core-0-1-authoring.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/morivyx-core-0-1-authoring.mmd",
+      "inputSha256": "c4a2cd2ab7c6587cbfdbdbf40a4b2506a890b40376339f8acfb5ca74f5def272",
+      "mode": 420,
+      "bytes": 853,
+      "sha256": "c4a2cd2ab7c6587cbfdbdbf40a4b2506a890b40376339f8acfb5ca74f5def272"
+    },
+    {
+      "path": "docs/diagrams/morivyx-core-0-1-authoring.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/morivyx-core-0-1-authoring.png",
+      "inputSha256": "58b38612d6cc3a7446b2f0bf10d56b0df14de1981f2f383e63b88f9b4d44ad3c",
+      "mode": 420,
+      "bytes": 146215,
+      "sha256": "58b38612d6cc3a7446b2f0bf10d56b0df14de1981f2f383e63b88f9b4d44ad3c"
+    },
+    {
+      "path": "docs/diagrams/morivyx-core-0-1-machine.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/morivyx-core-0-1-machine.mmd",
+      "inputSha256": "4e15cdb6826b559c0c7c260ca992568a77a663a9e3722b36bbdac509d542fd18",
+      "mode": 420,
+      "bytes": 641,
+      "sha256": "4e15cdb6826b559c0c7c260ca992568a77a663a9e3722b36bbdac509d542fd18"
+    },
+    {
+      "path": "docs/diagrams/morivyx-core-0-1-machine.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/morivyx-core-0-1-machine.png",
+      "inputSha256": "d8caa95a8f4a4c15e57041bf15a50d30fbc2849952088ff04ca12b103850e133",
+      "mode": 420,
+      "bytes": 209279,
+      "sha256": "d8caa95a8f4a4c15e57041bf15a50d30fbc2849952088ff04ca12b103850e133"
+    },
+    {
+      "path": "docs/diagrams/morivyx-core-0-1-structure.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/morivyx-core-0-1-structure.mmd",
+      "inputSha256": "e56de2aec10e255ff51f241c82cce011592c688e42bb26fcd65b965171f515ab",
+      "mode": 420,
+      "bytes": 1225,
+      "sha256": "e56de2aec10e255ff51f241c82cce011592c688e42bb26fcd65b965171f515ab"
+    },
+    {
+      "path": "docs/diagrams/morivyx-core-0-1-structure.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/morivyx-core-0-1-structure.png",
+      "inputSha256": "08c1b1c8dfed13de714d74ef0af56a1b885ae70394f00d50a3896d15a3cf5794",
+      "mode": 420,
+      "bytes": 238998,
+      "sha256": "08c1b1c8dfed13de714d74ef0af56a1b885ae70394f00d50a3896d15a3cf5794"
+    },
+    {
+      "path": "docs/diagrams/network-isolation-contract.mmd",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/network-isolation-contract.mmd",
+      "inputSha256": "65b5cb2e4332543da62097d8e6806154ffec7ce800899cc48d36de0c838fb2fa",
+      "mode": 420,
+      "bytes": 620,
+      "sha256": "65b5cb2e4332543da62097d8e6806154ffec7ce800899cc48d36de0c838fb2fa"
+    },
+    {
+      "path": "docs/diagrams/network-isolation-contract.png",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/diagrams/network-isolation-contract.png",
+      "inputSha256": "3c0f795eee16cf1fb8463d0434f3934a5e7fd059d3a5c7ef5d63ba1c5d49141d",
+      "mode": 420,
+      "bytes": 280806,
+      "sha256": "3c0f795eee16cf1fb8463d0434f3934a5e7fd059d3a5c7ef5d63ba1c5d49141d"
+    },
+    {
+      "path": "docs/schema/morivyx-core-0-1.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/schema/morivyx-core-0-1.md",
+      "inputSha256": "5454c3687ef2384e69dc16b9e92b9bee3fc6d8370cbf1d25ee237815bfa9537c",
+      "mode": 420,
+      "bytes": 14433,
+      "sha256": "58b38267db92340e418b3d56b502069b921a1cd2150909960fe104926c205a58"
+    },
+    {
+      "path": "docs/schema/morivyx.core@0.1.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/schema/morivyx.core@0.1.yaml",
+      "inputSha256": "58bd70834e9d93a821463af667883d78cb1124442109065b1a851348323a8f4e",
+      "mode": 420,
+      "bytes": 10722,
+      "sha256": "58bd70834e9d93a821463af667883d78cb1124442109065b1a851348323a8f4e"
+    },
+    {
+      "path": "docs/terminology/glossary.md",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/terminology/glossary.md",
+      "inputSha256": "9ffa493ac719e6eb75a3884c6d410636e0abfe0fff3f52d6baaec2adfe0047c3",
+      "mode": 420,
+      "bytes": 28949,
+      "sha256": "9ffa493ac719e6eb75a3884c6d410636e0abfe0fff3f52d6baaec2adfe0047c3"
+    },
+    {
+      "path": "docs/validation/fixtures/decision-maintenance-base/.morivyx/revision.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/validation/fixtures/decision-maintenance-base/.morivyx/revision.yaml",
+      "inputSha256": "3be00fd1c7ee493eac340a3108e46604764258d1f76bf832036d949f35e49fd7",
+      "mode": 420,
+      "bytes": 274,
+      "sha256": "3be00fd1c7ee493eac340a3108e46604764258d1f76bf832036d949f35e49fd7"
+    },
+    {
+      "path": "docs/validation/fixtures/decision-maintenance-base/.morivyx/schema.lock.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "docs/validation/fixtures/decision-maintenance-base/.morivyx/schema.lock.yaml",
+      "inputSha256": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f",
+      "mode": 420,
+      "bytes": 233,
+      "sha256": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f"
+    },
+    {
+      "path": "packages/kernel/.gitignore",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/.gitignore",
+      "inputSha256": "4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97",
+      "mode": 420,
+      "bytes": 14,
+      "sha256": "4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97"
+    },
+    {
+      "path": "packages/kernel/.npmrc",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/.npmrc",
+      "inputSha256": "b962362ebe7560b534e834c2ede51186c2e3fceb94e12cc434a11180f22391f2",
+      "mode": 420,
+      "bytes": 20,
+      "sha256": "b962362ebe7560b534e834c2ede51186c2e3fceb94e12cc434a11180f22391f2"
+    },
+    {
+      "path": "packages/kernel/LICENSE",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/LICENSE",
+      "inputSha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "mode": 420,
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "packages/kernel/NOTICE",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/NOTICE",
+      "inputSha256": "efef40c42618150331225cef12a6fffbb79e16921389cbc41da97a5aa3ea0e61",
+      "mode": 420,
+      "bytes": 343,
+      "sha256": "efef40c42618150331225cef12a6fffbb79e16921389cbc41da97a5aa3ea0e61"
+    },
+    {
+      "path": "packages/kernel/examples/repository-workflow.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/examples/repository-workflow.mjs",
+      "inputSha256": "fed943cdcd5a41dce657da89b9c7d52da383e340d55e152564ffa080a8d99e20",
+      "mode": 420,
+      "bytes": 13900,
+      "sha256": "fed943cdcd5a41dce657da89b9c7d52da383e340d55e152564ffa080a8d99e20"
+    },
+    {
+      "path": "packages/kernel/package-lock.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/package-lock.json",
+      "inputSha256": "1375406e7a6f517b0a3e0ccbfc2714904b26492a4733bdc953e70616a8e9a2fa",
+      "mode": 420,
+      "bytes": 848,
+      "sha256": "1375406e7a6f517b0a3e0ccbfc2714904b26492a4733bdc953e70616a8e9a2fa"
+    },
+    {
+      "path": "packages/kernel/package.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/package.json",
+      "inputSha256": "192f97c4901fea8ca2974b266a43f7ef93c7265140322d6aee8dfbed6d5b1c39",
+      "mode": 420,
+      "bytes": 5036,
+      "sha256": "192f97c4901fea8ca2974b266a43f7ef93c7265140322d6aee8dfbed6d5b1c39"
+    },
+    {
+      "path": "packages/kernel/scripts/figma-core-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/figma-core-contract-audit.mjs",
+      "inputSha256": "5fb72b60ab798683f8baef8f835b71909df75da8a50ec2fe11073b65c2a06ee3",
+      "mode": 420,
+      "bytes": 20025,
+      "sha256": "5fb72b60ab798683f8baef8f835b71909df75da8a50ec2fe11073b65c2a06ee3"
+    },
+    {
+      "path": "packages/kernel/scripts/figma-importer-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/figma-importer-contract-audit.mjs",
+      "inputSha256": "25accad5c2cc27b5a5fc61184f15ef6eaf53e2e2cab5c256cec07fecff992c3d",
+      "mode": 420,
+      "bytes": 21562,
+      "sha256": "25accad5c2cc27b5a5fc61184f15ef6eaf53e2e2cab5c256cec07fecff992c3d"
+    },
+    {
+      "path": "packages/kernel/scripts/figma-reimport-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/figma-reimport-contract-audit.mjs",
+      "inputSha256": "6f308ae4259b3a17ee173f52a5a7f5ce626b149a909777165add3346a9eb62d2",
+      "mode": 420,
+      "bytes": 6457,
+      "sha256": "6f308ae4259b3a17ee173f52a5a7f5ce626b149a909777165add3346a9eb62d2"
+    },
+    {
+      "path": "packages/kernel/scripts/github-core-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/github-core-contract-audit.mjs",
+      "inputSha256": "23255857e3bb1e57d883600acf4297caf85cd303f4709058e8b864eef2a0f951",
+      "mode": 420,
+      "bytes": 18327,
+      "sha256": "23255857e3bb1e57d883600acf4297caf85cd303f4709058e8b864eef2a0f951"
+    },
+    {
+      "path": "packages/kernel/scripts/github-importer-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/github-importer-contract-audit.mjs",
+      "inputSha256": "f22bd9fc8299a030075702257a039254ca9e02b27051e51156a19e5a68ab2b14",
+      "mode": 420,
+      "bytes": 25653,
+      "sha256": "f22bd9fc8299a030075702257a039254ca9e02b27051e51156a19e5a68ab2b14"
+    },
+    {
+      "path": "packages/kernel/scripts/github-live-validation-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/github-live-validation-audit.mjs",
+      "inputSha256": "8881641f135419d3c90d1b4e890e98d13b755289af35c1bbd054442014b823ce",
+      "mode": 420,
+      "bytes": 7236,
+      "sha256": "8881641f135419d3c90d1b4e890e98d13b755289af35c1bbd054442014b823ce"
+    },
+    {
+      "path": "packages/kernel/scripts/github-live-validation.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/github-live-validation.mjs",
+      "inputSha256": "29ddb36d103725973c67cfc04811b6e31f4ac1745a2725450632e9076b8ebecb",
+      "mode": 420,
+      "bytes": 11540,
+      "sha256": "29ddb36d103725973c67cfc04811b6e31f4ac1745a2725450632e9076b8ebecb"
+    },
+    {
+      "path": "packages/kernel/scripts/github-reimport-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/github-reimport-contract-audit.mjs",
+      "inputSha256": "f3ac90892aeeac09df65cdb65274e66f229c1ec193ba0c0bfc8c08f3a39dc6f2",
+      "mode": 420,
+      "bytes": 12048,
+      "sha256": "f3ac90892aeeac09df65cdb65274e66f229c1ec193ba0c0bfc8c08f3a39dc6f2"
+    },
+    {
+      "path": "packages/kernel/scripts/import-availability-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/import-availability-contract-audit.mjs",
+      "inputSha256": "2d8d321228989a60ffb4162ce634b2d68f549dad7fa75c54f46a5f96d6c18d31",
+      "mode": 420,
+      "bytes": 22742,
+      "sha256": "2d8d321228989a60ffb4162ce634b2d68f549dad7fa75c54f46a5f96d6c18d31"
+    },
+    {
+      "path": "packages/kernel/scripts/import-presence-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/import-presence-contract-audit.mjs",
+      "inputSha256": "6a6ae5c0e5030e6c3a8956d29514d6477c4094e22bba32ba6f66778b4bdb4f03",
+      "mode": 420,
+      "bytes": 21230,
+      "sha256": "6a6ae5c0e5030e6c3a8956d29514d6477c4094e22bba32ba6f66778b4bdb4f03"
+    },
+    {
+      "path": "packages/kernel/scripts/import-snapshot-creation-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/import-snapshot-creation-contract-audit.mjs",
+      "inputSha256": "f6f3a0981ddf6777b60c2648406ada47b85ad6a22c20efcd69227968b1e1b6ba",
+      "mode": 420,
+      "bytes": 16588,
+      "sha256": "f6f3a0981ddf6777b60c2648406ada47b85ad6a22c20efcd69227968b1e1b6ba"
+    },
+    {
+      "path": "packages/kernel/scripts/import-snapshot-revision-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/import-snapshot-revision-contract-audit.mjs",
+      "inputSha256": "f927155937f988696f25df6ba8edb1e82f4cba267d13d59c5dc3096c0bec357f",
+      "mode": 420,
+      "bytes": 20210,
+      "sha256": "f927155937f988696f25df6ba8edb1e82f4cba267d13d59c5dc3096c0bec357f"
+    },
+    {
+      "path": "packages/kernel/scripts/network-https-transport-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/network-https-transport-audit.mjs",
+      "inputSha256": "acdea3c550a58f09c7a4bde0e6bbbf05029d5f614f22784c5ea9b5489ff6dbdc",
+      "mode": 420,
+      "bytes": 4623,
+      "sha256": "acdea3c550a58f09c7a4bde0e6bbbf05029d5f614f22784c5ea9b5489ff6dbdc"
+    },
+    {
+      "path": "packages/kernel/scripts/network-import-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/network-import-contract-audit.mjs",
+      "inputSha256": "e8e0824e88c310200df710f8713e03db608e1f0e56e7e6f50284c17c2035e567",
+      "mode": 420,
+      "bytes": 26278,
+      "sha256": "e8e0824e88c310200df710f8713e03db608e1f0e56e7e6f50284c17c2035e567"
+    },
+    {
+      "path": "packages/kernel/scripts/network-isolation-fixture-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/network-isolation-fixture-audit.mjs",
+      "inputSha256": "dcd428c713d6f3e8c06ae77648e7408533cd328b25d47b3acea84f56b39521f1",
+      "mode": 420,
+      "bytes": 9782,
+      "sha256": "dcd428c713d6f3e8c06ae77648e7408533cd328b25d47b3acea84f56b39521f1"
+    },
+    {
+      "path": "packages/kernel/scripts/openapi-core-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/openapi-core-contract-audit.mjs",
+      "inputSha256": "73d67cc58fb17f5e28cc249bf75b601f8fecf7ba2b0159081a6e22e0a0e92d4c",
+      "mode": 420,
+      "bytes": 23955,
+      "sha256": "73d67cc58fb17f5e28cc249bf75b601f8fecf7ba2b0159081a6e22e0a0e92d4c"
+    },
+    {
+      "path": "packages/kernel/scripts/openapi-importer-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/openapi-importer-contract-audit.mjs",
+      "inputSha256": "9504e21049e84072ee9a9bd97ee83243a8987f3440409158be3ab362e2df6314",
+      "mode": 420,
+      "bytes": 15305,
+      "sha256": "9504e21049e84072ee9a9bd97ee83243a8987f3440409158be3ab362e2df6314"
+    },
+    {
+      "path": "packages/kernel/scripts/openapi-reimport-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/openapi-reimport-contract-audit.mjs",
+      "inputSha256": "dd5ee8c7ce4e493d9e54b8812e11cf4e76f838d2669c0c4c95f547ac00c6d008",
+      "mode": 420,
+      "bytes": 6847,
+      "sha256": "dd5ee8c7ce4e493d9e54b8812e11cf4e76f838d2669c0c4c95f547ac00c6d008"
+    },
+    {
+      "path": "packages/kernel/scripts/package-distribution-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/package-distribution-audit.mjs",
+      "inputSha256": "882c27e50223450dab9e91d592f0716e7b4af83e4eb29a3d7ec9f1540825c767",
+      "mode": 420,
+      "bytes": 5668,
+      "sha256": "882c27e50223450dab9e91d592f0716e7b4af83e4eb29a3d7ec9f1540825c767"
+    },
+    {
+      "path": "packages/kernel/scripts/plugin-communication-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/plugin-communication-contract-audit.mjs",
+      "inputSha256": "65948f387bf5684ba4a0b3713c4f58b1a56cba492e6527bdfb412853a6f69596",
+      "mode": 420,
+      "bytes": 17285,
+      "sha256": "65948f387bf5684ba4a0b3713c4f58b1a56cba492e6527bdfb412853a6f69596"
+    },
+    {
+      "path": "packages/kernel/scripts/plugin-container-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/plugin-container-contract-audit.mjs",
+      "inputSha256": "fc72b300f030b732676afc1ec89b3e82d979f94bfc61b146042a02bf3a1adde5",
+      "mode": 420,
+      "bytes": 18787,
+      "sha256": "fc72b300f030b732676afc1ec89b3e82d979f94bfc61b146042a02bf3a1adde5"
+    },
+    {
+      "path": "packages/kernel/scripts/plugin-host-policy-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/plugin-host-policy-contract-audit.mjs",
+      "inputSha256": "f7f6663a23871d9870baec4962597dac17755ad870fdef8df731bd2d12e92757",
+      "mode": 420,
+      "bytes": 10733,
+      "sha256": "f7f6663a23871d9870baec4962597dac17755ad870fdef8df731bd2d12e92757"
+    },
+    {
+      "path": "packages/kernel/scripts/plugin-manifest-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/plugin-manifest-contract-audit.mjs",
+      "inputSha256": "87e67173d3ddddebc5ca2afdc4e7dc9c29ea5465a9b2902106499eff02da0c5d",
+      "mode": 420,
+      "bytes": 3616,
+      "sha256": "87e67173d3ddddebc5ca2afdc4e7dc9c29ea5465a9b2902106499eff02da0c5d"
+    },
+    {
+      "path": "packages/kernel/scripts/plugin-stdio-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/plugin-stdio-contract-audit.mjs",
+      "inputSha256": "cd823944a5e99ae89e12a793a925190cf7171b0b47652d6995bbbf6ab8857732",
+      "mode": 420,
+      "bytes": 11278,
+      "sha256": "cd823944a5e99ae89e12a793a925190cf7171b0b47652d6995bbbf6ab8857732"
+    },
+    {
+      "path": "packages/kernel/scripts/plugin-supply-chain-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/plugin-supply-chain-contract-audit.mjs",
+      "inputSha256": "63fbb51769e642950f50b01f123570ce4b9fbf2e511f6abeaa330d656330f006",
+      "mode": 420,
+      "bytes": 9932,
+      "sha256": "63fbb51769e642950f50b01f123570ce4b9fbf2e511f6abeaa330d656330f006"
+    },
+    {
+      "path": "packages/kernel/scripts/repository-reimport-assessment-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/repository-reimport-assessment-contract-audit.mjs",
+      "inputSha256": "adfc269813ec6d08080b410803f7046256d021802771648d5b2dff4fe4bd4eaa",
+      "mode": 420,
+      "bytes": 10654,
+      "sha256": "adfc269813ec6d08080b410803f7046256d021802771648d5b2dff4fe4bd4eaa"
+    },
+    {
+      "path": "packages/kernel/scripts/repository-reimport-contract-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/repository-reimport-contract-audit.mjs",
+      "inputSha256": "6a7aedea54a9a5104dc08b44a53cdc99c2e2272531553d674cfe9671616b6f20",
+      "mode": 420,
+      "bytes": 8966,
+      "sha256": "6a7aedea54a9a5104dc08b44a53cdc99c2e2272531553d674cfe9671616b6f20"
+    },
+    {
+      "path": "packages/kernel/scripts/repository-workflow-example-audit.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/scripts/repository-workflow-example-audit.mjs",
+      "inputSha256": "14f7bbda7b0c6677eb621a107a7eb00e0b426ce6e75f91c5894bc95e3ac5768d",
+      "mode": 420,
+      "bytes": 14024,
+      "sha256": "14f7bbda7b0c6677eb621a107a7eb00e0b426ce6e75f91c5894bc95e3ac5768d"
+    },
+    {
+      "path": "packages/kernel/src/approval-assessment.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/approval-assessment.js",
+      "inputSha256": "c44d753576a00daf8248678b8e342f66b1db28772fbb8bb2139e93cc20b7ca32",
+      "mode": 420,
+      "bytes": 5008,
+      "sha256": "c44d753576a00daf8248678b8e342f66b1db28772fbb8bb2139e93cc20b7ca32"
+    },
+    {
+      "path": "packages/kernel/src/approval.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/approval.js",
+      "inputSha256": "8a58990764c46dd0d8c46b95958f4c249c0aa1f4368b1bbebfa88213cdd42510",
+      "mode": 420,
+      "bytes": 5833,
+      "sha256": "8a58990764c46dd0d8c46b95958f4c249c0aa1f4368b1bbebfa88213cdd42510"
+    },
+    {
+      "path": "packages/kernel/src/canonical.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/canonical.js",
+      "inputSha256": "1cd5f58b294457c305df1494f36c7e8326592388eeac20cc7cac57e177f5ca71",
+      "mode": 420,
+      "bytes": 10248,
+      "sha256": "1cd5f58b294457c305df1494f36c7e8326592388eeac20cc7cac57e177f5ca71"
+    },
+    {
+      "path": "packages/kernel/src/changeset-apply.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/changeset-apply.js",
+      "inputSha256": "20e2f29e55a6f9cdc5232ccd580ef2ff1668c99f9d53d2338831298f7a7ea8d1",
+      "mode": 420,
+      "bytes": 11119,
+      "sha256": "20e2f29e55a6f9cdc5232ccd580ef2ff1668c99f9d53d2338831298f7a7ea8d1"
+    },
+    {
+      "path": "packages/kernel/src/changeset.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/changeset.js",
+      "inputSha256": "78e934da89bb6fc281f12242fae5cfa85384e988267f387e375af0ebc5773883",
+      "mode": 420,
+      "bytes": 6472,
+      "sha256": "78e934da89bb6fc281f12242fae5cfa85384e988267f387e375af0ebc5773883"
+    },
+    {
+      "path": "packages/kernel/src/cli.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/cli.js",
+      "inputSha256": "0fa50661f4225ae2d343356b5a2fb2283dee351f696c584adcba35a72b3e769d",
+      "mode": 493,
+      "bytes": 12077,
+      "sha256": "0fa50661f4225ae2d343356b5a2fb2283dee351f696c584adcba35a72b3e769d"
+    },
+    {
+      "path": "packages/kernel/src/decision-creation.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/decision-creation.js",
+      "inputSha256": "d4b3aeb234f2ebcfaab2feb47a9b456b3d9190bd238913a61250338d4a56d60a",
+      "mode": 420,
+      "bytes": 7686,
+      "sha256": "d4b3aeb234f2ebcfaab2feb47a9b456b3d9190bd238913a61250338d4a56d60a"
+    },
+    {
+      "path": "packages/kernel/src/decision-markdown.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/decision-markdown.js",
+      "inputSha256": "fc5ce35d99e71a8f58450140eac4d90d52c0c2e415a67e131a30dbd834eb1652",
+      "mode": 420,
+      "bytes": 10608,
+      "sha256": "fc5ce35d99e71a8f58450140eac4d90d52c0c2e415a67e131a30dbd834eb1652"
+    },
+    {
+      "path": "packages/kernel/src/decision-revision.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/decision-revision.js",
+      "inputSha256": "eb02170fdb867cb85318a0cee33177c9bd8745b23bf7d6e128d442b50ca6895d",
+      "mode": 420,
+      "bytes": 7985,
+      "sha256": "eb02170fdb867cb85318a0cee33177c9bd8745b23bf7d6e128d442b50ca6895d"
+    },
+    {
+      "path": "packages/kernel/src/errors.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/errors.js",
+      "inputSha256": "35aa2ab20c80eae56ab20a25a5affe3e6eb9d5aad4b4a9ecc7f5c93d66c1bcc8",
+      "mode": 420,
+      "bytes": 295,
+      "sha256": "35aa2ab20c80eae56ab20a25a5affe3e6eb9d5aad4b4a9ecc7f5c93d66c1bcc8"
+    },
+    {
+      "path": "packages/kernel/src/external-artifact.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/external-artifact.js",
+      "inputSha256": "2f5694a05a5f8a482a7d615e782d9fa8cfe066637dea9ee67874b408ba364188",
+      "mode": 420,
+      "bytes": 8639,
+      "sha256": "2f5694a05a5f8a482a7d615e782d9fa8cfe066637dea9ee67874b408ba364188"
+    },
+    {
+      "path": "packages/kernel/src/figma-importer.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/figma-importer.js",
+      "inputSha256": "6f18f652b0e3302a5464889295582ed2421d8b2224258678764fb286a3ce7b7d",
+      "mode": 420,
+      "bytes": 13395,
+      "sha256": "6f18f652b0e3302a5464889295582ed2421d8b2224258678764fb286a3ce7b7d"
+    },
+    {
+      "path": "packages/kernel/src/figma-reimport.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/figma-reimport.js",
+      "inputSha256": "368726bdbac21b38e2c47541447b8f13ffe07d168d9e4d80c79241a0429815a3",
+      "mode": 420,
+      "bytes": 3200,
+      "sha256": "368726bdbac21b38e2c47541447b8f13ffe07d168d9e4d80c79241a0429815a3"
+    },
+    {
+      "path": "packages/kernel/src/github-importer.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/github-importer.js",
+      "inputSha256": "75beae79f6f6e47a70e9f8a846f516eb355a731e084dde83d336763629eca22c",
+      "mode": 420,
+      "bytes": 17116,
+      "sha256": "75beae79f6f6e47a70e9f8a846f516eb355a731e084dde83d336763629eca22c"
+    },
+    {
+      "path": "packages/kernel/src/github-reimport.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/github-reimport.js",
+      "inputSha256": "0e3d13dd1f02e0fbeb4d8e0a912fdca2c33a90351163678193dd25b4b55cd2cb",
+      "mode": 420,
+      "bytes": 7900,
+      "sha256": "0e3d13dd1f02e0fbeb4d8e0a912fdca2c33a90351163678193dd25b4b55cd2cb"
+    },
+    {
+      "path": "packages/kernel/src/graph-constraints.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/graph-constraints.js",
+      "inputSha256": "b64b0d89192405c5ef86925579bea003599ed8e2a5551ee12ae3e48b4e8f5de0",
+      "mode": 420,
+      "bytes": 12788,
+      "sha256": "b64b0d89192405c5ef86925579bea003599ed8e2a5551ee12ae3e48b4e8f5de0"
+    },
+    {
+      "path": "packages/kernel/src/graph-element.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/graph-element.js",
+      "inputSha256": "2374d0752526511a13a9230010e0ce088a2fe7c89a1a0c05c42553d404e82f47",
+      "mode": 420,
+      "bytes": 4125,
+      "sha256": "2374d0752526511a13a9230010e0ce088a2fe7c89a1a0c05c42553d404e82f47"
+    },
+    {
+      "path": "packages/kernel/src/graph-index.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/graph-index.js",
+      "inputSha256": "bd36f871413192e2d5d5cd8e87b748c97459d918d9ff927ddd98ec3c2b1cf036",
+      "mode": 420,
+      "bytes": 5081,
+      "sha256": "bd36f871413192e2d5d5cd8e87b748c97459d918d9ff927ddd98ec3c2b1cf036"
+    },
+    {
+      "path": "packages/kernel/src/graph-revision.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/graph-revision.js",
+      "inputSha256": "e92ca4c7ca2f960852cf07d2d526e98c8d791882217302b2547e16feede1b6db",
+      "mode": 420,
+      "bytes": 2142,
+      "sha256": "e92ca4c7ca2f960852cf07d2d526e98c8d791882217302b2547e16feede1b6db"
+    },
+    {
+      "path": "packages/kernel/src/import-adapters.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-adapters.js",
+      "inputSha256": "ea36b27a79e72c456bde8e547d891ed491554caed3cc00569d9cbcb73f20de7a",
+      "mode": 420,
+      "bytes": 2382,
+      "sha256": "ea36b27a79e72c456bde8e547d891ed491554caed3cc00569d9cbcb73f20de7a"
+    },
+    {
+      "path": "packages/kernel/src/import-availability.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-availability.js",
+      "inputSha256": "9baa6225e5a357a7b33ea662f0684f6d098f77aca74c9a3afc3d0efb5da04a0e",
+      "mode": 420,
+      "bytes": 10086,
+      "sha256": "9baa6225e5a357a7b33ea662f0684f6d098f77aca74c9a3afc3d0efb5da04a0e"
+    },
+    {
+      "path": "packages/kernel/src/import-baseline.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-baseline.js",
+      "inputSha256": "37c1003737b674e9644c9dd229f3967ed2eba55092bbc3a291c6fc69643ecfd2",
+      "mode": 420,
+      "bytes": 4623,
+      "sha256": "37c1003737b674e9644c9dd229f3967ed2eba55092bbc3a291c6fc69643ecfd2"
+    },
+    {
+      "path": "packages/kernel/src/import-presence.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-presence.js",
+      "inputSha256": "98773f18616fe8ec5be3d3bac60910c6aa8e8479e94dcacec5af409f4b2ac1f5",
+      "mode": 420,
+      "bytes": 8544,
+      "sha256": "98773f18616fe8ec5be3d3bac60910c6aa8e8479e94dcacec5af409f4b2ac1f5"
+    },
+    {
+      "path": "packages/kernel/src/import-snapshot-creation.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-snapshot-creation.js",
+      "inputSha256": "46aa39b75017aa15a2a30cafbb213773583625b8f646647dc01bc4de244d9010",
+      "mode": 420,
+      "bytes": 8171,
+      "sha256": "46aa39b75017aa15a2a30cafbb213773583625b8f646647dc01bc4de244d9010"
+    },
+    {
+      "path": "packages/kernel/src/import-snapshot-record.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-snapshot-record.js",
+      "inputSha256": "19b7be5da2d139a6c7926e50820a8c35e2fc91527ebd9ac2fa779fa88ff2d34e",
+      "mode": 420,
+      "bytes": 3400,
+      "sha256": "19b7be5da2d139a6c7926e50820a8c35e2fc91527ebd9ac2fa779fa88ff2d34e"
+    },
+    {
+      "path": "packages/kernel/src/import-snapshot-revision.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/import-snapshot-revision.js",
+      "inputSha256": "958f2f577d27504db99ff2ebcf819b35a8923db3e46c7a20076d3625e195ee36",
+      "mode": 420,
+      "bytes": 6863,
+      "sha256": "958f2f577d27504db99ff2ebcf819b35a8923db3e46c7a20076d3625e195ee36"
+    },
+    {
+      "path": "packages/kernel/src/ledger-store.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/ledger-store.js",
+      "inputSha256": "821977a25fb586557bae4cbfc1a6bade69e318523a77401a2ce4a213978f04b5",
+      "mode": 420,
+      "bytes": 6703,
+      "sha256": "821977a25fb586557bae4cbfc1a6bade69e318523a77401a2ce4a213978f04b5"
+    },
+    {
+      "path": "packages/kernel/src/migration-apply.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/migration-apply.js",
+      "inputSha256": "91ea52e0cfa8fc24505a26aeed059ebc891ab50d4229a50cc35fc4678f1dce76",
+      "mode": 420,
+      "bytes": 4150,
+      "sha256": "91ea52e0cfa8fc24505a26aeed059ebc891ab50d4229a50cc35fc4678f1dce76"
+    },
+    {
+      "path": "packages/kernel/src/migration.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/migration.js",
+      "inputSha256": "0ef77d4a30732970d7d46893d02073205238ee57155ec021c1e0ba470b0885fe",
+      "mode": 420,
+      "bytes": 5509,
+      "sha256": "0ef77d4a30732970d7d46893d02073205238ee57155ec021c1e0ba470b0885fe"
+    },
+    {
+      "path": "packages/kernel/src/network-import-container.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/network-import-container.js",
+      "inputSha256": "413c2a01339ad8a09360767a6b8fb9cecf0869aee1762f36e27789d25e952373",
+      "mode": 420,
+      "bytes": 15619,
+      "sha256": "413c2a01339ad8a09360767a6b8fb9cecf0869aee1762f36e27789d25e952373"
+    },
+    {
+      "path": "packages/kernel/src/network-import-conversion.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/network-import-conversion.js",
+      "inputSha256": "6f0bbd81ffeada6987fffaa5e6aa88e67b2b6dd6b93c8d0b0d3baf929f3747d4",
+      "mode": 420,
+      "bytes": 6783,
+      "sha256": "6f0bbd81ffeada6987fffaa5e6aa88e67b2b6dd6b93c8d0b0d3baf929f3747d4"
+    },
+    {
+      "path": "packages/kernel/src/network-import-input.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/network-import-input.js",
+      "inputSha256": "65a3a012357579af929fcc175cdaca1c0ac9ce71c85a6aa1f4361b4daf2f83fa",
+      "mode": 420,
+      "bytes": 3984,
+      "sha256": "65a3a012357579af929fcc175cdaca1c0ac9ce71c85a6aa1f4361b4daf2f83fa"
+    },
+    {
+      "path": "packages/kernel/src/network-import-stdio.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/network-import-stdio.js",
+      "inputSha256": "4a3209ac0b1a64da36d49b228dfce1cedd194b6b74f8d13e666295130f9482cb",
+      "mode": 420,
+      "bytes": 1828,
+      "sha256": "4a3209ac0b1a64da36d49b228dfce1cedd194b6b74f8d13e666295130f9482cb"
+    },
+    {
+      "path": "packages/kernel/src/network-import-transport.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/network-import-transport.js",
+      "inputSha256": "3b5d7d05431c99161c3bf74242bbe9a1523e1714563a8c07ea7d921066884efa",
+      "mode": 420,
+      "bytes": 2752,
+      "sha256": "3b5d7d05431c99161c3bf74242bbe9a1523e1714563a8c07ea7d921066884efa"
+    },
+    {
+      "path": "packages/kernel/src/openapi-importer-stdio.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/openapi-importer-stdio.js",
+      "inputSha256": "3642151764fd95b24994eaba129d9013584de05495b841fdc9bf5cf96d678756",
+      "mode": 420,
+      "bytes": 410,
+      "sha256": "3642151764fd95b24994eaba129d9013584de05495b841fdc9bf5cf96d678756"
+    },
+    {
+      "path": "packages/kernel/src/openapi-importer.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/openapi-importer.js",
+      "inputSha256": "16d846464fa6ea5fcb5a8bfdc60575299f154d34b833fed9bacaf596350681b7",
+      "mode": 420,
+      "bytes": 8452,
+      "sha256": "16d846464fa6ea5fcb5a8bfdc60575299f154d34b833fed9bacaf596350681b7"
+    },
+    {
+      "path": "packages/kernel/src/openapi-reimport.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/openapi-reimport.js",
+      "inputSha256": "29f07437f904c04ed8bce35d6ffdcaec3b2fce48750153767f1b17bfcff8f74e",
+      "mode": 420,
+      "bytes": 3422,
+      "sha256": "29f07437f904c04ed8bce35d6ffdcaec3b2fce48750153767f1b17bfcff8f74e"
+    },
+    {
+      "path": "packages/kernel/src/package-reader.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/package-reader.js",
+      "inputSha256": "60bc06889236045f0991b3c4bc66bb167413e17ae6945ed52104ef5508aba81b",
+      "mode": 420,
+      "bytes": 9121,
+      "sha256": "60bc06889236045f0991b3c4bc66bb167413e17ae6945ed52104ef5508aba81b"
+    },
+    {
+      "path": "packages/kernel/src/package-record-id.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/package-record-id.js",
+      "inputSha256": "df87f527c4fa8f57d76bc3b7d57fa581551511e490d369c067568ea8f4bb6e54",
+      "mode": 420,
+      "bytes": 3989,
+      "sha256": "df87f527c4fa8f57d76bc3b7d57fa581551511e490d369c067568ea8f4bb6e54"
+    },
+    {
+      "path": "packages/kernel/src/package-records.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/package-records.js",
+      "inputSha256": "8b9f3a2870da5416eedbebe3c87e271b71cd93d392b819880fbaba65f50bd94d",
+      "mode": 420,
+      "bytes": 421,
+      "sha256": "8b9f3a2870da5416eedbebe3c87e271b71cd93d392b819880fbaba65f50bd94d"
+    },
+    {
+      "path": "packages/kernel/src/package-writer.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/package-writer.js",
+      "inputSha256": "9d06da5a0f6a54fef4e2935b3b280f6a23bc9e90798562c457100196c4ca0378",
+      "mode": 420,
+      "bytes": 22818,
+      "sha256": "9d06da5a0f6a54fef4e2935b3b280f6a23bc9e90798562c457100196c4ca0378"
+    },
+    {
+      "path": "packages/kernel/src/plugin-communication.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/plugin-communication.js",
+      "inputSha256": "289bcad48771908834baec11cb067002e0f2920e3965b3b50aff104928c63b8c",
+      "mode": 420,
+      "bytes": 10409,
+      "sha256": "289bcad48771908834baec11cb067002e0f2920e3965b3b50aff104928c63b8c"
+    },
+    {
+      "path": "packages/kernel/src/plugin-container.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/plugin-container.js",
+      "inputSha256": "d41f264203bd6c860d51d81bc231c2484cb32d61e97dc4336c22b2d578af4fdb",
+      "mode": 420,
+      "bytes": 15574,
+      "sha256": "d41f264203bd6c860d51d81bc231c2484cb32d61e97dc4336c22b2d578af4fdb"
+    },
+    {
+      "path": "packages/kernel/src/plugin-host-policy.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/plugin-host-policy.js",
+      "inputSha256": "28ce651c8ea89439ae8c0a8fb15b9536d03e814d68376abb0d82f8855feb61aa",
+      "mode": 420,
+      "bytes": 3078,
+      "sha256": "28ce651c8ea89439ae8c0a8fb15b9536d03e814d68376abb0d82f8855feb61aa"
+    },
+    {
+      "path": "packages/kernel/src/plugin-manifest.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/plugin-manifest.js",
+      "inputSha256": "610595d94dd3eaaab9cbdaa1ad4cfff03504b46e43635b8442e62f006191ca7c",
+      "mode": 420,
+      "bytes": 9385,
+      "sha256": "610595d94dd3eaaab9cbdaa1ad4cfff03504b46e43635b8442e62f006191ca7c"
+    },
+    {
+      "path": "packages/kernel/src/plugin-stdio.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/plugin-stdio.js",
+      "inputSha256": "0ac0eb0a9663bb5393239eb080b41dcf2796060db3bc58142297b748fd71a0a4",
+      "mode": 420,
+      "bytes": 3618,
+      "sha256": "0ac0eb0a9663bb5393239eb080b41dcf2796060db3bc58142297b748fd71a0a4"
+    },
+    {
+      "path": "packages/kernel/src/plugin-supply-chain.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/plugin-supply-chain.js",
+      "inputSha256": "475423c061667979c94c4fcee860fb25774f00b55af826b367d3945f501ef3c6",
+      "mode": 420,
+      "bytes": 4702,
+      "sha256": "475423c061667979c94c4fcee860fb25774f00b55af826b367d3945f501ef3c6"
+    },
+    {
+      "path": "packages/kernel/src/proposal-review.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/proposal-review.js",
+      "inputSha256": "325fc22bb52fcd96a1c802c94c7853179d4e872daca68f7911b06be4625aa6a8",
+      "mode": 420,
+      "bytes": 5449,
+      "sha256": "325fc22bb52fcd96a1c802c94c7853179d4e872daca68f7911b06be4625aa6a8"
+    },
+    {
+      "path": "packages/kernel/src/report.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/report.js",
+      "inputSha256": "756a85637ae48cc3cee5669502ea26104a6510ed322ec8428dc6505ce94f1e6a",
+      "mode": 420,
+      "bytes": 29059,
+      "sha256": "756a85637ae48cc3cee5669502ea26104a6510ed322ec8428dc6505ce94f1e6a"
+    },
+    {
+      "path": "packages/kernel/src/repository-importer-stdio.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/repository-importer-stdio.js",
+      "inputSha256": "72b6aaba614b56a6b4e525f98e314e10a658fcc453a875fbcd28f51c8472184e",
+      "mode": 493,
+      "bytes": 341,
+      "sha256": "72b6aaba614b56a6b4e525f98e314e10a658fcc453a875fbcd28f51c8472184e"
+    },
+    {
+      "path": "packages/kernel/src/repository-importer.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/repository-importer.js",
+      "inputSha256": "9ea5082023413627c8257e5d83771509c7e0e9007969f8b4046485cbced3af8b",
+      "mode": 420,
+      "bytes": 12978,
+      "sha256": "9ea5082023413627c8257e5d83771509c7e0e9007969f8b4046485cbced3af8b"
+    },
+    {
+      "path": "packages/kernel/src/repository-reimport-assessment.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/repository-reimport-assessment.js",
+      "inputSha256": "c479184666c4fbac5c8be10a0fdab435c37717d555815d1bf3137914963fd056",
+      "mode": 420,
+      "bytes": 4155,
+      "sha256": "c479184666c4fbac5c8be10a0fdab435c37717d555815d1bf3137914963fd056"
+    },
+    {
+      "path": "packages/kernel/src/schema-definition.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/schema-definition.js",
+      "inputSha256": "3d48948c139ac5e676e16763e5c19506f5cda08a35f130a16d5644cd3c25fbaa",
+      "mode": 420,
+      "bytes": 8361,
+      "sha256": "3d48948c139ac5e676e16763e5c19506f5cda08a35f130a16d5644cd3c25fbaa"
+    },
+    {
+      "path": "packages/kernel/src/schema-lock.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/schema-lock.js",
+      "inputSha256": "98ef9558e05121a04c25c98fd69f1ce056c0ca2e7f58767480b4377fb60ba121",
+      "mode": 420,
+      "bytes": 3811,
+      "sha256": "98ef9558e05121a04c25c98fd69f1ce056c0ca2e7f58767480b4377fb60ba121"
+    },
+    {
+      "path": "packages/kernel/src/schema-registry.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/schema-registry.js",
+      "inputSha256": "c17e7be95309b9cdcae2f6eed3cd6b568a1add17d8c7129a87df38fd9bcbabbd",
+      "mode": 420,
+      "bytes": 2884,
+      "sha256": "c17e7be95309b9cdcae2f6eed3cd6b568a1add17d8c7129a87df38fd9bcbabbd"
+    },
+    {
+      "path": "packages/kernel/src/semantic-diff.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/semantic-diff.js",
+      "inputSha256": "ebf9ec25a5eb0cd73e02ec0689e49ef54f78bec2351c9c6829555dc3cb09eb5a",
+      "mode": 420,
+      "bytes": 14390,
+      "sha256": "ebf9ec25a5eb0cd73e02ec0689e49ef54f78bec2351c9c6829555dc3cb09eb5a"
+    },
+    {
+      "path": "packages/kernel/src/trace-query.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/trace-query.js",
+      "inputSha256": "114f6cacbe46902252f270a366fd486f2f182d91d2d4af18b3cf0c99517d69b2",
+      "mode": 420,
+      "bytes": 14017,
+      "sha256": "114f6cacbe46902252f270a366fd486f2f182d91d2d4af18b3cf0c99517d69b2"
+    },
+    {
+      "path": "packages/kernel/src/validation-phase-7.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/validation-phase-7.js",
+      "inputSha256": "e8bd910cbdc71ca9609091feee0d381c5021171bc9f89004bf46f89dfef333a8",
+      "mode": 420,
+      "bytes": 5272,
+      "sha256": "e8bd910cbdc71ca9609091feee0d381c5021171bc9f89004bf46f89dfef333a8"
+    },
+    {
+      "path": "packages/kernel/src/validator.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/validator.js",
+      "inputSha256": "7628440fdb2e56f4b8291a3b586abf5ea4542a1b312a1463b04b0ecb0cd98618",
+      "mode": 420,
+      "bytes": 8504,
+      "sha256": "7628440fdb2e56f4b8291a3b586abf5ea4542a1b312a1463b04b0ecb0cd98618"
+    },
+    {
+      "path": "packages/kernel/src/yaml-authoring-order.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-authoring-order.js",
+      "inputSha256": "86b996b4d14c08e999a0274233c2d3fbd281b07d371b1ec9050a87b17b064f37",
+      "mode": 420,
+      "bytes": 8414,
+      "sha256": "86b996b4d14c08e999a0274233c2d3fbd281b07d371b1ec9050a87b17b064f37"
+    },
+    {
+      "path": "packages/kernel/src/yaml-authoring-profile.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-authoring-profile.js",
+      "inputSha256": "923746965c7b3e1768b9ab3df7d8a4d87b436134a594bd13e96c60b644eb0aa6",
+      "mode": 420,
+      "bytes": 6046,
+      "sha256": "923746965c7b3e1768b9ab3df7d8a4d87b436134a594bd13e96c60b644eb0aa6"
+    },
+    {
+      "path": "packages/kernel/src/yaml-null-policy.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-null-policy.js",
+      "inputSha256": "b272b3e687752751fde77ed9dfbacc6051db6c89f7d37ee2646500b2682b1130",
+      "mode": 420,
+      "bytes": 2955,
+      "sha256": "b272b3e687752751fde77ed9dfbacc6051db6c89f7d37ee2646500b2682b1130"
+    },
+    {
+      "path": "packages/kernel/src/yaml-reader.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-reader.js",
+      "inputSha256": "a835f23ecaa75d41f492fb3138243e9328f3f0c89b7aa126363c73741436f1cd",
+      "mode": 420,
+      "bytes": 1865,
+      "sha256": "a835f23ecaa75d41f492fb3138243e9328f3f0c89b7aa126363c73741436f1cd"
+    },
+    {
+      "path": "packages/kernel/src/yaml-record-order.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-record-order.js",
+      "inputSha256": "37a35a3504f90f7c8f2aa20dee5916a350bbe492e64a7d808979e1a6988ebf12",
+      "mode": 420,
+      "bytes": 3570,
+      "sha256": "37a35a3504f90f7c8f2aa20dee5916a350bbe492e64a7d808979e1a6988ebf12"
+    },
+    {
+      "path": "packages/kernel/src/yaml-set-policy.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-set-policy.js",
+      "inputSha256": "ab0fdd86cd3577a9f556be9dea6b07594e506c0b8caa6c34b7afe766a30df3da",
+      "mode": 420,
+      "bytes": 3321,
+      "sha256": "ab0fdd86cd3577a9f556be9dea6b07594e506c0b8caa6c34b7afe766a30df3da"
+    },
+    {
+      "path": "packages/kernel/src/yaml-writer.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/src/yaml-writer.js",
+      "inputSha256": "6776575cf349b71eceff5da0b22c9f98b1a82ac3ea63ee3aaf1e9ec0b01c472b",
+      "mode": 420,
+      "bytes": 11289,
+      "sha256": "6776575cf349b71eceff5da0b22c9f98b1a82ac3ea63ee3aaf1e9ec0b01c472b"
+    },
+    {
+      "path": "packages/kernel/test-support/changeset-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/changeset-digest-reference.mjs",
+      "inputSha256": "cda9870b8f6b2020c0041b075530aaead00c3246afaf350ea74c41e2e4587cb7",
+      "mode": 420,
+      "bytes": 3109,
+      "sha256": "cda9870b8f6b2020c0041b075530aaead00c3246afaf350ea74c41e2e4587cb7"
+    },
+    {
+      "path": "packages/kernel/test-support/external-artifact-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/external-artifact-reference.mjs",
+      "inputSha256": "3087107bdd4d1da2c33a116657d7731d462f198ceaf8a2027a8e47bf0959d307",
+      "mode": 420,
+      "bytes": 9952,
+      "sha256": "3087107bdd4d1da2c33a116657d7731d462f198ceaf8a2027a8e47bf0959d307"
+    },
+    {
+      "path": "packages/kernel/test-support/graph-package-roundtrip-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/graph-package-roundtrip-reference.mjs",
+      "inputSha256": "98f0ba2864d32b410b3ae5d0d6748af2602af07d10f36fd63a558d0a7e89b6a0",
+      "mode": 420,
+      "bytes": 4840,
+      "sha256": "98f0ba2864d32b410b3ae5d0d6748af2602af07d10f36fd63a558d0a7e89b6a0"
+    },
+    {
+      "path": "packages/kernel/test-support/graph-root-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/graph-root-digest-reference.mjs",
+      "inputSha256": "bebc808b96c0c654e74d9d2dfee208edf8f2936017d05cf62bd36b2ddde63b53",
+      "mode": 420,
+      "bytes": 3152,
+      "sha256": "bebc808b96c0c654e74d9d2dfee208edf8f2936017d05cf62bd36b2ddde63b53"
+    },
+    {
+      "path": "packages/kernel/test-support/migration-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/migration-digest-reference.mjs",
+      "inputSha256": "d1809d327ff6887ae6a3093168b4985d2c2096ab0e219443c05df51e2f662b34",
+      "mode": 420,
+      "bytes": 3109,
+      "sha256": "d1809d327ff6887ae6a3093168b4985d2c2096ab0e219443c05df51e2f662b34"
+    },
+    {
+      "path": "packages/kernel/test-support/migration-semantic-diff-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/migration-semantic-diff-digest-reference.mjs",
+      "inputSha256": "2d34f8a4742d21ec4402eab4c24a2b0fe70764c6af898f7b88a7ec7496f995cc",
+      "mode": 420,
+      "bytes": 4166,
+      "sha256": "2d34f8a4742d21ec4402eab4c24a2b0fe70764c6af898f7b88a7ec7496f995cc"
+    },
+    {
+      "path": "packages/kernel/test-support/network-denial-guard.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-denial-guard.mjs",
+      "inputSha256": "ed830915b6f5f54c017ad126c1db67f4a891af18f78e5e0b60703e5f8c9b1548",
+      "mode": 420,
+      "bytes": 1506,
+      "sha256": "ed830915b6f5f54c017ad126c1db67f4a891af18f78e5e0b60703e5f8c9b1548"
+    },
+    {
+      "path": "packages/kernel/test-support/network-https-client.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-https-client.mjs",
+      "inputSha256": "64c6599c97dea2249056982cbd0b788e90caa64be7fb147c45c901010f6fa85e",
+      "mode": 420,
+      "bytes": 1879,
+      "sha256": "64c6599c97dea2249056982cbd0b788e90caa64be7fb147c45c901010f6fa85e"
+    },
+    {
+      "path": "packages/kernel/test-support/network-import-fixtures.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-import-fixtures.mjs",
+      "inputSha256": "1c48ddb639bb3feedf058d6afb6fcd4b69bc17ec249a11d3a0cf9d40f12daab0",
+      "mode": 420,
+      "bytes": 4214,
+      "sha256": "1c48ddb639bb3feedf058d6afb6fcd4b69bc17ec249a11d3a0cf9d40f12daab0"
+    },
+    {
+      "path": "packages/kernel/test-support/network-isolation-build.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-isolation-build.mjs",
+      "inputSha256": "66d30678a990c016825b9bc0c489c14cd580257c1aa99715921d3ba2877eda91",
+      "mode": 420,
+      "bytes": 5773,
+      "sha256": "66d30678a990c016825b9bc0c489c14cd580257c1aa99715921d3ba2877eda91"
+    },
+    {
+      "path": "packages/kernel/test-support/network-isolation-core.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-isolation-core.mjs",
+      "inputSha256": "7950a81cd4ab81b9b4a6af3d66d6037d004e69e99c037f582f47d9c089cc675c",
+      "mode": 420,
+      "bytes": 5325,
+      "sha256": "7950a81cd4ab81b9b4a6af3d66d6037d004e69e99c037f582f47d9c089cc675c"
+    },
+    {
+      "path": "packages/kernel/test-support/network-isolation-http.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-isolation-http.mjs",
+      "inputSha256": "40fb8c05486a914de1b8189d9af0bd110bae54c7bea604db3aba2f4399ea58b2",
+      "mode": 420,
+      "bytes": 2748,
+      "sha256": "40fb8c05486a914de1b8189d9af0bd110bae54c7bea604db3aba2f4399ea58b2"
+    },
+    {
+      "path": "packages/kernel/test-support/network-isolation-probe.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/network-isolation-probe.mjs",
+      "inputSha256": "0b0f5b0f3757bcfe3169e1f45cdfd47ecf214ddb32abfa4f94a635ea42335545",
+      "mode": 420,
+      "bytes": 2327,
+      "sha256": "0b0f5b0f3757bcfe3169e1f45cdfd47ecf214ddb32abfa4f94a635ea42335545"
+    },
+    {
+      "path": "packages/kernel/test-support/report-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/report-digest-reference.mjs",
+      "inputSha256": "c82fd5bac5b60c5e10b432b4006240e1cf7bd984d1dde9f66d8a16a13b8eb637",
+      "mode": 420,
+      "bytes": 5161,
+      "sha256": "c82fd5bac5b60c5e10b432b4006240e1cf7bd984d1dde9f66d8a16a13b8eb637"
+    },
+    {
+      "path": "packages/kernel/test-support/revision-id-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/revision-id-reference.mjs",
+      "inputSha256": "2ad7a12c4095fa4f3fc00abd4519c8ab1206e573292fe1a2be9329243c10088f",
+      "mode": 420,
+      "bytes": 3393,
+      "sha256": "2ad7a12c4095fa4f3fc00abd4519c8ab1206e573292fe1a2be9329243c10088f"
+    },
+    {
+      "path": "packages/kernel/test-support/schema-definition-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/schema-definition-digest-reference.mjs",
+      "inputSha256": "8dd914dd8ce39c42b95aa523943825911e90e92c0c5a2018b2742a92dcf91252",
+      "mode": 420,
+      "bytes": 3093,
+      "sha256": "8dd914dd8ce39c42b95aa523943825911e90e92c0c5a2018b2742a92dcf91252"
+    },
+    {
+      "path": "packages/kernel/test-support/schema-lock-digest-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/schema-lock-digest-reference.mjs",
+      "inputSha256": "7f66a4d44b6d55a0758425ac9b26ae2ab503732ee21bbbcfab85c21f2eaf91f5",
+      "mode": 420,
+      "bytes": 3074,
+      "sha256": "7f66a4d44b6d55a0758425ac9b26ae2ab503732ee21bbbcfab85c21f2eaf91f5"
+    },
+    {
+      "path": "packages/kernel/test-support/yaml-authoring-roundtrip-reference.mjs",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/yaml-authoring-roundtrip-reference.mjs",
+      "inputSha256": "05d8bc9a67280308b2539570a95a969f6f47a8a715bb702a8293c070cb1f8da6",
+      "mode": 420,
+      "bytes": 7616,
+      "sha256": "05d8bc9a67280308b2539570a95a969f6f47a8a715bb702a8293c070cb1f8da6"
+    },
+    {
+      "path": "packages/kernel/test-support/yaml.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test-support/yaml.js",
+      "inputSha256": "227554a858271dce873937c8d26a67d52d4d7a9f37989990f1b3a2e543e976a6",
+      "mode": 420,
+      "bytes": 1953,
+      "sha256": "227554a858271dce873937c8d26a67d52d4d7a9f37989990f1b3a2e543e976a6"
+    },
+    {
+      "path": "packages/kernel/test/approval-assessment.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/approval-assessment.test.js",
+      "inputSha256": "06bd1eb6b51b01f674fd04ad8d1b39773d12211eda1ecf0785c1a00e2a6dac35",
+      "mode": 420,
+      "bytes": 6040,
+      "sha256": "06bd1eb6b51b01f674fd04ad8d1b39773d12211eda1ecf0785c1a00e2a6dac35"
+    },
+    {
+      "path": "packages/kernel/test/approval.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/approval.test.js",
+      "inputSha256": "c9ecee7b6ca37260adab6be0070c7f9fecc70cad9b6590509b582307f2d98d11",
+      "mode": 420,
+      "bytes": 11111,
+      "sha256": "c9ecee7b6ca37260adab6be0070c7f9fecc70cad9b6590509b582307f2d98d11"
+    },
+    {
+      "path": "packages/kernel/test/changeset-apply.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/changeset-apply.test.js",
+      "inputSha256": "b35e42559eadfe2907ccd9d4ded3dce6e513c22ec602a7340085a4c36396f356",
+      "mode": 420,
+      "bytes": 16150,
+      "sha256": "b35e42559eadfe2907ccd9d4ded3dce6e513c22ec602a7340085a4c36396f356"
+    },
+    {
+      "path": "packages/kernel/test/changeset-digest-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/changeset-digest-independent.test.js",
+      "inputSha256": "2aefc294158665ab2857b7d3ad1bfa83925613d1a1388ef0740b0d2e4dd18dd6",
+      "mode": 420,
+      "bytes": 2587,
+      "sha256": "2aefc294158665ab2857b7d3ad1bfa83925613d1a1388ef0740b0d2e4dd18dd6"
+    },
+    {
+      "path": "packages/kernel/test/changeset-operation-types.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/changeset-operation-types.test.js",
+      "inputSha256": "e1015f0cf48c5c2b0d41274ea8489ff7ab3ed7929c50d8a04789388469e860d6",
+      "mode": 420,
+      "bytes": 4404,
+      "sha256": "e1015f0cf48c5c2b0d41274ea8489ff7ab3ed7929c50d8a04789388469e860d6"
+    },
+    {
+      "path": "packages/kernel/test/changeset.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/changeset.test.js",
+      "inputSha256": "a41f8d1c26664ca3254a57b8cc5ef4d962b42cc0189496e8e06d7b8005d47028",
+      "mode": 420,
+      "bytes": 6889,
+      "sha256": "a41f8d1c26664ca3254a57b8cc5ef4d962b42cc0189496e8e06d7b8005d47028"
+    },
+    {
+      "path": "packages/kernel/test/decision-creation.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/decision-creation.test.js",
+      "inputSha256": "c295265f859dcf7e42228080aa143a3a998ca2f25358a2d8fe45e9ea06eb6d32",
+      "mode": 420,
+      "bytes": 7493,
+      "sha256": "c295265f859dcf7e42228080aa143a3a998ca2f25358a2d8fe45e9ea06eb6d32"
+    },
+    {
+      "path": "packages/kernel/test/decision-markdown.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/decision-markdown.test.js",
+      "inputSha256": "79780661ce343ed2feb768791efeaad1d8360c5f7dd4222eabfb78c06c0b452d",
+      "mode": 420,
+      "bytes": 10098,
+      "sha256": "79780661ce343ed2feb768791efeaad1d8360c5f7dd4222eabfb78c06c0b452d"
+    },
+    {
+      "path": "packages/kernel/test/decision-revision.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/decision-revision.test.js",
+      "inputSha256": "27f93634620c860c2bb4d48e6ea51d041ae8e7f9c083330643fec4148bcd0361",
+      "mode": 420,
+      "bytes": 7806,
+      "sha256": "27f93634620c860c2bb4d48e6ea51d041ae8e7f9c083330643fec4148bcd0361"
+    },
+    {
+      "path": "packages/kernel/test/external-artifact.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/external-artifact.test.js",
+      "inputSha256": "b59e51a0ead3590f7a8cbb4a1e9067fab68a3ef34b29d183d458ee8b6a16ec07",
+      "mode": 420,
+      "bytes": 16312,
+      "sha256": "b59e51a0ead3590f7a8cbb4a1e9067fab68a3ef34b29d183d458ee8b6a16ec07"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/changeset-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/changeset-digest-vector.json",
+      "inputSha256": "a6de8adcff5d93212cf4debf7359a41f1f67c590a915a54296bcc2736d173fc3",
+      "mode": 420,
+      "bytes": 5277,
+      "sha256": "a6de8adcff5d93212cf4debf7359a41f1f67c590a915a54296bcc2736d173fc3"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/decision-markdown-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/decision-markdown-vector.json",
+      "inputSha256": "9be285f295241a0388d1aed5065307531f17920fdf904aa5afd433f219b28523",
+      "mode": 420,
+      "bytes": 2045,
+      "sha256": "9be285f295241a0388d1aed5065307531f17920fdf904aa5afd433f219b28523"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/external-artifact-comparison-vectors.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/external-artifact-comparison-vectors.json",
+      "inputSha256": "0d750c937c50edadceb1bbd1f859781baf970831e52dea2eaffbbd7c006aec62",
+      "mode": 420,
+      "bytes": 21424,
+      "sha256": "0d750c937c50edadceb1bbd1f859781baf970831e52dea2eaffbbd7c006aec62"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/figma-importer/comparison-current.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/figma-importer/comparison-current.json",
+      "inputSha256": "06d1ca5f91fea5230e21a0e7605d9dc0c53a39c97f9f98bd29ca32bc4976cac4",
+      "mode": 420,
+      "bytes": 654,
+      "sha256": "06d1ca5f91fea5230e21a0e7605d9dc0c53a39c97f9f98bd29ca32bc4976cac4"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/figma-importer/manifest.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/figma-importer/manifest.json",
+      "inputSha256": "b20d55cc49f69d87515c4c81f1952654a94fa2de8446b3c1dff5e8f3cb4fe4d3",
+      "mode": 420,
+      "bytes": 873,
+      "sha256": "b20d55cc49f69d87515c4c81f1952654a94fa2de8446b3c1dff5e8f3cb4fe4d3"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/figma-importer/request.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/figma-importer/request.json",
+      "inputSha256": "b7f71a085e8f3e69b246c191ff756d536e3f83b0b46697cbeb003be3997f77ee",
+      "mode": 420,
+      "bytes": 298,
+      "sha256": "b7f71a085e8f3e69b246c191ff756d536e3f83b0b46697cbeb003be3997f77ee"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/figma-importer/response.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/figma-importer/response.json",
+      "inputSha256": "d9517d241b6ae2247842c08b071958f94e5d35435d3ecba062cd757efae09e73",
+      "mode": 420,
+      "bytes": 544,
+      "sha256": "d9517d241b6ae2247842c08b071958f94e5d35435d3ecba062cd757efae09e73"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/figma-importer/result.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/figma-importer/result.json",
+      "inputSha256": "184a70c6355e75cce749f90b0500185c4c7987449cd6ffd2f8af4ed59f105e22",
+      "mode": 420,
+      "bytes": 1041,
+      "sha256": "184a70c6355e75cce749f90b0500185c4c7987449cd6ffd2f8af4ed59f105e22"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/github-importer/assessment.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/github-importer/assessment.json",
+      "inputSha256": "9e0c9c6124a14b7d720dd155d96939165f748d9da3d79696809c472425499ce1",
+      "mode": 420,
+      "bytes": 1735,
+      "sha256": "9e0c9c6124a14b7d720dd155d96939165f748d9da3d79696809c472425499ce1"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/github-importer/comparison.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/github-importer/comparison.json",
+      "inputSha256": "82fec159b3283774659e93ad45b9405c658e4f0b86f8d70b50ddb9a10e99889b",
+      "mode": 420,
+      "bytes": 1142,
+      "sha256": "82fec159b3283774659e93ad45b9405c658e4f0b86f8d70b50ddb9a10e99889b"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/github-importer/request.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/github-importer/request.json",
+      "inputSha256": "3d8ccef165e5b5e952543909a3fbd131a5e84c5e9c55aadd6352e053f54c78f7",
+      "mode": 420,
+      "bytes": 423,
+      "sha256": "3d8ccef165e5b5e952543909a3fbd131a5e84c5e9c55aadd6352e053f54c78f7"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/github-importer/result.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/github-importer/result.json",
+      "inputSha256": "c70eeaa1829b1661cfcc2fd04299d270086e5f2db38a49aa03e23473785f0b2e",
+      "mode": 420,
+      "bytes": 997,
+      "sha256": "c70eeaa1829b1661cfcc2fd04299d270086e5f2db38a49aa03e23473785f0b2e"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/graph-package-roundtrip-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/graph-package-roundtrip-vector.json",
+      "inputSha256": "4b1c567e508ffa117fe457446c1ce3dc776abbcba54642e0aa32ae4c25f7aa79",
+      "mode": 420,
+      "bytes": 16507,
+      "sha256": "4b1c567e508ffa117fe457446c1ce3dc776abbcba54642e0aa32ae4c25f7aa79"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/graph-root-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/graph-root-digest-vector.json",
+      "inputSha256": "474d251aeecfe90ab90114cebd0f36473d95282a281ae11bb4b0a3a43ff3dd70",
+      "mode": 420,
+      "bytes": 1205,
+      "sha256": "474d251aeecfe90ab90114cebd0f36473d95282a281ae11bb4b0a3a43ff3dd70"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/migration-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/migration-digest-vector.json",
+      "inputSha256": "7397f9dd38033ffb52245b9e3ab5227f19c948c41f3ba0dc91e9f62de4e68bc8",
+      "mode": 420,
+      "bytes": 3672,
+      "sha256": "7397f9dd38033ffb52245b9e3ab5227f19c948c41f3ba0dc91e9f62de4e68bc8"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/migration-semantic-diff-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/migration-semantic-diff-digest-vector.json",
+      "inputSha256": "20bf8525e177d487c89e60e1f1f83c3ca894f0f049a4032a60faa978547ccd20",
+      "mode": 420,
+      "bytes": 3730,
+      "sha256": "20bf8525e177d487c89e60e1f1f83c3ca894f0f049a4032a60faa978547ccd20"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/openapi-importer/comparison-current.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/openapi-importer/comparison-current.json",
+      "inputSha256": "133bcce6a6ef9778149e93032e7328368222cf665fe6ca023b6bf7f04c24e76f",
+      "mode": 420,
+      "bytes": 597,
+      "sha256": "133bcce6a6ef9778149e93032e7328368222cf665fe6ca023b6bf7f04c24e76f"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/openapi-importer/document.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/openapi-importer/document.json",
+      "inputSha256": "9e07b5a421dae1cd40e95b7322f53099fcb4a1482c4fc9c9fe44e98829eae280",
+      "mode": 420,
+      "bytes": 477,
+      "sha256": "9e07b5a421dae1cd40e95b7322f53099fcb4a1482c4fc9c9fe44e98829eae280"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/openapi-importer/manifest.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/openapi-importer/manifest.json",
+      "inputSha256": "df7eac2b31852115f987f093b5a75ed8c0c7102aca999ee7fe13142918226b7d",
+      "mode": 420,
+      "bytes": 852,
+      "sha256": "df7eac2b31852115f987f093b5a75ed8c0c7102aca999ee7fe13142918226b7d"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/openapi-importer/request.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/openapi-importer/request.json",
+      "inputSha256": "1d224f12730748e25f009c6b6487b82a402998b95b583cd6639fe8faab8b8495",
+      "mode": 420,
+      "bytes": 906,
+      "sha256": "1d224f12730748e25f009c6b6487b82a402998b95b583cd6639fe8faab8b8495"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/openapi-importer/result.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/openapi-importer/result.json",
+      "inputSha256": "0847c4fc11dc57d63fd7c17f4e0d46281115fafb91a571bb0acb74bf74f27587",
+      "mode": 420,
+      "bytes": 991,
+      "sha256": "0847c4fc11dc57d63fd7c17f4e0d46281115fafb91a571bb0acb74bf74f27587"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml",
+      "inputSha256": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23",
+      "mode": 420,
+      "bytes": 403,
+      "sha256": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml",
+      "inputSha256": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53",
+      "mode": 420,
+      "bytes": 643,
+      "sha256": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml",
+      "inputSha256": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123",
+      "mode": 420,
+      "bytes": 516,
+      "sha256": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440005.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440005.yaml",
+      "inputSha256": "420bbdd96c4f600b56b7f57f4aff0fa241694cbee83193abdd31a8aca7207de2",
+      "mode": 420,
+      "bytes": 971,
+      "sha256": "420bbdd96c4f600b56b7f57f4aff0fa241694cbee83193abdd31a8aca7207de2"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440012.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440012.yaml",
+      "inputSha256": "2754f4625e0c884fc02f13976863473f890af07e56fd956a909ea94b970a1d43",
+      "mode": 420,
+      "bytes": 973,
+      "sha256": "2754f4625e0c884fc02f13976863473f890af07e56fd956a909ea94b970a1d43"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/migrations/550e8400-e29b-41d4-a716-446655440014.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/migrations/550e8400-e29b-41d4-a716-446655440014.yaml",
+      "inputSha256": "d548e8b740ccd1043400e14fa19e8d6cf7f63c53cb1599e7c5408f838c35100b",
+      "mode": 420,
+      "bytes": 965,
+      "sha256": "d548e8b740ccd1043400e14fa19e8d6cf7f63c53cb1599e7c5408f838c35100b"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/reports/550e8400-e29b-41d4-a716-446655440015.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/reports/550e8400-e29b-41d4-a716-446655440015.yaml",
+      "inputSha256": "5bd3384433c0cad640317c3cd0a6afe866a61b785e7ab0596cf777e69a7cc2f5",
+      "mode": 420,
+      "bytes": 395,
+      "sha256": "5bd3384433c0cad640317c3cd0a6afe866a61b785e7ab0596cf777e69a7cc2f5"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/revision.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/revision.yaml",
+      "inputSha256": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc",
+      "mode": 420,
+      "bytes": 267,
+      "sha256": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/schema.lock.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/schema.lock.yaml",
+      "inputSha256": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f",
+      "mode": 420,
+      "bytes": 233,
+      "sha256": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml",
+      "inputSha256": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23",
+      "mode": 420,
+      "bytes": 403,
+      "sha256": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml",
+      "inputSha256": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53",
+      "mode": 420,
+      "bytes": 643,
+      "sha256": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml",
+      "inputSha256": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123",
+      "mode": 420,
+      "bytes": 516,
+      "sha256": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1/.morivyx/revision.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1/.morivyx/revision.yaml",
+      "inputSha256": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc",
+      "mode": 420,
+      "bytes": 267,
+      "sha256": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/package-v1/.morivyx/schema.lock.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/package-v1/.morivyx/schema.lock.yaml",
+      "inputSha256": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f",
+      "mode": 420,
+      "bytes": 233,
+      "sha256": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/fixed-response.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/fixed-response.py",
+      "inputSha256": "8cdfa65bfd3ad106790778cd46a5e5728cda2c431fbee5efb1531656c0d3df14",
+      "mode": 420,
+      "bytes": 489,
+      "sha256": "8cdfa65bfd3ad106790778cd46a5e5728cda2c431fbee5efb1531656c0d3df14"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/import-authoring.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/import-authoring.json",
+      "inputSha256": "0d17d69c91b4ad756fd7665318f914ab839f51bacd9d5854de3e226984e1f3f5",
+      "mode": 420,
+      "bytes": 481,
+      "sha256": "0d17d69c91b4ad756fd7665318f914ab839f51bacd9d5854de3e226984e1f3f5"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/import-availability-authoring.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/import-availability-authoring.json",
+      "inputSha256": "9621eed523fb71fc4d0c2c59beec63df55e8d60157499ec566c0627640299458",
+      "mode": 420,
+      "bytes": 508,
+      "sha256": "9621eed523fb71fc4d0c2c59beec63df55e8d60157499ec566c0627640299458"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/import-presence-authoring.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/import-presence-authoring.json",
+      "inputSha256": "db34e4c4dd6b9f82534bf4f8cd7f2ad28f669506c813f2dedeebf97be1e11eb3",
+      "mode": 420,
+      "bytes": 500,
+      "sha256": "db34e4c4dd6b9f82534bf4f8cd7f2ad28f669506c813f2dedeebf97be1e11eb3"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/import-revision-authoring.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/import-revision-authoring.json",
+      "inputSha256": "800d45115dc4d27a1c76f9828d65068500434e5a35625d563215524a9e51df63",
+      "mode": 420,
+      "bytes": 333,
+      "sha256": "800d45115dc4d27a1c76f9828d65068500434e5a35625d563215524a9e51df63"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/repository/source.txt",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/repository/source.txt",
+      "inputSha256": "41719047f9824d28ef29e87214bbeb2c25e31dcd2a8c9ff3a28fda3ca4cd1353",
+      "mode": 420,
+      "bytes": 13,
+      "sha256": "41719047f9824d28ef29e87214bbeb2c25e31dcd2a8c9ff3a28fda3ca4cd1353"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/request.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/request.json",
+      "inputSha256": "221459eb67e9682b58afbaf96412ec17d896295bb63059ff56f1cb4386ba87c1",
+      "mode": 420,
+      "bytes": 391,
+      "sha256": "221459eb67e9682b58afbaf96412ec17d896295bb63059ff56f1cb4386ba87c1"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/result.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/result.json",
+      "inputSha256": "e988dfcf706969aa2b543798d12972f070373655e127a047dd8c61d8702643f3",
+      "mode": 420,
+      "bytes": 594,
+      "sha256": "e988dfcf706969aa2b543798d12972f070373655e127a047dd8c61d8702643f3"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-communication/stdio-invalid.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-communication/stdio-invalid.json",
+      "inputSha256": "24b22fca4dde13bdec1d822102df84350b18ec0758c314efb97c3a148e4f5213",
+      "mode": 420,
+      "bytes": 713,
+      "sha256": "24b22fca4dde13bdec1d822102df84350b18ec0758c314efb97c3a148e4f5213"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-manifest/host-policy.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-manifest/host-policy.json",
+      "inputSha256": "1bc52cdcfa72856f512d2299475b737498b1370cb045006f8fc84168b17447e4",
+      "mode": 420,
+      "bytes": 510,
+      "sha256": "1bc52cdcfa72856f512d2299475b737498b1370cb045006f8fc84168b17447e4"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-manifest/isolated-run.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-manifest/isolated-run.json",
+      "inputSha256": "02d2d4bff299ef43f169dc98f50bb98acd4f7d5d6e29e7af50a07a5602605013",
+      "mode": 420,
+      "bytes": 805,
+      "sha256": "02d2d4bff299ef43f169dc98f50bb98acd4f7d5d6e29e7af50a07a5602605013"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-manifest/repository-importer.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-manifest/repository-importer.json",
+      "inputSha256": "7b8188f140e1df51c03f3d92928c932f73cdea65ecb9d087bc47e0816f1cde11",
+      "mode": 420,
+      "bytes": 1030,
+      "sha256": "7b8188f140e1df51c03f3d92928c932f73cdea65ecb9d087bc47e0816f1cde11"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/plugin-manifest/supply-chain.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/plugin-manifest/supply-chain.json",
+      "inputSha256": "5c430b789157458528d9c16bce6bf08ebb5e5be242a7f9389e2ff94df931d673",
+      "mode": 420,
+      "bytes": 659,
+      "sha256": "5c430b789157458528d9c16bce6bf08ebb5e5be242a7f9389e2ff94df931d673"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/revision-id-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/revision-id-vector.json",
+      "inputSha256": "f25c3e943fd18c7207fb155c4b168dca9be2c58e4d6be7ee3c05e12df2515242",
+      "mode": 420,
+      "bytes": 2912,
+      "sha256": "f25c3e943fd18c7207fb155c4b168dca9be2c58e4d6be7ee3c05e12df2515242"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/schema-definition-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/schema-definition-digest-vector.json",
+      "inputSha256": "9c0221ea7947695a86e04107e48623d30c166317794f0593b05166045c68aa62",
+      "mode": 420,
+      "bytes": 2152,
+      "sha256": "9c0221ea7947695a86e04107e48623d30c166317794f0593b05166045c68aa62"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/schema-lock-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/schema-lock-digest-vector.json",
+      "inputSha256": "cf4d39b9abf76416eb7c4dc37caf28141d69da4387d1dba5f69ed5e19baf181c",
+      "mode": 420,
+      "bytes": 787,
+      "sha256": "cf4d39b9abf76416eb7c4dc37caf28141d69da4387d1dba5f69ed5e19baf181c"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/semantic-diff-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/semantic-diff-digest-vector.json",
+      "inputSha256": "13581db7d1e41f4c92e424c22ed29a8a5cb63ced3eca1b7ab308dc62e02e90dd",
+      "mode": 420,
+      "bytes": 3851,
+      "sha256": "13581db7d1e41f4c92e424c22ed29a8a5cb63ced3eca1b7ab308dc62e02e90dd"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/stage-0-trace-query-vectors.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/stage-0-trace-query-vectors.json",
+      "inputSha256": "431df4ff137c8a2558958675445fe272f3dd710d502cf227ab1810c91b68c9e5",
+      "mode": 420,
+      "bytes": 12474,
+      "sha256": "431df4ff137c8a2558958675445fe272f3dd710d502cf227ab1810c91b68c9e5"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/trace-report-digest-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/trace-report-digest-vector.json",
+      "inputSha256": "4355ea538a124de963a217143e8ec51049369d4e73b25a05f6db48329282f1c4",
+      "mode": 420,
+      "bytes": 4454,
+      "sha256": "4355ea538a124de963a217143e8ec51049369d4e73b25a05f6db48329282f1c4"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/yaml-authoring-roundtrip-expected.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/yaml-authoring-roundtrip-expected.yaml",
+      "inputSha256": "95087850d78f3ad6996b216c07977d1d9fc91843cc29113d04c40b70dba50bd7",
+      "mode": 420,
+      "bytes": 627,
+      "sha256": "95087850d78f3ad6996b216c07977d1d9fc91843cc29113d04c40b70dba50bd7"
+    },
+    {
+      "path": "packages/kernel/test/fixtures/yaml-authoring-roundtrip-vector.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/fixtures/yaml-authoring-roundtrip-vector.json",
+      "inputSha256": "e9c8b481b3e779a55bca12652bd15899dd63e80faf285592c3842995be0f1292",
+      "mode": 420,
+      "bytes": 1788,
+      "sha256": "e9c8b481b3e779a55bca12652bd15899dd63e80faf285592c3842995be0f1292"
+    },
+    {
+      "path": "packages/kernel/test/graph-element.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/graph-element.test.js",
+      "inputSha256": "b8a17e7fd9266725a05d297943eb57a208c2ff3041b63dd8f1ba04b91c29415b",
+      "mode": 420,
+      "bytes": 5188,
+      "sha256": "b8a17e7fd9266725a05d297943eb57a208c2ff3041b63dd8f1ba04b91c29415b"
+    },
+    {
+      "path": "packages/kernel/test/graph-index.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/graph-index.test.js",
+      "inputSha256": "7fb644c20c69b897c65063158046971e2781d3d954927082046bb292a988d7ee",
+      "mode": 420,
+      "bytes": 6125,
+      "sha256": "7fb644c20c69b897c65063158046971e2781d3d954927082046bb292a988d7ee"
+    },
+    {
+      "path": "packages/kernel/test/graph-package-roundtrip-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/graph-package-roundtrip-independent.test.js",
+      "inputSha256": "18f5af2d9f02f962e2b4f19ea03c8be5abf991ae0ca5a334895d58316f3b4416",
+      "mode": 420,
+      "bytes": 7653,
+      "sha256": "18f5af2d9f02f962e2b4f19ea03c8be5abf991ae0ca5a334895d58316f3b4416"
+    },
+    {
+      "path": "packages/kernel/test/graph-revision.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/graph-revision.test.js",
+      "inputSha256": "1ab653a797ade1c10a81cf19526c9776e180b21fd0b965e4a1f3344be7e5d99a",
+      "mode": 420,
+      "bytes": 3337,
+      "sha256": "1ab653a797ade1c10a81cf19526c9776e180b21fd0b965e4a1f3344be7e5d99a"
+    },
+    {
+      "path": "packages/kernel/test/graph-root-digest-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/graph-root-digest-independent.test.js",
+      "inputSha256": "b80b3d89617e8a5f025a023a3c9edc14f1a6537bf2b3009b463c0c5a82aa3528",
+      "mode": 420,
+      "bytes": 2378,
+      "sha256": "b80b3d89617e8a5f025a023a3c9edc14f1a6537bf2b3009b463c0c5a82aa3528"
+    },
+    {
+      "path": "packages/kernel/test/independent-vector-coverage.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/independent-vector-coverage.test.js",
+      "inputSha256": "5f2330903ae7f8b79e75757cd5eb424201247a036fdb00953833ea847131cc1d",
+      "mode": 420,
+      "bytes": 6606,
+      "sha256": "5f2330903ae7f8b79e75757cd5eb424201247a036fdb00953833ea847131cc1d"
+    },
+    {
+      "path": "packages/kernel/test/ledger-store-cli.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/ledger-store-cli.test.js",
+      "inputSha256": "c18a5534851f1ba9df63dc61c8a13698381dda61364c7c0162f116bedbb78ee3",
+      "mode": 420,
+      "bytes": 6310,
+      "sha256": "c18a5534851f1ba9df63dc61c8a13698381dda61364c7c0162f116bedbb78ee3"
+    },
+    {
+      "path": "packages/kernel/test/ledger-store.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/ledger-store.test.js",
+      "inputSha256": "f5dc513f6f6340e5c608097ff594dfe39994a444d9c392c70f450d82342ca9bb",
+      "mode": 420,
+      "bytes": 10072,
+      "sha256": "f5dc513f6f6340e5c608097ff594dfe39994a444d9c392c70f450d82342ca9bb"
+    },
+    {
+      "path": "packages/kernel/test/migrated-package-writer.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/migrated-package-writer.test.js",
+      "inputSha256": "d86f591276952e30b089ea4553216f32fe153104b17b491913819e8dfe56f368",
+      "mode": 420,
+      "bytes": 35111,
+      "sha256": "d86f591276952e30b089ea4553216f32fe153104b17b491913819e8dfe56f368"
+    },
+    {
+      "path": "packages/kernel/test/migration-apply.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/migration-apply.test.js",
+      "inputSha256": "ab021e6e690e1dd92d9166764d0d6ef4ff6cddd9e70547463390ea935ed659d2",
+      "mode": 420,
+      "bytes": 12568,
+      "sha256": "ab021e6e690e1dd92d9166764d0d6ef4ff6cddd9e70547463390ea935ed659d2"
+    },
+    {
+      "path": "packages/kernel/test/migration-digest-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/migration-digest-independent.test.js",
+      "inputSha256": "9b71ba18592d8ee7076a72628228664b0ce7808540d9cacc18f5b9720a80e934",
+      "mode": 420,
+      "bytes": 1834,
+      "sha256": "9b71ba18592d8ee7076a72628228664b0ce7808540d9cacc18f5b9720a80e934"
+    },
+    {
+      "path": "packages/kernel/test/migration-semantic-diff-digest.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/migration-semantic-diff-digest.test.js",
+      "inputSha256": "1b2c5fcaf3687f5dbb539f2417bfd3e088692f89179e675269424c3606023680",
+      "mode": 420,
+      "bytes": 1739,
+      "sha256": "1b2c5fcaf3687f5dbb539f2417bfd3e088692f89179e675269424c3606023680"
+    },
+    {
+      "path": "packages/kernel/test/migration.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/migration.test.js",
+      "inputSha256": "6cff1dc3b5cfd2ba858d6e80d01c18426502819d572e59597c61669877f9f641",
+      "mode": 420,
+      "bytes": 6287,
+      "sha256": "6cff1dc3b5cfd2ba858d6e80d01c18426502819d572e59597c61669877f9f641"
+    },
+    {
+      "path": "packages/kernel/test/offline-cli.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/offline-cli.test.js",
+      "inputSha256": "ae7a8c9b22b26115f21877a58ccf0b58a33bf7561855e3c93df1ae718e1181f6",
+      "mode": 420,
+      "bytes": 19209,
+      "sha256": "ae7a8c9b22b26115f21877a58ccf0b58a33bf7561855e3c93df1ae718e1181f6"
+    },
+    {
+      "path": "packages/kernel/test/package-reader.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/package-reader.test.js",
+      "inputSha256": "f392c20a1b9febdfaee2ae13f95c030c520caf747769ba103cf486cddca14e86",
+      "mode": 420,
+      "bytes": 32103,
+      "sha256": "f392c20a1b9febdfaee2ae13f95c030c520caf747769ba103cf486cddca14e86"
+    },
+    {
+      "path": "packages/kernel/test/package-writer.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/package-writer.test.js",
+      "inputSha256": "1bfd6d4f2faa41848809719bcd8e2328ca19a46e06a8131c30ee54ce31970126",
+      "mode": 420,
+      "bytes": 22476,
+      "sha256": "1bfd6d4f2faa41848809719bcd8e2328ca19a46e06a8131c30ee54ce31970126"
+    },
+    {
+      "path": "packages/kernel/test/proposal-review.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/proposal-review.test.js",
+      "inputSha256": "3fd8e1e2f18a77d01fbf92ecdbb6037a1c2476839eac662915e50349b6ffb4e5",
+      "mode": 420,
+      "bytes": 11417,
+      "sha256": "3fd8e1e2f18a77d01fbf92ecdbb6037a1c2476839eac662915e50349b6ffb4e5"
+    },
+    {
+      "path": "packages/kernel/test/relation-reference-types.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/relation-reference-types.test.js",
+      "inputSha256": "5b921df114d0947bf3641758a301b994f7f4fe42333aa61d1102e60863114d2e",
+      "mode": 420,
+      "bytes": 5159,
+      "sha256": "5b921df114d0947bf3641758a301b994f7f4fe42333aa61d1102e60863114d2e"
+    },
+    {
+      "path": "packages/kernel/test/report-digest-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/report-digest-independent.test.js",
+      "inputSha256": "4e57271a9d5028c237c71ba01e181116a09dd2037a9fcfb11f6b5985d51d4798",
+      "mode": 420,
+      "bytes": 4649,
+      "sha256": "4e57271a9d5028c237c71ba01e181116a09dd2037a9fcfb11f6b5985d51d4798"
+    },
+    {
+      "path": "packages/kernel/test/report.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/report.test.js",
+      "inputSha256": "ac6e75f5bc64b979a21a14a4013421be282c592b154fd365708fdbce3596e169",
+      "mode": 420,
+      "bytes": 34805,
+      "sha256": "ac6e75f5bc64b979a21a14a4013421be282c592b154fd365708fdbce3596e169"
+    },
+    {
+      "path": "packages/kernel/test/revision-id-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/revision-id-independent.test.js",
+      "inputSha256": "a8b01e2d1f40c5338244a26ffb4acc455204ad479e7ec45c6222be6b969e9c0a",
+      "mode": 420,
+      "bytes": 2533,
+      "sha256": "a8b01e2d1f40c5338244a26ffb4acc455204ad479e7ec45c6222be6b969e9c0a"
+    },
+    {
+      "path": "packages/kernel/test/schema-definition-digest-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/schema-definition-digest-independent.test.js",
+      "inputSha256": "096f8a2a019a7a53fd3c020ef30502d57a53ed3c53772a89233cbefaafb267d9",
+      "mode": 420,
+      "bytes": 2721,
+      "sha256": "096f8a2a019a7a53fd3c020ef30502d57a53ed3c53772a89233cbefaafb267d9"
+    },
+    {
+      "path": "packages/kernel/test/schema-definition.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/schema-definition.test.js",
+      "inputSha256": "948df0db6c395209ff7ee79a3046504eb5f595f66654168e501f987e236c0046",
+      "mode": 420,
+      "bytes": 7609,
+      "sha256": "948df0db6c395209ff7ee79a3046504eb5f595f66654168e501f987e236c0046"
+    },
+    {
+      "path": "packages/kernel/test/schema-lock-digest-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/schema-lock-digest-independent.test.js",
+      "inputSha256": "5880832dd87649b65e3395daaf3664db11847e1e341819f298146f861e13c2f8",
+      "mode": 420,
+      "bytes": 2687,
+      "sha256": "5880832dd87649b65e3395daaf3664db11847e1e341819f298146f861e13c2f8"
+    },
+    {
+      "path": "packages/kernel/test/schema-lock.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/schema-lock.test.js",
+      "inputSha256": "f556f6641da581d7fb16c7e31618f45eb366a640d8e2a2d4da523859f516f63f",
+      "mode": 420,
+      "bytes": 4600,
+      "sha256": "f556f6641da581d7fb16c7e31618f45eb366a640d8e2a2d4da523859f516f63f"
+    },
+    {
+      "path": "packages/kernel/test/semantic-diff.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/semantic-diff.test.js",
+      "inputSha256": "700fa4af4ec86a61ba22b14faa5111628b8549c1bbfe3e9919b54cc0fdb52cdc",
+      "mode": 420,
+      "bytes": 27275,
+      "sha256": "700fa4af4ec86a61ba22b14faa5111628b8549c1bbfe3e9919b54cc0fdb52cdc"
+    },
+    {
+      "path": "packages/kernel/test/trace-query.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/trace-query.test.js",
+      "inputSha256": "d73da9f4d725bd17bfaadebcab1aaf28e7c265ecac536874a893e014e0cb9a66",
+      "mode": 420,
+      "bytes": 28138,
+      "sha256": "d73da9f4d725bd17bfaadebcab1aaf28e7c265ecac536874a893e014e0cb9a66"
+    },
+    {
+      "path": "packages/kernel/test/validator.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/validator.test.js",
+      "inputSha256": "352723134b55cd8b5a91a61fa5bec572b3ec46fbd2fb7fed86f0a4407fe98a51",
+      "mode": 420,
+      "bytes": 38860,
+      "sha256": "352723134b55cd8b5a91a61fa5bec572b3ec46fbd2fb7fed86f0a4407fe98a51"
+    },
+    {
+      "path": "packages/kernel/test/yaml-authoring-profile.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/yaml-authoring-profile.test.js",
+      "inputSha256": "9ca6eba5134176cb7eae9738dca332cac284df5553bde6ebe97fcebf5ccf46fc",
+      "mode": 420,
+      "bytes": 20558,
+      "sha256": "9ca6eba5134176cb7eae9738dca332cac284df5553bde6ebe97fcebf5ccf46fc"
+    },
+    {
+      "path": "packages/kernel/test/yaml-authoring-roundtrip-independent.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/yaml-authoring-roundtrip-independent.test.js",
+      "inputSha256": "797fcda6596f6eab78ebcc010193f69af2648f1b6fe53257404acb2c81a5e79c",
+      "mode": 420,
+      "bytes": 2650,
+      "sha256": "797fcda6596f6eab78ebcc010193f69af2648f1b6fe53257404acb2c81a5e79c"
+    },
+    {
+      "path": "packages/kernel/test/yaml-writer.test.js",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/kernel/test/yaml-writer.test.js",
+      "inputSha256": "3de223434a43147c5c31d05d7338f86f928e92d964855906b41602cf1562d66f",
+      "mode": 420,
+      "bytes": 11899,
+      "sha256": "3de223434a43147c5c31d05d7338f86f928e92d964855906b41602cf1562d66f"
+    },
+    {
+      "path": "packages/portable-core/README.md",
+      "inputKind": "builder-template",
+      "sourcePath": "release/first-public/python-README.md",
+      "inputSha256": "8f69a7ab879772034b56a85ec7c6911cd6b4e7f8af032110082e03a6a9af7f21",
+      "mode": 420,
+      "bytes": 1468,
+      "sha256": "8f69a7ab879772034b56a85ec7c6911cd6b4e7f8af032110082e03a6a9af7f21"
+    },
+    {
+      "path": "packages/portable-core/approval_assessment.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/approval_assessment.py",
+      "inputSha256": "59b73eeab52cf8170f30aa62a68a8a4091de9f0db990c446ec39b8b9e248cdb9",
+      "mode": 420,
+      "bytes": 4743,
+      "sha256": "59b73eeab52cf8170f30aa62a68a8a4091de9f0db990c446ec39b8b9e248cdb9"
+    },
+    {
+      "path": "packages/portable-core/approval_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/approval_validation.py",
+      "inputSha256": "84f8bd3559be7eb13cdf3eaba5c0b9094fb8bbdd5a8273c0d2cdfd13e7cc675d",
+      "mode": 420,
+      "bytes": 2928,
+      "sha256": "84f8bd3559be7eb13cdf3eaba5c0b9094fb8bbdd5a8273c0d2cdfd13e7cc675d"
+    },
+    {
+      "path": "packages/portable-core/canonical.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/canonical.py",
+      "inputSha256": "161d1e5aaa8cfc423f1194315c9335b6c90d3f749f3f44eabd3bf48f690fcff4",
+      "mode": 420,
+      "bytes": 8570,
+      "sha256": "161d1e5aaa8cfc423f1194315c9335b6c90d3f749f3f44eabd3bf48f690fcff4"
+    },
+    {
+      "path": "packages/portable-core/changeset_apply.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/changeset_apply.py",
+      "inputSha256": "2127a465fb0010f1bec5f7214330bcd37cad7c8d01e67d12438b82f77d245e8d",
+      "mode": 420,
+      "bytes": 6623,
+      "sha256": "2127a465fb0010f1bec5f7214330bcd37cad7c8d01e67d12438b82f77d245e8d"
+    },
+    {
+      "path": "packages/portable-core/core-schema.yaml",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/core-schema.yaml",
+      "inputSha256": "58bd70834e9d93a821463af667883d78cb1124442109065b1a851348323a8f4e",
+      "mode": 420,
+      "bytes": 10722,
+      "sha256": "58bd70834e9d93a821463af667883d78cb1124442109065b1a851348323a8f4e"
+    },
+    {
+      "path": "packages/portable-core/external_comparison.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/external_comparison.py",
+      "inputSha256": "fc4d7cae922617d31c14ad824dd930f877d1715f44592a51bb0c7d28f32a93d5",
+      "mode": 420,
+      "bytes": 6310,
+      "sha256": "fc4d7cae922617d31c14ad824dd930f877d1715f44592a51bb0c7d28f32a93d5"
+    },
+    {
+      "path": "packages/portable-core/fixtures/portable-cli-vectors.json",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/fixtures/portable-cli-vectors.json",
+      "inputSha256": "24c885f346f4bc509a58be49172feb01a3da97ba7ebeff974777a76f03af2e2c",
+      "mode": 420,
+      "bytes": 288727,
+      "sha256": "24c885f346f4bc509a58be49172feb01a3da97ba7ebeff974777a76f03af2e2c"
+    },
+    {
+      "path": "packages/portable-core/graph_index.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/graph_index.py",
+      "inputSha256": "d077b025797c81e4ccc3f9f705f31a2696ed6ee2307b31f1ea5dd071ee6a489e",
+      "mode": 420,
+      "bytes": 3866,
+      "sha256": "d077b025797c81e4ccc3f9f705f31a2696ed6ee2307b31f1ea5dd071ee6a489e"
+    },
+    {
+      "path": "packages/portable-core/graph_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/graph_validation.py",
+      "inputSha256": "969d8c54bfc47d85357022c8066f338815329c7c7f6db8e5d6ef2dcd19b9123b",
+      "mode": 420,
+      "bytes": 15875,
+      "sha256": "969d8c54bfc47d85357022c8066f338815329c7c7f6db8e5d6ef2dcd19b9123b"
+    },
+    {
+      "path": "packages/portable-core/migration_apply.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/migration_apply.py",
+      "inputSha256": "e241c3baa433fe738b1091451bdf0b7c492a6ce14b5033e152549d386ecd3677",
+      "mode": 420,
+      "bytes": 3310,
+      "sha256": "e241c3baa433fe738b1091451bdf0b7c492a6ce14b5033e152549d386ecd3677"
+    },
+    {
+      "path": "packages/portable-core/migration_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/migration_validation.py",
+      "inputSha256": "e75ce413c611e0b2b555d4501e5883bfbb8193e32149873d0be88c018f4800b1",
+      "mode": 420,
+      "bytes": 2738,
+      "sha256": "e75ce413c611e0b2b555d4501e5883bfbb8193e32149873d0be88c018f4800b1"
+    },
+    {
+      "path": "packages/portable-core/package_history.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/package_history.py",
+      "inputSha256": "4513680d21495f0fb15e1bd80a23438028e2f52223d580562355154b3f3d3445",
+      "mode": 420,
+      "bytes": 5774,
+      "sha256": "4513680d21495f0fb15e1bd80a23438028e2f52223d580562355154b3f3d3445"
+    },
+    {
+      "path": "packages/portable-core/package_migration.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/package_migration.py",
+      "inputSha256": "263784739dffcca6c127833020add35e3197a8be0475965c1858189e22f4be5e",
+      "mode": 420,
+      "bytes": 10130,
+      "sha256": "263784739dffcca6c127833020add35e3197a8be0475965c1858189e22f4be5e"
+    },
+    {
+      "path": "packages/portable-core/package_records.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/package_records.py",
+      "inputSha256": "57a33d75dc889e499ced089bebe2bb6f7cecd95eeeae8cea4708ddc3454208e1",
+      "mode": 420,
+      "bytes": 14732,
+      "sha256": "57a33d75dc889e499ced089bebe2bb6f7cecd95eeeae8cea4708ddc3454208e1"
+    },
+    {
+      "path": "packages/portable-core/package_restore.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/package_restore.py",
+      "inputSha256": "e6c80313bc57a3c2734b6f9841813ecd33aa2f91757d5eb5ab530e1bb6f2d055",
+      "mode": 420,
+      "bytes": 8059,
+      "sha256": "e6c80313bc57a3c2734b6f9841813ecd33aa2f91757d5eb5ab530e1bb6f2d055"
+    },
+    {
+      "path": "packages/portable-core/package_trace.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/package_trace.py",
+      "inputSha256": "09fd16d783077ced7918b187a2803c62c5a1954ee6a8890d25d7ac6f3ca04a82",
+      "mode": 420,
+      "bytes": 2159,
+      "sha256": "09fd16d783077ced7918b187a2803c62c5a1954ee6a8890d25d7ac6f3ca04a82"
+    },
+    {
+      "path": "packages/portable-core/package_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/package_validation.py",
+      "inputSha256": "6209515e4d20b3f991aa26b63dabb844dbea449b26dc838f09c79d5b1045891c",
+      "mode": 420,
+      "bytes": 3642,
+      "sha256": "6209515e4d20b3f991aa26b63dabb844dbea449b26dc838f09c79d5b1045891c"
+    },
+    {
+      "path": "packages/portable-core/portable_cli.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/portable_cli.py",
+      "inputSha256": "1d6b7ee8baf5899337c9065ace9da10f9fd525f52c092cf541f3241938214e10",
+      "mode": 420,
+      "bytes": 4138,
+      "sha256": "1d6b7ee8baf5899337c9065ace9da10f9fd525f52c092cf541f3241938214e10"
+    },
+    {
+      "path": "packages/portable-core/record_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/record_validation.py",
+      "inputSha256": "4cf1bc2511c5c3838e5330d6ce5c80579181b06c5f3058c5336853100807eb54",
+      "mode": 420,
+      "bytes": 5327,
+      "sha256": "4cf1bc2511c5c3838e5330d6ce5c80579181b06c5f3058c5336853100807eb54"
+    },
+    {
+      "path": "packages/portable-core/report_records.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/report_records.py",
+      "inputSha256": "2284bd1e577f38d896d777a2f5999272b2d7bd1b6f56db0d5b4e6b6426f544d7",
+      "mode": 420,
+      "bytes": 1093,
+      "sha256": "2284bd1e577f38d896d777a2f5999272b2d7bd1b6f56db0d5b4e6b6426f544d7"
+    },
+    {
+      "path": "packages/portable-core/report_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/report_validation.py",
+      "inputSha256": "07e1a8798558d4b3731fb98140a74abd0c36ab249597bc775f62730bde89efb6",
+      "mode": 420,
+      "bytes": 14761,
+      "sha256": "07e1a8798558d4b3731fb98140a74abd0c36ab249597bc775f62730bde89efb6"
+    },
+    {
+      "path": "packages/portable-core/schema_registry.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/schema_registry.py",
+      "inputSha256": "58e54a2a9f81d3f2a15bc37f2150f8054b728bd5198ebbefc28b4607cb2e63c8",
+      "mode": 420,
+      "bytes": 2753,
+      "sha256": "58e54a2a9f81d3f2a15bc37f2150f8054b728bd5198ebbefc28b4607cb2e63c8"
+    },
+    {
+      "path": "packages/portable-core/schema_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/schema_validation.py",
+      "inputSha256": "36c6061fb3893cbd5e737571c78bd3be84dae1aa78edae820a26e950549f5d0d",
+      "mode": 420,
+      "bytes": 8267,
+      "sha256": "36c6061fb3893cbd5e737571c78bd3be84dae1aa78edae820a26e950549f5d0d"
+    },
+    {
+      "path": "packages/portable-core/semantic_diff.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/semantic_diff.py",
+      "inputSha256": "d82fd5a87a570e99f491e3360a41a5967f97847317ff940e0d587aab2b488357",
+      "mode": 420,
+      "bytes": 7528,
+      "sha256": "d82fd5a87a570e99f491e3360a41a5967f97847317ff940e0d587aab2b488357"
+    },
+    {
+      "path": "packages/portable-core/stdin_transport.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/stdin_transport.py",
+      "inputSha256": "fda381ac29c9aaec0be5239fbc27e1b70d84dc60dd65ff0bd60680899d3c36f7",
+      "mode": 420,
+      "bytes": 1926,
+      "sha256": "fda381ac29c9aaec0be5239fbc27e1b70d84dc60dd65ff0bd60680899d3c36f7"
+    },
+    {
+      "path": "packages/portable-core/test_approval_assessment.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_approval_assessment.py",
+      "inputSha256": "774a55459897ba4115550c593f2d023e9a283cf80a9cf1186b3e1bc01f884282",
+      "mode": 420,
+      "bytes": 10373,
+      "sha256": "774a55459897ba4115550c593f2d023e9a283cf80a9cf1186b3e1bc01f884282"
+    },
+    {
+      "path": "packages/portable-core/test_approval_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_approval_validation.py",
+      "inputSha256": "a4118d11f919cee5ce91a86a21a531e130754f263e12746e2019dc8c79410606",
+      "mode": 420,
+      "bytes": 4312,
+      "sha256": "a4118d11f919cee5ce91a86a21a531e130754f263e12746e2019dc8c79410606"
+    },
+    {
+      "path": "packages/portable-core/test_canonical.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_canonical.py",
+      "inputSha256": "0f2112f1e4c30f1157ca71b2c1c8313e79de742b269e679ba46b4cd014000a79",
+      "mode": 420,
+      "bytes": 5517,
+      "sha256": "0f2112f1e4c30f1157ca71b2c1c8313e79de742b269e679ba46b4cd014000a79"
+    },
+    {
+      "path": "packages/portable-core/test_changeset_apply.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_changeset_apply.py",
+      "inputSha256": "4ca76cbe010e2e7445bb091d0395014b100f9043af9d49946f052ed94c637d90",
+      "mode": 420,
+      "bytes": 13233,
+      "sha256": "4ca76cbe010e2e7445bb091d0395014b100f9043af9d49946f052ed94c637d90"
+    },
+    {
+      "path": "packages/portable-core/test_diff_report_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_diff_report_validation.py",
+      "inputSha256": "22ebd8f9c06414c60f2af337ef743212f61aa00a51e67b6757c77dfcbf6bc598",
+      "mode": 420,
+      "bytes": 5788,
+      "sha256": "22ebd8f9c06414c60f2af337ef743212f61aa00a51e67b6757c77dfcbf6bc598"
+    },
+    {
+      "path": "packages/portable-core/test_explicit_package_history.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_explicit_package_history.py",
+      "inputSha256": "252ac7d3d59f07eff1e8994acf455059c90adb2d4afbc3bc2448990749cbca7e",
+      "mode": 420,
+      "bytes": 11837,
+      "sha256": "252ac7d3d59f07eff1e8994acf455059c90adb2d4afbc3bc2448990749cbca7e"
+    },
+    {
+      "path": "packages/portable-core/test_external_comparison.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_external_comparison.py",
+      "inputSha256": "244bd261c421a63b8746204804d1478d922ba473bac0083fb9d11df26416d677",
+      "mode": 420,
+      "bytes": 7628,
+      "sha256": "244bd261c421a63b8746204804d1478d922ba473bac0083fb9d11df26416d677"
+    },
+    {
+      "path": "packages/portable-core/test_external_report_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_external_report_validation.py",
+      "inputSha256": "96af9812e9ac5d78cfeaeb832522c37db55b1d1bb144b2757c3026b534509734",
+      "mode": 420,
+      "bytes": 5098,
+      "sha256": "96af9812e9ac5d78cfeaeb832522c37db55b1d1bb144b2757c3026b534509734"
+    },
+    {
+      "path": "packages/portable-core/test_graph_index.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_graph_index.py",
+      "inputSha256": "a46ad6d36cc519513f7867bc07ba8a0e303c0c0534f08e455d077ae92cbe07c3",
+      "mode": 420,
+      "bytes": 7560,
+      "sha256": "a46ad6d36cc519513f7867bc07ba8a0e303c0c0534f08e455d077ae92cbe07c3"
+    },
+    {
+      "path": "packages/portable-core/test_graph_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_graph_validation.py",
+      "inputSha256": "3ed438c1e15d040b3c02838c1024c0bd4021a5035f3b4636dc5d90e492082a06",
+      "mode": 420,
+      "bytes": 8759,
+      "sha256": "3ed438c1e15d040b3c02838c1024c0bd4021a5035f3b4636dc5d90e492082a06"
+    },
+    {
+      "path": "packages/portable-core/test_migration_apply.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_migration_apply.py",
+      "inputSha256": "8b0d6a4291b6e6404d7de403a03c00619790a297e2137a05d3ff99f250388291",
+      "mode": 420,
+      "bytes": 11849,
+      "sha256": "8b0d6a4291b6e6404d7de403a03c00619790a297e2137a05d3ff99f250388291"
+    },
+    {
+      "path": "packages/portable-core/test_migration_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_migration_validation.py",
+      "inputSha256": "b44f186c10eed009503a87ab272ea15c9fff877e7e4a6f2a141cd3ce059d75b7",
+      "mode": 420,
+      "bytes": 4305,
+      "sha256": "b44f186c10eed009503a87ab272ea15c9fff877e7e4a6f2a141cd3ce059d75b7"
+    },
+    {
+      "path": "packages/portable-core/test_package_core_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_core_validation.py",
+      "inputSha256": "631c130c74d2a67ccd246d67cd747bf5a08256bc51a13ce26cd582287c411656",
+      "mode": 420,
+      "bytes": 9139,
+      "sha256": "631c130c74d2a67ccd246d67cd747bf5a08256bc51a13ce26cd582287c411656"
+    },
+    {
+      "path": "packages/portable-core/test_package_export.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_export.py",
+      "inputSha256": "659a81960ddee0c0c7e30b4441d04692509da10879ebf1c99730c09a0c7dc909",
+      "mode": 420,
+      "bytes": 5845,
+      "sha256": "659a81960ddee0c0c7e30b4441d04692509da10879ebf1c99730c09a0c7dc909"
+    },
+    {
+      "path": "packages/portable-core/test_package_history.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_history.py",
+      "inputSha256": "95e3df5a827cb9260296ee3a7d0885138cf103cbd4a216d6a8ac9b9e86894444",
+      "mode": 420,
+      "bytes": 8733,
+      "sha256": "95e3df5a827cb9260296ee3a7d0885138cf103cbd4a216d6a8ac9b9e86894444"
+    },
+    {
+      "path": "packages/portable-core/test_package_migration.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_migration.py",
+      "inputSha256": "be7f460a017c774af6e863a68632dea846aec8a455a4afad1170b60640fc9fac",
+      "mode": 420,
+      "bytes": 13777,
+      "sha256": "be7f460a017c774af6e863a68632dea846aec8a455a4afad1170b60640fc9fac"
+    },
+    {
+      "path": "packages/portable-core/test_package_records.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_records.py",
+      "inputSha256": "b310906f09dfef448cfc934b20a39173e819d754d2b2f6221a3be966d31cb766",
+      "mode": 420,
+      "bytes": 9687,
+      "sha256": "b310906f09dfef448cfc934b20a39173e819d754d2b2f6221a3be966d31cb766"
+    },
+    {
+      "path": "packages/portable-core/test_package_restore.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_restore.py",
+      "inputSha256": "dbf1c4caf7f213aa6f204058ca1e61633bb5446d57904e4fbbbba108f0ad9174",
+      "mode": 420,
+      "bytes": 10469,
+      "sha256": "dbf1c4caf7f213aa6f204058ca1e61633bb5446d57904e4fbbbba108f0ad9174"
+    },
+    {
+      "path": "packages/portable-core/test_package_trace.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_trace.py",
+      "inputSha256": "d9de209a73a2077cc92f0d5b94c657234fea98518fd54e2dea22e29d8c2aa379",
+      "mode": 420,
+      "bytes": 6483,
+      "sha256": "d9de209a73a2077cc92f0d5b94c657234fea98518fd54e2dea22e29d8c2aa379"
+    },
+    {
+      "path": "packages/portable-core/test_package_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_package_validation.py",
+      "inputSha256": "537554e57dfeff09ec8f55619c63ecac10b66443a68d32bb28b3775220cdf9a9",
+      "mode": 420,
+      "bytes": 11215,
+      "sha256": "537554e57dfeff09ec8f55619c63ecac10b66443a68d32bb28b3775220cdf9a9"
+    },
+    {
+      "path": "packages/portable-core/test_portable_cli.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_portable_cli.py",
+      "inputSha256": "e47e06f6d1ae1b5876b015aabefa29520b6d4928df40fdf08ec0bc5f5c3c4be4",
+      "mode": 420,
+      "bytes": 12150,
+      "sha256": "e47e06f6d1ae1b5876b015aabefa29520b6d4928df40fdf08ec0bc5f5c3c4be4"
+    },
+    {
+      "path": "packages/portable-core/test_record_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_record_validation.py",
+      "inputSha256": "98559a0aec990f08e763fb00eeefdc75062a664f644baf723da31e5e6bfba675",
+      "mode": 420,
+      "bytes": 4195,
+      "sha256": "98559a0aec990f08e763fb00eeefdc75062a664f644baf723da31e5e6bfba675"
+    },
+    {
+      "path": "packages/portable-core/test_report_records.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_report_records.py",
+      "inputSha256": "9f2ca6353c7b32336bd61e77402c95adf41cfc596ebfc4d11a64cf65ac8d006b",
+      "mode": 420,
+      "bytes": 6835,
+      "sha256": "9f2ca6353c7b32336bd61e77402c95adf41cfc596ebfc4d11a64cf65ac8d006b"
+    },
+    {
+      "path": "packages/portable-core/test_report_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_report_validation.py",
+      "inputSha256": "54f0d48ea2366deff5a9ff8c712de5848891737b8d30b66f399b751976467560",
+      "mode": 420,
+      "bytes": 4679,
+      "sha256": "54f0d48ea2366deff5a9ff8c712de5848891737b8d30b66f399b751976467560"
+    },
+    {
+      "path": "packages/portable-core/test_schema_registry.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_schema_registry.py",
+      "inputSha256": "0cdbb63296a65cddec6b4c063891caa607b982ba893cd0b65f76daf74317fc7f",
+      "mode": 420,
+      "bytes": 3938,
+      "sha256": "0cdbb63296a65cddec6b4c063891caa607b982ba893cd0b65f76daf74317fc7f"
+    },
+    {
+      "path": "packages/portable-core/test_schema_validation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_schema_validation.py",
+      "inputSha256": "6cbcdcbfd8de1855809b6ba8c90a31a01a9c81eb24b7e255b29ea943a561135e",
+      "mode": 420,
+      "bytes": 7109,
+      "sha256": "6cbcdcbfd8de1855809b6ba8c90a31a01a9c81eb24b7e255b29ea943a561135e"
+    },
+    {
+      "path": "packages/portable-core/test_semantic_diff_generation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_semantic_diff_generation.py",
+      "inputSha256": "f7b8e56e8cb595a4f4d633d02b8919ad5c6f9984814cecda360255d57da141e5",
+      "mode": 420,
+      "bytes": 15972,
+      "sha256": "f7b8e56e8cb595a4f4d633d02b8919ad5c6f9984814cecda360255d57da141e5"
+    },
+    {
+      "path": "packages/portable-core/test_stdin_transport.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_stdin_transport.py",
+      "inputSha256": "b9ccfe4e8a624da925cf050f9f901eb54373deaaecdb75fb2fed855650a73e7b",
+      "mode": 420,
+      "bytes": 4690,
+      "sha256": "b9ccfe4e8a624da925cf050f9f901eb54373deaaecdb75fb2fed855650a73e7b"
+    },
+    {
+      "path": "packages/portable-core/test_trace_query.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_trace_query.py",
+      "inputSha256": "5fe0e9c29178cb1a49f089b01463e5b818fc1f2022b6139a31dcf0d829cf1c96",
+      "mode": 420,
+      "bytes": 10601,
+      "sha256": "5fe0e9c29178cb1a49f089b01463e5b818fc1f2022b6139a31dcf0d829cf1c96"
+    },
+    {
+      "path": "packages/portable-core/test_yaml_authoring.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_yaml_authoring.py",
+      "inputSha256": "d5afa686b6b19563eb0455db8243eafe651841bea77fd6a7b1aacab660f8d440",
+      "mode": 420,
+      "bytes": 11824,
+      "sha256": "d5afa686b6b19563eb0455db8243eafe651841bea77fd6a7b1aacab660f8d440"
+    },
+    {
+      "path": "packages/portable-core/test_yaml_multiline.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_yaml_multiline.py",
+      "inputSha256": "643bb591d37ee6abdd5cba4b4fdc2c8fff23899cf0b26a82878e71b58bbd1888",
+      "mode": 420,
+      "bytes": 8232,
+      "sha256": "643bb591d37ee6abdd5cba4b4fdc2c8fff23899cf0b26a82878e71b58bbd1888"
+    },
+    {
+      "path": "packages/portable-core/test_yaml_records.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_yaml_records.py",
+      "inputSha256": "a3eabedb36939eba7a7fe1eb473ea377501d8b344f4a929b7153c2afe9d35020",
+      "mode": 420,
+      "bytes": 5568,
+      "sha256": "a3eabedb36939eba7a7fe1eb473ea377501d8b344f4a929b7153c2afe9d35020"
+    },
+    {
+      "path": "packages/portable-core/test_yaml_root_indentation.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_yaml_root_indentation.py",
+      "inputSha256": "3bfc7fa196cca384033933a5bb9ee50290dd20ac07106879212fb47bee1c9c40",
+      "mode": 420,
+      "bytes": 6719,
+      "sha256": "3bfc7fa196cca384033933a5bb9ee50290dd20ac07106879212fb47bee1c9c40"
+    },
+    {
+      "path": "packages/portable-core/test_yaml_sequences_unicode.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/test_yaml_sequences_unicode.py",
+      "inputSha256": "0615dc958a8ed7c90b02228520337445d028e4b3afedf445cd821dcc0ef23074",
+      "mode": 420,
+      "bytes": 7559,
+      "sha256": "0615dc958a8ed7c90b02228520337445d028e4b3afedf445cd821dcc0ef23074"
+    },
+    {
+      "path": "packages/portable-core/trace_query.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/trace_query.py",
+      "inputSha256": "21d3f8ed1cfa7a138e204ee070b1a66648016567c6d2307f32f2b5d5b988a602",
+      "mode": 420,
+      "bytes": 7292,
+      "sha256": "21d3f8ed1cfa7a138e204ee070b1a66648016567c6d2307f32f2b5d5b988a602"
+    },
+    {
+      "path": "packages/portable-core/yaml_authoring.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/yaml_authoring.py",
+      "inputSha256": "68cc972b0756790a7b5a1282d67a9b677d1fbd324846fba7fa2ee209700166e8",
+      "mode": 420,
+      "bytes": 7468,
+      "sha256": "68cc972b0756790a7b5a1282d67a9b677d1fbd324846fba7fa2ee209700166e8"
+    },
+    {
+      "path": "packages/portable-core/yaml_records.py",
+      "inputKind": "git-blob",
+      "sourcePath": "packages/portable-core/yaml_records.py",
+      "inputSha256": "66d91f886ce6431b489919eb45d8ef97d05300ed8325c1643fd399726c18c90a",
+      "mode": 420,
+      "bytes": 16396,
+      "sha256": "66d91f886ce6431b489919eb45d8ef97d05300ed8325c1643fd399726c18c90a"
+    },
+    {
+      "path": "third_party/yaml/LICENSE",
+      "inputKind": "verified-upstream-license",
+      "sourcePath": "release/first-public/yaml-2.9.1-LICENSE.txt",
+      "inputSha256": "5bba27375d93e9119f76c1015f7672cf9ad5f70952296e0842fb2243d6376869",
+      "mode": 420,
+      "bytes": 738,
+      "sha256": "5bba27375d93e9119f76c1015f7672cf9ad5f70952296e0842fb2243d6376869"
+    },
+    {
+      "path": "tools/check-portable-vectors.py",
+      "inputKind": "git-blob",
+      "sourcePath": "tools/check-portable-vectors.py",
+      "inputSha256": "c23a62720039be74971c2e62e40dc139d5d3991656ab5c60e76688458524c3a4",
+      "mode": 420,
+      "bytes": 4706,
+      "sha256": "c23a62720039be74971c2e62e40dc139d5d3991656ab5c60e76688458524c3a4"
+    }
+  ]
+}

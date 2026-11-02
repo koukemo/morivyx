@@ -1,0 +1,12 @@
+{
+  "format": "morivyx.plugin-run-request/0.1",
+  "runId": "run:openapi-fixture",
+  "plugin": { "id": "morivyx.openapi-importer.dev", "version": "0.1.0" },
+  "capability": { "id": "openapi.inspect-operation", "effect": "pure" },
+  "input": {
+    "externalId": "openapi:fixture",
+    "documentText": "{\"openapi\":\"3.1.2\",\"info\":{\"title\":\"Fixture inventory\",\"version\":\"1.0.0\"},\"servers\":[{\"url\":\"https://invalid.example.test\"}],\"paths\":{\"/widgets/{id}\":{\"get\":{\"operationId\":\"readWidget\",\"description\":\"PRIVATE_SOURCE_DESCRIPTION\",\"responses\":{\"200\":{\"description\":\"Widget\",\"content\":{\"application/json\":{\"schema\":{\"$ref\":\"https://invalid.example.test/schema.json\"}}}}}}}},\"components\":{\"securitySchemes\":{\"fixture\":{\"type\":\"apiKey\",\"in\":\"header\",\"name\":\"PRIVATE_HEADER_NAME\"}}}}\n",
+    "path": "/widgets/{id}",
+    "method": "get"
+  }
+}

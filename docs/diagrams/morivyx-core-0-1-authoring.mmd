@@ -1,0 +1,17 @@
+%%{init: {"flowchart": {"wrappingWidth": 340}}}%%
+flowchart TB
+    subgraph teigi["この文書が定める保存形式との整合"]
+        direction TB
+        komoku["共通項目の項目名<br/>型 ID は type、kind は entity と relation"]
+        junjo["authoringOrder（項目を書く順序）<br/>根と attributes と provenance の項目順"]
+    end
+
+    yaml["保存形式の YAML<br/>一ファイルに一要素を記録"]
+    ronri["論理値<br/>表記差を除いた内容"]
+    canon["canonical form と Revision ID<br/>内容同一性の計算（ADR-0007）"]
+    kensa["Validator（順番に検査する機能）<br/>この文書の規則で判定"]
+
+    teigi -->|"項目名と順序を定める"| yaml
+    yaml -->|"読み取る"| ronri
+    ronri -->|"内容を固定する"| canon
+    ronri -->|"規則と照合する"| kensa

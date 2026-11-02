@@ -1,0 +1,385 @@
+{
+  "inputRoot": "package-v1-roundtrip/.morivyx",
+  "inputFiles": [
+    "schema.lock.yaml",
+    "revision.yaml",
+    "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml",
+    "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml",
+    "approvals/550e8400-e29b-41d4-a716-446655440003.yaml",
+    "ledger/550e8400-e29b-41d4-a716-446655440005.yaml",
+    "ledger/550e8400-e29b-41d4-a716-446655440012.yaml",
+    "migrations/550e8400-e29b-41d4-a716-446655440014.yaml",
+    "reports/550e8400-e29b-41d4-a716-446655440015.yaml"
+  ],
+  "expectedOutputFiles": {
+    "schema.lock.yaml": "package-v1-roundtrip/.morivyx/schema.lock.yaml",
+    "revision.yaml": "package-v1-roundtrip/.morivyx/revision.yaml",
+    "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "yaml-authoring-roundtrip-expected.yaml",
+    "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml",
+    "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "package-v1-roundtrip/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml",
+    "ledger/550e8400-e29b-41d4-a716-446655440005.yaml": "package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440005.yaml",
+    "ledger/550e8400-e29b-41d4-a716-446655440012.yaml": "package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440012.yaml",
+    "migrations/550e8400-e29b-41d4-a716-446655440014.yaml": "package-v1-roundtrip/.morivyx/migrations/550e8400-e29b-41d4-a716-446655440014.yaml",
+    "reports/550e8400-e29b-41d4-a716-446655440015.yaml": "package-v1-roundtrip/.morivyx/reports/550e8400-e29b-41d4-a716-446655440015.yaml"
+  },
+  "inputLogicalValue": {
+    "schemaLock": {
+      "format": "morivyx.schema-lock/0.1",
+      "stableIdScheme": "urn-uuid-v4",
+      "digestAlgorithm": "sha256",
+      "schemas": [
+        {
+          "schemaId": "morivyx.core",
+          "version": "0.1",
+          "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+        }
+      ]
+    },
+    "revision": {
+      "format": "morivyx.graph-revision/0.1",
+      "id": "graph:stage-1-package-v1",
+      "parentRevision": null,
+      "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+      "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+    },
+    "elements": [
+      {
+        "format": "morivyx.git-graph/0.1",
+        "kind": "entity",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "type": "core.observation",
+        "typeVersion": "0.1",
+        "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+        "lifecycle": "draft",
+        "reviewState": "unreviewed",
+        "attributes": {
+          "observedAt": "2026-07-28T10:12:14+09:00",
+          "recordedAt": "2026-07-28T10:15:00+09:00",
+          "stringValues": ["true", "01", "null"]
+        },
+        "provenance": {
+          "method": "observed",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-28T10:15:00+09:00"
+        },
+        "extensions": {
+          "example.test/unknown": {
+            "ordered": ["A", "B"],
+            "value": "é"
+          }
+        }
+      },
+      {
+        "format": "morivyx.git-graph/0.1",
+        "kind": "entity",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+        "type": "core.observation",
+        "typeVersion": "0.1",
+        "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+        "lifecycle": "draft",
+        "reviewState": "unreviewed",
+        "attributes": {
+          "observedAt": "2026-07-29T02:00:00Z",
+          "recordedAt": "2026-07-29T02:05:00Z",
+          "stringValues": ["second"]
+        },
+        "provenance": {
+          "method": "observed",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-29T02:05:00Z"
+        }
+      }
+    ],
+    "approvals": [
+      {
+        "format": "morivyx.approval/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+        "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+        "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "targetRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+        "operation": "activate",
+        "scope": "single-revision",
+        "approvedAt": "2026-07-30T03:00:00Z",
+        "recordedAt": "2026-07-30T03:01:00Z"
+      }
+    ],
+    "changeSets": [
+      {
+        "format": "morivyx.changeset/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440005",
+        "baseRevision": "graph:stage-1-package-v1",
+        "resultingRevision": "graph:stage-1-package-v2",
+        "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "operations": [
+          {
+            "op": "revise",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+          },
+          {
+            "op": "create",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+            "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+          }
+        ],
+        "provenance": {
+          "method": "generated",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-31T05:00:00Z"
+        },
+        "recordedAt": "2026-07-31T05:00:00Z"
+      },
+      {
+        "format": "morivyx.changeset/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+        "baseRevision": "graph:stage-1-package-v1",
+        "resultingRevision": "graph:stage-1-migration-v1",
+        "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+        "schemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+        "operations": [
+          {
+            "op": "revise",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+          },
+          {
+            "op": "create",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+            "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+          }
+        ],
+        "provenance": {
+          "method": "generated",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-08-03T00:00:00Z"
+        },
+        "recordedAt": "2026-08-03T00:00:00Z"
+      }
+    ],
+    "migrations": [
+      {
+        "format": "morivyx.migration/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440014",
+        "baseRevision": "graph:stage-1-package-v1",
+        "sourceSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "targetSchemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+        "rulesDigest": "sha256:8800ac85f305b58f6863ea94ad51113e8abd7a1ffeebbe4956d98492bb758854",
+        "mappingDigest": "sha256:7b948be1c612ec87bd6ec317af7c2c38896fe0b447d8ada0a041f8db85863f5a",
+        "plannedSemanticDiffDigest": "sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090",
+        "changeSetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+        "resultingRevision": "graph:stage-1-migration-v1",
+        "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+        "provenance": {
+          "method": "generated",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-08-03T00:00:00Z"
+        },
+        "recordedAt": "2026-08-03T00:00:00Z"
+      }
+    ],
+    "reports": [
+      {
+        "valid": true,
+        "type": "trace-report",
+        "digest": "sha256:a3b31f52a7de2b6042f95c3b8f0e439105cab5a8be1a895cc2b7cca32a78462f",
+        "report": {
+          "format": "morivyx.trace-report/0.1",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440015",
+          "queryId": "governing-decision",
+          "graphRevision": "graph:stage-1-package-v1",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+          "focusId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+          "evaluatedAt": "2026-08-04T00:00:00Z",
+          "status": "partial",
+          "paths": [],
+          "missing": [
+            "governs"
+          ]
+        }
+      }
+    ]
+  },
+  "outputLogicalValue": {
+    "schemaLock": {
+      "format": "morivyx.schema-lock/0.1",
+      "stableIdScheme": "urn-uuid-v4",
+      "digestAlgorithm": "sha256",
+      "schemas": [
+        {
+          "schemaId": "morivyx.core",
+          "version": "0.1",
+          "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+        }
+      ]
+    },
+    "revision": {
+      "format": "morivyx.graph-revision/0.1",
+      "id": "graph:stage-1-package-v1",
+      "parentRevision": null,
+      "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+      "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+    },
+    "elements": [
+      {
+        "format": "morivyx.git-graph/0.1",
+        "kind": "entity",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "type": "core.observation",
+        "typeVersion": "0.1",
+        "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+        "lifecycle": "draft",
+        "reviewState": "unreviewed",
+        "attributes": {
+          "observedAt": "2026-07-28T01:12:14Z",
+          "recordedAt": "2026-07-28T01:15:00Z",
+          "stringValues": ["true", "01", "null"]
+        },
+        "provenance": {
+          "method": "observed",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-28T01:15:00Z"
+        },
+        "extensions": {
+          "example.test/unknown": {
+            "ordered": ["A", "B"],
+            "value": "é"
+          }
+        }
+      },
+      {
+        "format": "morivyx.git-graph/0.1",
+        "kind": "entity",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+        "type": "core.observation",
+        "typeVersion": "0.1",
+        "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+        "lifecycle": "draft",
+        "reviewState": "unreviewed",
+        "attributes": {
+          "observedAt": "2026-07-29T02:00:00Z",
+          "recordedAt": "2026-07-29T02:05:00Z",
+          "stringValues": ["second"]
+        },
+        "provenance": {
+          "method": "observed",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-29T02:05:00Z"
+        }
+      }
+    ],
+    "approvals": [
+      {
+        "format": "morivyx.approval/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+        "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+        "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+        "targetRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+        "operation": "activate",
+        "scope": "single-revision",
+        "approvedAt": "2026-07-30T03:00:00Z",
+        "recordedAt": "2026-07-30T03:01:00Z"
+      }
+    ],
+    "changeSets": [
+      {
+        "format": "morivyx.changeset/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440005",
+        "baseRevision": "graph:stage-1-package-v1",
+        "resultingRevision": "graph:stage-1-package-v2",
+        "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "operations": [
+          {
+            "op": "revise",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+          },
+          {
+            "op": "create",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+            "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+          }
+        ],
+        "provenance": {
+          "method": "generated",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-07-31T05:00:00Z"
+        },
+        "recordedAt": "2026-07-31T05:00:00Z"
+      },
+      {
+        "format": "morivyx.changeset/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+        "baseRevision": "graph:stage-1-package-v1",
+        "resultingRevision": "graph:stage-1-migration-v1",
+        "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+        "schemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+        "operations": [
+          {
+            "op": "revise",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+          },
+          {
+            "op": "create",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+            "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+          }
+        ],
+        "provenance": {
+          "method": "generated",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-08-03T00:00:00Z"
+        },
+        "recordedAt": "2026-08-03T00:00:00Z"
+      }
+    ],
+    "migrations": [
+      {
+        "format": "morivyx.migration/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440014",
+        "baseRevision": "graph:stage-1-package-v1",
+        "sourceSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "targetSchemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+        "rulesDigest": "sha256:8800ac85f305b58f6863ea94ad51113e8abd7a1ffeebbe4956d98492bb758854",
+        "mappingDigest": "sha256:7b948be1c612ec87bd6ec317af7c2c38896fe0b447d8ada0a041f8db85863f5a",
+        "plannedSemanticDiffDigest": "sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090",
+        "changeSetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+        "resultingRevision": "graph:stage-1-migration-v1",
+        "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+        "provenance": {
+          "method": "generated",
+          "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+          "recordedAt": "2026-08-03T00:00:00Z"
+        },
+        "recordedAt": "2026-08-03T00:00:00Z"
+      }
+    ],
+    "reports": [
+      {
+        "valid": true,
+        "type": "trace-report",
+        "digest": "sha256:a3b31f52a7de2b6042f95c3b8f0e439105cab5a8be1a895cc2b7cca32a78462f",
+        "report": {
+          "format": "morivyx.trace-report/0.1",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440015",
+          "queryId": "governing-decision",
+          "graphRevision": "graph:stage-1-package-v1",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+          "focusId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+          "evaluatedAt": "2026-08-04T00:00:00Z",
+          "status": "partial",
+          "paths": [],
+          "missing": [
+            "governs"
+          ]
+        }
+      }
+    ]
+  }
+}

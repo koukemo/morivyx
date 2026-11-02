@@ -1,0 +1,11 @@
+{
+  "format": "morivyx.import-availability/0.1",
+  "artifactId": "urn:uuid:00000000-0000-4000-8000-000000000801",
+  "observationId": "urn:uuid:00000000-0000-4000-8000-000000000811",
+  "relationId": "urn:uuid:00000000-0000-4000-8000-000000000812",
+  "changeSetId": "urn:uuid:00000000-0000-4000-8000-000000000813",
+  "actor": "urn:uuid:00000000-0000-4000-8000-000000000900",
+  "resultingRevision": "graph:availability-recorded",
+  "observedAt": "2026-09-08T17:00:00Z",
+  "recordedAt": "2026-09-08T17:00:01Z"
+}

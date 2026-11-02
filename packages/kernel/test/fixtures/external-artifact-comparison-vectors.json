@@ -1,0 +1,555 @@
+{
+  "name": "external Artifact comparison",
+  "cases": [
+    {
+      "name": "current",
+      "reportId": "urn:uuid:550e8400-e29b-41d4-a716-000000000099",
+      "input": {
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "type": "core.artifact",
+          "typeVersion": "0.1",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "artifactKind": "document",
+            "uri": "https://example.test/document",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "externalVersion": "v1"
+          },
+          "provenance": {
+            "method": "imported",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "retrievedAt": "2026-09-01T00:00:00Z",
+            "recordedAt": "2026-09-01T00:01:00Z",
+            "digestRule": "raw-bytes@1"
+          }
+        },
+        "externalSource": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "type": "core.external-source",
+          "typeVersion": "0.1",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "system": "example",
+            "externalId": "document-1"
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "recordedAt": "2026-09-01T00:00:00Z"
+          }
+        },
+        "relations": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "relation",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+            "type": "core.derived_from",
+            "typeVersion": "0.1",
+            "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c",
+            "lifecycle": "active",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "source": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+              "predicate": "derived_from",
+              "target": "urn:uuid:550e8400-e29b-41d4-a716-000000000003"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+              "recordedAt": "2026-09-01T00:00:00Z"
+            }
+          }
+        ],
+        "retrieval": {
+          "status": "resolved",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "digestRule": "raw-bytes@1",
+          "externalVersion": "v1"
+        },
+        "supportedDigestRules": [
+          "raw-bytes@1"
+        ]
+      },
+      "expectedDigest": "sha256:8b1ae1f2bf3e0e719e645e744a28ff1bb44b5a30fd23f8174eead25808b674f8",
+      "expected": {
+        "format": "morivyx.external-artifact-report/0.1",
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active"
+        },
+        "externalSource": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb"
+        },
+        "relation": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+          "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c"
+        },
+        "retrieval": {
+          "status": "resolved",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "digestRule": "raw-bytes@1",
+          "externalVersion": "v1"
+        },
+        "comparedAt": "2026-09-01T01:00:00Z",
+        "status": "current",
+        "issues": []
+      }
+    },
+    {
+      "name": "stale-version-and-digest",
+      "input": {
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "type": "core.artifact",
+          "typeVersion": "0.1",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "artifactKind": "document",
+            "uri": "https://example.test/document",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "externalVersion": "v1"
+          },
+          "provenance": {
+            "method": "imported",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "retrievedAt": "2026-09-01T00:00:00Z",
+            "recordedAt": "2026-09-01T00:01:00Z",
+            "digestRule": "raw-bytes@1"
+          }
+        },
+        "externalSource": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "type": "core.external-source",
+          "typeVersion": "0.1",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "system": "example",
+            "externalId": "document-1"
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "recordedAt": "2026-09-01T00:00:00Z"
+          }
+        },
+        "relations": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "relation",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+            "type": "core.derived_from",
+            "typeVersion": "0.1",
+            "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c",
+            "lifecycle": "active",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "source": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+              "predicate": "derived_from",
+              "target": "urn:uuid:550e8400-e29b-41d4-a716-000000000003"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+              "recordedAt": "2026-09-01T00:00:00Z"
+            }
+          }
+        ],
+        "retrieval": {
+          "status": "resolved",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "digestRule": "raw-bytes@1",
+          "externalVersion": "v2"
+        },
+        "supportedDigestRules": [
+          "raw-bytes@1"
+        ]
+      },
+      "expectedDigest": "sha256:7b1500d4a025b84929a706f9ea03f344b3339396e760d564da6e8680686d0cc0",
+      "expected": {
+        "format": "morivyx.external-artifact-report/0.1",
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active"
+        },
+        "externalSource": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb"
+        },
+        "relation": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+          "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c"
+        },
+        "retrieval": {
+          "status": "resolved",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "digestRule": "raw-bytes@1",
+          "externalVersion": "v2"
+        },
+        "comparedAt": "2026-09-01T01:00:00Z",
+        "status": "stale",
+        "issues": [
+          {
+            "code": "EXTERNAL_VERSION_CHANGED"
+          },
+          {
+            "code": "EXTERNAL_DIGEST_CHANGED"
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing",
+      "input": {
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "type": "core.artifact",
+          "typeVersion": "0.1",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "artifactKind": "document",
+            "uri": "https://example.test/document",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "externalVersion": "v1"
+          },
+          "provenance": {
+            "method": "imported",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "retrievedAt": "2026-09-01T00:00:00Z",
+            "recordedAt": "2026-09-01T00:01:00Z",
+            "digestRule": "raw-bytes@1"
+          }
+        },
+        "externalSource": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "type": "core.external-source",
+          "typeVersion": "0.1",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "system": "example",
+            "externalId": "document-1"
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "recordedAt": "2026-09-01T00:00:00Z"
+          }
+        },
+        "relations": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "relation",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+            "type": "core.derived_from",
+            "typeVersion": "0.1",
+            "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c",
+            "lifecycle": "active",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "source": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+              "predicate": "derived_from",
+              "target": "urn:uuid:550e8400-e29b-41d4-a716-000000000003"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+              "recordedAt": "2026-09-01T00:00:00Z"
+            }
+          }
+        ],
+        "retrieval": {
+          "status": "missing",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "method": "provider-not-found"
+        },
+        "supportedDigestRules": [
+          "raw-bytes@1"
+        ]
+      },
+      "expectedDigest": "sha256:f14363b0db8f205e67ddb0642b022de6e58e61286ba77735085f14d419551c35",
+      "expected": {
+        "format": "morivyx.external-artifact-report/0.1",
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active"
+        },
+        "externalSource": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb"
+        },
+        "relation": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+          "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c"
+        },
+        "retrieval": {
+          "status": "missing",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "method": "provider-not-found"
+        },
+        "comparedAt": "2026-09-01T01:00:00Z",
+        "status": "missing",
+        "issues": [
+          {
+            "code": "EXTERNAL_TARGET_MISSING"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unavailable",
+      "input": {
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "type": "core.artifact",
+          "typeVersion": "0.1",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "artifactKind": "document",
+            "uri": "https://example.test/document",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "externalVersion": "v1"
+          },
+          "provenance": {
+            "method": "imported",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "retrievedAt": "2026-09-01T00:00:00Z",
+            "recordedAt": "2026-09-01T00:01:00Z",
+            "digestRule": "raw-bytes@1"
+          }
+        },
+        "externalSource": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "type": "core.external-source",
+          "typeVersion": "0.1",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "system": "example",
+            "externalId": "document-1"
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "recordedAt": "2026-09-01T00:00:00Z"
+          }
+        },
+        "relations": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "relation",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+            "type": "core.derived_from",
+            "typeVersion": "0.1",
+            "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c",
+            "lifecycle": "active",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "source": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+              "predicate": "derived_from",
+              "target": "urn:uuid:550e8400-e29b-41d4-a716-000000000003"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+              "recordedAt": "2026-09-01T00:00:00Z"
+            }
+          }
+        ],
+        "retrieval": {
+          "status": "unavailable",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "reason": "temporary-network-failure"
+        },
+        "supportedDigestRules": [
+          "raw-bytes@1"
+        ]
+      },
+      "expectedDigest": "sha256:38c3d63011661d43f2fdd8e7610d1d19788bc4aa1d013b4aad0501cae0c9d11f",
+      "expected": {
+        "format": "morivyx.external-artifact-report/0.1",
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active"
+        },
+        "externalSource": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb"
+        },
+        "relation": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+          "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c"
+        },
+        "retrieval": {
+          "status": "unavailable",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "reason": "temporary-network-failure"
+        },
+        "comparedAt": "2026-09-01T01:00:00Z",
+        "status": "unavailable",
+        "issues": [
+          {
+            "code": "EXTERNAL_SOURCE_UNAVAILABLE"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid-unsupported-digest-rule",
+      "input": {
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "type": "core.artifact",
+          "typeVersion": "0.1",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "artifactKind": "document",
+            "uri": "https://example.test/document",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "externalVersion": "v1"
+          },
+          "provenance": {
+            "method": "imported",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "retrievedAt": "2026-09-01T00:00:00Z",
+            "recordedAt": "2026-09-01T00:01:00Z",
+            "digestRule": "raw-bytes@1"
+          }
+        },
+        "externalSource": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "type": "core.external-source",
+          "typeVersion": "0.1",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb",
+          "lifecycle": "active",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "system": "example",
+            "externalId": "document-1"
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+            "recordedAt": "2026-09-01T00:00:00Z"
+          }
+        },
+        "relations": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "relation",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+            "type": "core.derived_from",
+            "typeVersion": "0.1",
+            "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c",
+            "lifecycle": "active",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "source": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+              "predicate": "derived_from",
+              "target": "urn:uuid:550e8400-e29b-41d4-a716-000000000003"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-000000000001",
+              "recordedAt": "2026-09-01T00:00:00Z"
+            }
+          }
+        ],
+        "retrieval": {
+          "status": "resolved",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "digestRule": "raw-bytes@1",
+          "externalVersion": "v1"
+        },
+        "supportedDigestRules": []
+      },
+      "expectedDigest": "sha256:36376edc183b544c9c6335ec5287170d89f7abbed5b291b539e22a72970057fd",
+      "expected": {
+        "format": "morivyx.external-artifact-report/0.1",
+        "graphRevision": "graph:external-comparison-v1",
+        "artifact": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000002",
+          "revision": "sha256:049a15802625cee536acc3b8ef1a97db746d93d6484057bdb0925f2b1ef5d44d",
+          "lifecycle": "active"
+        },
+        "externalSource": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000003",
+          "revision": "sha256:5f627b660faa158369c96fca0a7f6c277815be52ef149815610edf75f334cdcb"
+        },
+        "relation": {
+          "id": "urn:uuid:550e8400-e29b-41d4-a716-000000000004",
+          "revision": "sha256:3b455b2627af454ef64153b158520264a8f1f2cd65d981f95e3108c2e0e56e1c"
+        },
+        "retrieval": {
+          "status": "resolved",
+          "comparedAt": "2026-09-01T01:00:00Z",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "digestRule": "raw-bytes@1",
+          "externalVersion": "v1"
+        },
+        "comparedAt": "2026-09-01T01:00:00Z",
+        "status": "invalid",
+        "issues": [
+          {
+            "code": "EXTERNAL_DIGEST_RULE_UNSUPPORTED"
+          }
+        ]
+      }
+    }
+  ]
+}

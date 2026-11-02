@@ -1,0 +1,21 @@
+{
+  "format": "morivyx.plugin-run-result/0.1",
+  "runId": "run:repository-fixture",
+  "plugin": {
+    "id": "morivyx.repository-importer.dev",
+    "version": "0.1.0"
+  },
+  "capabilityId": "repository.read-file",
+  "status": "success",
+  "output": {
+    "kind": "repository-file-snapshot",
+    "externalIdentity": {
+      "system": "repository",
+      "externalId": "repository:fixture"
+    },
+    "locator": "source.txt",
+    "digest": "sha256:41719047f9824d28ef29e87214bbeb2c25e31dcd2a8c9ff3a28fda3ca4cd1353",
+    "digestRule": "sha256-bytes",
+    "retrievedAt": "2026-09-05T01:00:00Z"
+  }
+}

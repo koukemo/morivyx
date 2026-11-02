@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:plugin-isolated-run:0.1",
+  "description": "ローカルDockerによる読取専用実行と後始末の記録。daemonとimage選択の信頼を前提とする。",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "result", "isolation"],
+  "properties": {
+    "format": { "const": "morivyx.plugin-isolated-run/0.1" },
+    "result": { "$ref": "urn:morivyx:plugin-communication:0.1#/$defs/RunResult" },
+    "isolation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["backend", "imageId", "containerId", "network", "rootFilesystem", "inputFilesystem", "uid", "gid", "capabilities", "noNewPrivileges", "memoryBytes", "pidsLimit", "cpuLimit", "containerRemoved"],
+      "properties": {
+        "backend": { "const": "docker" },
+        "imageId": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "containerId": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "network": { "const": "none" },
+        "rootFilesystem": { "const": "read-only" },
+        "inputFilesystem": { "const": "read-only" },
+        "uid": { "const": 65534 }, "gid": { "const": 65534 },
+        "capabilities": { "const": [] },
+        "noNewPrivileges": { "const": true },
+        "memoryBytes": { "type": "integer", "minimum": 33554432, "maximum": 268435456 },
+        "pidsLimit": { "const": 32 }, "cpuLimit": { "const": 1 },
+        "containerRemoved": { "const": true }
+      }
+    }
+  }
+}

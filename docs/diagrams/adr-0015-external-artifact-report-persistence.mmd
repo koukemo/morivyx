@@ -1,0 +1,17 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    input["固定した比較入力<br/>Graph Revision と3件の Revision<br/>取得結果と比較時刻"]
+    compare["Kernel の決定的な比較<br/>5種類の判定と問題一覧"]
+    report["external Artifact Report 0.1<br/>共通の項目順と null 境界"]
+    validate["共通 Report 検証<br/>判定・取得状態・問題順を確認"]
+    digest["内容 digest<br/>stable ID を対象外にする"]
+    hasId{"stable ID があるか"}
+    transient["一時結果として返す<br/>保存しない"]
+    store["YAML へ追記保存<br/>同じ ID の上書きを拒否"]
+    read["同じ内容と digest で読取"]
+    canonicalGraph["正規 Graph<br/>root digest は不変"]
+
+    input --> compare --> report --> validate --> digest --> hasId
+    hasId -- "ない" --> transient
+    hasId -- "ある" --> store --> read
+    report -. "比較と保存だけでは変更しない" .-> canonicalGraph

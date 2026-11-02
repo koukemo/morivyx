@@ -1,0 +1,15 @@
+{
+  "format": "morivyx.plugin-run-result/0.1",
+  "runId": "run:openapi-fixture",
+  "plugin": { "id": "morivyx.openapi-importer.dev", "version": "0.1.0" },
+  "capabilityId": "openapi.inspect-operation", "status": "success",
+  "output": {
+    "kind": "openapi-operation-snapshot",
+    "externalIdentity": { "system": "openapi", "externalId": "openapi:fixture" },
+    "locator": "/paths/~1widgets~1{id}/get",
+    "digest": "sha256:9e07b5a421dae1cd40e95b7322f53099fcb4a1482c4fc9c9fe44e98829eae280",
+    "digestRule": "sha256-utf8-document", "retrievedAt": "2026-09-08T18:00:00Z",
+    "openapiVersion": "3.1.2", "operation": { "path": "/widgets/{id}", "method": "get", "operationId": "readWidget" },
+    "informationLoss": ["document-text-not-retained", "non-selected-operations-not-retained", "descriptions-and-examples-not-retained", "parameters-and-schemas-not-interpreted", "security-and-server-settings-not-retained", "references-not-resolved", "operation-rename-history-not-tracked"]
+  }
+}

@@ -1,0 +1,5 @@
+format: "morivyx.graph-revision/0.1"
+id: "graph:stage-1-package-v1"
+parentRevision: null
+rootDigest: "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5"
+schemaLockDigest: "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"

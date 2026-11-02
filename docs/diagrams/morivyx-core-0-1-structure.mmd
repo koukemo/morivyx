@@ -1,0 +1,21 @@
+%%{init: {"flowchart": {"wrappingWidth": 320}}}%%
+flowchart TB
+    subgraph teigi["この変更で定める内容（Core Schema 0.1）"]
+        direction TB
+        kyotsu["共通項目の規則<br/>全要素が持つ必須項目"]
+        entity["Entity の規則（意味の単位）<br/>16種類の型と必須属性"]
+        relation["Relation の規則（要素間の関係）<br/>22種類の接続と要素数と循環"]
+        jotai["状態の規則<br/>許可する状態値と固定した遷移"]
+    end
+
+    torokubo["Schema の登録簿<br/>検査規則の一覧。ID と版と内容の要約値を保持"]
+    kotei["Graph Revision（記録の一時点）<br/>使う検査規則を固定して保持"]
+    kensa["Validator（順番に検査する機能）<br/>固定した規則で段階3から7を検査"]
+    kekka["検査結果<br/>問題の場所と理由を決めた順序で返す"]
+    seikai["検査値の文書<br/>同じ入力に対する正解を固定"]
+
+    teigi -->|"登録する"| torokubo
+    torokubo -->|"版と要約値を固定する"| kotei
+    kotei -->|"固定した規則を渡す"| kensa
+    kensa -->|"問題の一覧を返す"| kekka
+    seikai -.->|"正解と照合する"| kekka

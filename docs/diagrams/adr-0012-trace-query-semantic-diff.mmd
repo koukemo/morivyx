@@ -1,0 +1,16 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    rev["対象の GraphRevision<br/>問いまたは比較の入力"]
+    tq["標準の Trace Query<br/>問い ID と焦点の stable ID"]
+    tr["Trace Report<br/>経路と品質状態"]
+    sd["semantic diff<br/>二時点の意味差分"]
+    dig["結果の digest<br/>接頭辞で用途を分ける"]
+    root["根の digest<br/>revision.yaml が持つ"]
+
+    rev -->|"問いの入力にする"| tq
+    tq -->|"経路を返す"| tr
+    rev -->|"基準と対象を比較する"| sd
+    tr -->|"内容を要約する"| dig
+    sd -->|"内容を要約する"| dig
+    tr -.-x|"根の digest の入力に含めない"| root
+    sd -.-x|"根の digest の入力に含めない"| root

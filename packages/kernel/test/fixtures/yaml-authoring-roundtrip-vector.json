@@ -1,0 +1,69 @@
+{
+  "name": "YAML authoring profile round-trip",
+  "inputLogicalValue": {
+    "format": "morivyx.git-graph/0.1",
+    "kind": "entity",
+    "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+    "type": "core.observation",
+    "typeVersion": "0.1",
+    "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+    "lifecycle": "draft",
+    "reviewState": "unreviewed",
+    "attributes": {
+      "observedAt": "2026-07-28T10:12:14+09:00",
+      "recordedAt": "2026-07-28T10:15:00+09:00",
+      "stringValues": [
+        "true",
+        "01",
+        "null"
+      ]
+    },
+    "provenance": {
+      "method": "observed",
+      "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+      "recordedAt": "2026-07-28T10:15:00+09:00"
+    },
+    "extensions": {
+      "example.test/unknown": {
+        "ordered": [
+          "A",
+          "B"
+        ],
+        "value": "é"
+      }
+    }
+  },
+  "outputLogicalValue": {
+    "format": "morivyx.git-graph/0.1",
+    "kind": "entity",
+    "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+    "type": "core.observation",
+    "typeVersion": "0.1",
+    "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+    "lifecycle": "draft",
+    "reviewState": "unreviewed",
+    "attributes": {
+      "observedAt": "2026-07-28T01:12:14Z",
+      "recordedAt": "2026-07-28T01:15:00Z",
+      "stringValues": [
+        "true",
+        "01",
+        "null"
+      ]
+    },
+    "provenance": {
+      "method": "observed",
+      "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+      "recordedAt": "2026-07-28T01:15:00Z"
+    },
+    "extensions": {
+      "example.test/unknown": {
+        "ordered": [
+          "A",
+          "B"
+        ],
+        "value": "é"
+      }
+    }
+  }
+}

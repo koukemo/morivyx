@@ -1,0 +1,25 @@
+{
+  "format": "morivyx.plugin-run-result/0.1",
+  "runId": "run:github-fixture",
+  "plugin": { "id": "morivyx.github-importer.dev", "version": "0.1.0" },
+  "capabilityId": "github.read-file",
+  "status": "success",
+  "output": {
+    "kind": "github-file-snapshot",
+    "externalIdentity": { "system": "github", "repositoryId": 123, "externalId": "github:123:source.txt" },
+    "locator": "source.txt",
+    "source": {
+      "apiOrigin": "https://api.github.com",
+      "owner": "fixture-owner",
+      "repository": "fixture-repository",
+      "commit": "1111111111111111111111111111111111111111",
+      "blobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "mode": "100644"
+    },
+    "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "digestRule": "sha256-bytes",
+    "byteLength": 0,
+    "retrievedAt": "2026-09-08T15:00:00Z",
+    "informationLoss": ["file-content-not-retained", "non-file-metadata-not-imported", "rename-history-not-tracked"]
+  }
+}

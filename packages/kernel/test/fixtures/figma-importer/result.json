@@ -1,0 +1,16 @@
+{
+  "format": "morivyx.plugin-run-result/0.1",
+  "runId": "run:figma-fixture",
+  "plugin": { "id": "morivyx.figma-importer.dev", "version": "0.1.0" },
+  "capabilityId": "figma.read-node", "status": "success",
+  "output": {
+    "kind": "figma-node-snapshot",
+    "externalIdentity": { "system": "figma", "fileKey": "fixtureFile", "externalId": "figma:fixtureFile:1:2" },
+    "locator": "1:2",
+    "source": { "apiOrigin": "https://api.figma.com", "fileKey": "fixtureFile", "version": "1001" },
+    "node": { "id": "1:2", "type": "FRAME" },
+    "digest": "sha256:52659bdbd23398adc48326c5ca44fe4861ea72466dc114b4fe8af3ac35097969",
+    "digestRule": "sha256-sorted-json-node/0.1", "retrievedAt": "2026-09-08T19:00:00Z",
+    "informationLoss": ["node-json-not-retained", "node-names-and-text-not-retained", "geometry-and-paint-not-retained", "images-not-downloaded", "component-and-style-tables-not-retained", "plugin-data-not-requested", "file-metadata-not-retained", "node-rename-history-not-tracked", "json-number-lexemes-not-retained"]
+  }
+}

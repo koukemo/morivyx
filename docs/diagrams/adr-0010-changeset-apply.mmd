@@ -1,0 +1,15 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    base["基準の記録の一時点<br/>revision.yaml の baseRevision"]
+    ops["ChangeSet（ledger/ の一件）<br/>操作一覧を適用順に保持"]
+    check["適用前の条件確認<br/>基準・固定情報・事前条件"]
+    apply["操作を一覧の順に適用<br/>作成・改訂・失効・置換・撤回"]
+    root["適用後の根の digest<br/>resultingRootDigest と照合"]
+    next["新しい記録の一時点<br/>resultingRevision を持つ revision.yaml"]
+
+    base -->|"基準として渡す"| check
+    ops -->|"操作一覧を渡す"| check
+    check -->|"条件を満たす"| apply
+    apply -->|"要素の Revision ID を更新する"| root
+    root -->|"一致したら記録する"| next
+    ops -.-x|"根の digest の入力に含めない"| root

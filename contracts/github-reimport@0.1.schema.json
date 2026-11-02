@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:github-reimport:0.1",
+  "description": "GitHubの固定取込結果を比較し、Graphを書き換えずに編集・削除の競合を分類する。",
+  "oneOf": [{ "$ref": "#/$defs/Comparison" }, { "$ref": "#/$defs/Assessment" }],
+  "$defs": {
+    "Issues": {
+      "type": "array", "maxItems": 1,
+      "items": { "type": "object", "additionalProperties": false, "required": ["code"],
+        "properties": { "code": { "type": "string", "pattern": "^GITHUB_REIMPORT_[A-Z_]+$" } } }
+    },
+    "Descriptor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source", "digest", "digestRule", "byteLength", "retrievedAt"],
+      "properties": {
+        "source": { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Snapshot/properties/source" },
+        "digest": { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Snapshot/properties/digest" },
+        "digestRule": { "const": "sha256-bytes" },
+        "byteLength": { "type": "integer", "minimum": 0, "maximum": 1048576 },
+        "retrievedAt": { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Snapshot/properties/retrievedAt" }
+      }
+    },
+    "Current": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "source", "digest", "digestRule", "byteLength", "retrievedAt"],
+          "properties": {
+            "status": { "const": "resolved" },
+            "source": { "$ref": "#/$defs/Descriptor/properties/source" },
+            "digest": { "$ref": "#/$defs/Descriptor/properties/digest" },
+            "digestRule": { "$ref": "#/$defs/Descriptor/properties/digestRule" },
+            "byteLength": { "$ref": "#/$defs/Descriptor/properties/byteLength" },
+            "retrievedAt": { "$ref": "#/$defs/Descriptor/properties/retrievedAt" }
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "source", "failureCode"],
+          "properties": {
+            "status": { "enum": ["missing", "unavailable", "invalid"] },
+            "source": {
+              "type": "object", "additionalProperties": false,
+              "required": ["apiOrigin", "owner", "repository", "commit"],
+              "properties": {
+                "apiOrigin": { "const": "https://api.github.com" },
+                "owner": { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Input/properties/owner" },
+                "repository": { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Input/properties/repository" },
+                "commit": { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Input/properties/commit" }
+              }
+            },
+            "failureCode": { "type": "string", "pattern": "^GITHUB_(?:IMPORT|REIMPORT)_[A-Z_]+$" }
+          }
+        }
+      ]
+    },
+    "Comparison": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "externalIdentity", "locator", "previous", "current", "status", "issues"],
+      "properties": {
+        "format": { "const": "morivyx.github-import-comparison/0.1" },
+        "externalIdentity": { "oneOf": [{ "type": "null" }, { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Snapshot/properties/externalIdentity" }] },
+        "locator": { "oneOf": [{ "type": "null" }, { "$ref": "urn:morivyx:github-importer:0.1#/$defs/Input/properties/locator" }] },
+        "previous": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Descriptor" }] },
+        "current": { "$ref": "#/$defs/Current" },
+        "status": { "enum": ["current", "stale", "missing", "unavailable", "invalid"] },
+        "issues": { "$ref": "#/$defs/Issues" }
+      }
+    },
+    "Target": {
+      "type": "object", "additionalProperties": false, "required": ["id", "revision"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "minLength": 1 }
+      }
+    },
+    "CurrentTarget": {
+      "oneOf": [
+        { "$ref": "#/$defs/Target" },
+        { "type": "object", "additionalProperties": false, "required": ["id", "revision"],
+          "properties": { "id": { "type": "string", "minLength": 1 }, "revision": { "type": "null" } } }
+      ],
+      "description": "確認済みのローカル削除だけを、対象IDを伴う明示的なrevision:nullとして渡す。"
+    },
+    "Assessment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "comparison", "baselineTarget", "currentTarget", "localStatus", "status", "issues"],
+      "properties": {
+        "format": { "const": "morivyx.github-reimport-assessment/0.1" },
+        "comparison": { "$ref": "#/$defs/Comparison" },
+        "baselineTarget": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Target" }] },
+        "currentTarget": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/CurrentTarget" }] },
+        "localStatus": { "enum": [null, "baseline", "changed", "deleted"] },
+        "status": { "enum": ["unchanged", "local-changed", "local-deleted", "external-changed", "conflict", "delete-conflict", "external-missing", "missing-conflict", "both-missing", "blocked-invalid", "blocked-unavailable"] },
+        "issues": { "$ref": "#/$defs/Issues" }
+      }
+    }
+  }
+}

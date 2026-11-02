@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:github-importer:0.1",
+  "description": "GitHub.comの固定commitにある通常ファイルを読み取り、内容を保持しない記録を返す契約。",
+  "oneOf": [
+    { "$ref": "#/$defs/Input" },
+    { "$ref": "#/$defs/Snapshot" }
+  ],
+  "$defs": {
+    "Input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "repository", "repositoryId", "commit", "locator"],
+      "properties": {
+        "owner": { "type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$" },
+        "repository": { "type": "string", "pattern": "^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,99}$" },
+        "repositoryId": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "locator": {
+          "type": "string", "minLength": 1, "maxLength": 1024,
+          "pattern": "^(?!\\.{1,2}(?:/|$))[^/\\\\\\u0000-\\u001f\\u007f]+(?:/(?!\\.{1,2}(?:/|$))[^/\\\\\\u0000-\\u001f\\u007f]+){0,15}$",
+          "description": "空成分、dot、dot-dot、backslash、制御文字を含まない相対POSIX path。最大16成分。"
+        }
+      }
+    },
+    "Snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "externalIdentity", "locator", "source", "digest", "digestRule", "byteLength", "retrievedAt", "informationLoss"],
+      "properties": {
+        "kind": { "const": "github-file-snapshot" },
+        "externalIdentity": {
+          "type": "object", "additionalProperties": false,
+          "required": ["system", "repositoryId", "externalId"],
+          "properties": {
+            "system": { "const": "github" },
+            "repositoryId": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+            "externalId": { "type": "string", "description": "github:repositoryId:locator。名前変更の履歴は推定しない。" }
+          }
+        },
+        "locator": { "$ref": "#/$defs/Input/properties/locator" },
+        "source": {
+          "type": "object", "additionalProperties": false,
+          "required": ["apiOrigin", "owner", "repository", "commit", "blobSha", "mode"],
+          "properties": {
+            "apiOrigin": { "const": "https://api.github.com" },
+            "owner": { "$ref": "#/$defs/Input/properties/owner" },
+            "repository": { "$ref": "#/$defs/Input/properties/repository" },
+            "commit": { "$ref": "#/$defs/Input/properties/commit" },
+            "blobSha": { "$ref": "#/$defs/Input/properties/commit" },
+            "mode": { "enum": ["100644", "100755"] }
+          }
+        },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "digestRule": { "const": "sha256-bytes" },
+        "byteLength": { "type": "integer", "minimum": 0, "maximum": 1048576 },
+        "retrievedAt": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$" },
+        "informationLoss": {
+          "const": ["file-content-not-retained", "non-file-metadata-not-imported", "rename-history-not-tracked"],
+          "description": "本文、ファイル以外のメタデータ、名前変更の履歴は保持しない。"
+        }
+      }
+    }
+  }
+}

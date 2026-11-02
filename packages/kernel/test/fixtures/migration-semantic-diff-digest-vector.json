@@ -1,0 +1,68 @@
+{
+  "name": "Migration semantic diff digest",
+  "expected": {
+    "canonicalByteLength": 874,
+    "canonicalJson": "{\"baseRevision\":\"graph:stage-1-package-v1\",\"entries\":[{\"afterRevision\":\"sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a\",\"kind\":\"entity_added\",\"targetId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440004\"},{\"afterRevision\":\"sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4\",\"beforeRevision\":\"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\",\"kind\":\"entity_revised\",\"targetId\":\"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"},{\"kind\":\"schema_changed\",\"targetId\":\"morivyx.core\"}],\"evaluatedAt\":\"2026-08-03T00:00:00Z\",\"format\":\"morivyx.migration-semantic-diff/0.1\",\"sourceSchemaLockDigest\":\"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\",\"targetRevision\":\"graph:stage-1-migration-v1\",\"targetSchemaLockDigest\":\"sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d\"}",
+    "digest": "sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090"
+  },
+  "cases": [
+    {
+      "name": "reverse entry order",
+      "report": {
+        "format": "morivyx.migration-semantic-diff/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440013",
+        "baseRevision": "graph:stage-1-package-v1",
+        "targetRevision": "graph:stage-1-migration-v1",
+        "sourceSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "targetSchemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+        "evaluatedAt": "2026-08-03T00:00:00Z",
+        "entries": [
+          {
+            "kind": "schema_changed",
+            "targetId": "morivyx.core"
+          },
+          {
+            "kind": "entity_revised",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+          },
+          {
+            "kind": "entity_added",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+            "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+          }
+        ]
+      }
+    },
+    {
+      "name": "different stable ID",
+      "report": {
+        "format": "morivyx.migration-semantic-diff/0.1",
+        "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440099",
+        "baseRevision": "graph:stage-1-package-v1",
+        "targetRevision": "graph:stage-1-migration-v1",
+        "sourceSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "targetSchemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+        "evaluatedAt": "2026-08-03T00:00:00Z",
+        "entries": [
+          {
+            "kind": "entity_added",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+            "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+          },
+          {
+            "kind": "entity_revised",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+          },
+          {
+            "kind": "schema_changed",
+            "targetId": "morivyx.core"
+          }
+        ]
+      }
+    }
+  ]
+}

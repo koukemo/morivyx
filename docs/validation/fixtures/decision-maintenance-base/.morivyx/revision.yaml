@@ -1,0 +1,5 @@
+format: "morivyx.graph-revision/0.1"
+id: "graph:decision-maintenance-base"
+parentRevision: null
+rootDigest: "sha256:75f555e3c5c85eb8ecf75b94672e62887e5c435668693d43e637e36fbf1fcd97"
+schemaLockDigest: "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"

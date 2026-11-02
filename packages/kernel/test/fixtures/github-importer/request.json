@@ -1,0 +1,13 @@
+{
+  "format": "morivyx.plugin-run-request/0.1",
+  "runId": "run:github-fixture",
+  "plugin": { "id": "morivyx.github-importer.dev", "version": "0.1.0" },
+  "capability": { "id": "github.read-file", "effect": "read-only" },
+  "input": {
+    "owner": "fixture-owner",
+    "repository": "fixture-repository",
+    "repositoryId": 123,
+    "commit": "1111111111111111111111111111111111111111",
+    "locator": "source.txt"
+  }
+}

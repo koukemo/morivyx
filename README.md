@@ -1,0 +1,61 @@
+---
+type: Project Overview
+title: Morivyx 中核SDK
+description: Node.jsとPythonの中核実装、Core仕様と適合検査を含むソース配布。
+---
+
+# Morivyx 中核SDK
+
+人間の目標、意図、判断、知識、成果と観測の関係を、意味と由来を保って記録するための中核SDKです。
+Node.jsのKernel、Pythonの独立した中核、Coreの仕様と適合検査を含みます。
+版は`0.1.0`です。
+
+## 含める機能
+
+- ファイルで保存した正本の読取、検証、検査値と由来の照合。
+- 関係の追跡、差分の比較、明示した変更と移行の計算。
+- Node.jsの保存APIと、Pythonによる出力及び明示した新規領域への復旧。
+- 読取専用の取込とプラグイン境界、既存の補助関数。
+
+PythonはCoreを対象とする選択済みの26モジュールであり、Node.jsのすべての機能を同じ方法で実装したものではありません。
+本人認証済みの採用操作、鍵運用、実モデル、外部実行、連合と実機の試作、専用閲覧サイトは含めません。
+既存SDKの読取専用の提案比較と承認照合を、実験用の採用経路の製品化と読み替えません。
+
+## 導入と検査
+
+Node.jsは`22.13.0`以上を使用します。
+Pythonは`3.14`と`3.15`で検査します。
+依存ライブラリの導入と一部の検査には`npm`と`Git`を使用します。
+
+```sh
+npm ci --prefix packages/kernel --ignore-scripts --no-audit --no-fund
+npm test --prefix packages/kernel
+node packages/kernel/src/cli.js --help
+python3 -m unittest discover -s packages/portable-core -p 'test_*.py'
+python3 tools/check-portable-vectors.py
+```
+
+Pythonの中核自体は標準機能だけを使い、Node.js、Gitと通信を呼び出しません。
+Node.jsの配布物を作る場合は、次を使います。
+
+```sh
+npm pack ./packages/kernel --ignore-scripts
+```
+
+配布定義の`private`は、npmへの意図しない登録を防ぐため維持しています。
+GitHubからのソース配布、ローカルでの導入と梱包は可能です。
+
+## 仕様と表示
+
+- [仕様の入口](docs/README.md)
+- [Pythonの範囲](packages/portable-core/README.md)
+- [ライセンス本文](LICENSE)と[権利表示](NOTICE)
+- [外部依存の表示](THIRD_PARTY_NOTICES.md)
+- 同梱ファイルの由来と検査値（同梱対象外の参照）
+
+同梱した独自コード、文書、図、Schemaと検証用データは`Apache-2.0`です。
+外部由来の内容は元の条件を維持します。
+仕様中の同梱対象外の資料と開発時の非公開リンクは、対象外と注記してリンクを外しています。
+中核の仕様本文と実装の意味を変更するための処理ではありません。
+開発時のGit履歴、閲覧一式、実測の生データは含めません。
+保守責任者は`koukemo`です。

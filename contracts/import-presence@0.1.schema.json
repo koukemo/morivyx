@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:import-presence:0.1",
+  "description": "今回の取得成功を、Artifactを変えず観測として保存する要求。",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "artifactId", "observationId", "relationId", "changeSetId", "actor", "baseRevision", "baseRootDigest", "baselineArtifactRevision", "resultingRevision", "observedAt", "recordedAt", "manifest", "runRequest", "runResult"],
+  "properties": {
+    "format": { "const": "morivyx.import-presence/0.1" },
+    "artifactId": { "$ref": "#/$defs/id" },
+    "observationId": { "$ref": "#/$defs/id" },
+    "relationId": { "$ref": "#/$defs/id" },
+    "changeSetId": { "$ref": "#/$defs/id" },
+    "actor": { "$ref": "#/$defs/id" },
+    "baseRevision": { "type": "string", "pattern": "^graph:\\S+$" },
+    "baseRootDigest": { "$ref": "#/$defs/digest" },
+    "baselineArtifactRevision": { "$ref": "#/$defs/digest" },
+    "resultingRevision": { "type": "string", "pattern": "^graph:\\S+$" },
+    "observedAt": { "type": "string", "format": "date-time" },
+    "recordedAt": { "type": "string", "format": "date-time" },
+    "manifest": { "$ref": "urn:morivyx:plugin-manifest:0.1" },
+    "runRequest": { "$ref": "urn:morivyx:plugin-communication:0.1#/$defs/RunRequest" },
+    "runResult": { "allOf": [
+      { "$ref": "urn:morivyx:plugin-communication:0.1#/$defs/RunResult" },
+      { "type": "object", "required": ["status"], "properties": { "status": { "const": "success" } } }
+    ] }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}

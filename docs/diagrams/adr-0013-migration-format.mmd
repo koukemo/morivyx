@@ -1,0 +1,15 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    src["変換元の記録の一時点<br/>baseRevision と元の固定情報"]
+    mig["Migration（migrations/ の一件）<br/>規則・対応・計画差分を固定"]
+    cs["生成する ChangeSet<br/>ledger/ の一件"]
+    apply["ChangeSet を適用する<br/>適用は Migration とは別操作"]
+    dst["変換先の記録の一時点<br/>先の固定情報で再検査する"]
+    root["根の digest"]
+
+    src -->|"入力にする"| mig
+    mig -->|"ChangeSet を生成する"| cs
+    cs -->|"適用する"| apply
+    apply -->|"新しい記録を作る"| dst
+    mig -.-x|"根の digest の入力に含めない"| root
+    cs -.-x|"根の digest の入力に含めない"| root

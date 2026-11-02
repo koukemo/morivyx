@@ -1,0 +1,16 @@
+{
+  "name": "PRIVATE_FILE_NAME",
+  "version": "1001",
+  "lastModified": "2026-09-08T19:00:00Z",
+  "thumbnailUrl": "https://invalid.example.test/private-image",
+  "nodes": {
+    "1:2": {
+      "document": {
+        "id": "1:2", "type": "FRAME", "name": "PRIVATE_NODE_NAME",
+        "absoluteBoundingBox": { "x": 0.25, "y": -1.5, "width": 100, "height": 50.75 },
+        "children": [{ "id": "1:3", "type": "TEXT", "characters": "PRIVATE_NODE_TEXT", "opacity": 0.5 }]
+      },
+      "components": {}, "styles": {}, "schemaVersion": 0
+    }
+  }
+}

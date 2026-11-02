@@ -1,0 +1,10 @@
+{
+  "format": "morivyx.import-snapshot-creation/0.1",
+  "artifactId": "urn:uuid:00000000-0000-4000-8000-000000000801",
+  "changeSetId": "urn:uuid:00000000-0000-4000-8000-000000000802",
+  "actor": "urn:uuid:00000000-0000-4000-8000-000000000900",
+  "baseRevision": "graph:decision-maintenance-base",
+  "baseRootDigest": "sha256:75f555e3c5c85eb8ecf75b94672e62887e5c435668693d43e637e36fbf1fcd97",
+  "resultingRevision": "graph:import-created",
+  "recordedAt": "2026-09-08T16:00:00Z"
+}

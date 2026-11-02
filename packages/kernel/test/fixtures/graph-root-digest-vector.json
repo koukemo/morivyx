@@ -1,0 +1,30 @@
+{
+  "name": "Graph root digest",
+  "expected": {
+    "canonicalByteLength": 249,
+    "canonicalJson": "[[\"urn:uuid:550e8400-e29b-41d4-a716-446655440000\",\"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"],[\"urn:uuid:550e8400-e29b-41d4-a716-446655440002\",\"sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6\"]]",
+    "digest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5"
+  },
+  "rootPairs": [
+    [
+      "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+      "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62"
+    ],
+    [
+      "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+      "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6"
+    ]
+  ],
+  "elements": [
+    {
+      "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+      "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+      "nonRootValue": "ignored-second"
+    },
+    {
+      "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+      "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+      "nonRootValue": "ignored-first"
+    }
+  ]
+}

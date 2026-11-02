@@ -1,0 +1,16 @@
+{
+  "format": "morivyx.plugin-host-policy/0.1",
+  "plugin": {
+    "id": "morivyx.repository-importer.dev",
+    "version": "0.1.0",
+    "packageDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "capability": {
+    "id": "repository.read-file",
+    "effect": "read-only",
+    "permissions": {
+      "graphRead": [], "fileRead": ["repository-root"], "network": [], "secrets": [], "devices": []
+    },
+    "resources": { "timeoutMs": 5000, "maxOutputBytes": 1048576 }
+  }
+}

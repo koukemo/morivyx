@@ -1,0 +1,82 @@
+{
+  "name": "@morivyx/kernel",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "src",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "exports": {
+    ".": "./src/package-reader.js",
+    "./approval": "./src/approval.js",
+    "./approval-assessment": "./src/approval-assessment.js",
+    "./canonical": "./src/canonical.js",
+    "./changeset": "./src/changeset.js",
+    "./changeset-apply": "./src/changeset-apply.js",
+    "./decision-creation": "./src/decision-creation.js",
+    "./decision-markdown": "./src/decision-markdown.js",
+    "./decision-revision": "./src/decision-revision.js",
+    "./external-artifact": "./src/external-artifact.js",
+    "./figma-importer": "./src/figma-importer.js",
+    "./figma-reimport": "./src/figma-reimport.js",
+    "./graph-element": "./src/graph-element.js",
+    "./graph-constraints": "./src/graph-constraints.js",
+    "./graph-index": "./src/graph-index.js",
+    "./graph-revision": "./src/graph-revision.js",
+    "./github-importer": "./src/github-importer.js",
+    "./github-reimport": "./src/github-reimport.js",
+    "./import-availability": "./src/import-availability.js",
+    "./import-presence": "./src/import-presence.js",
+    "./import-snapshot-creation": "./src/import-snapshot-creation.js",
+    "./import-snapshot-revision": "./src/import-snapshot-revision.js",
+    "./ledger-store": "./src/ledger-store.js",
+    "./migration": "./src/migration.js",
+    "./migration-apply": "./src/migration-apply.js",
+    "./network-import-container": "./src/network-import-container.js",
+    "./openapi-importer": "./src/openapi-importer.js",
+    "./openapi-reimport": "./src/openapi-reimport.js",
+    "./package-writer": "./src/package-writer.js",
+    "./plugin-communication": "./src/plugin-communication.js",
+    "./plugin-container": "./src/plugin-container.js",
+    "./plugin-manifest": "./src/plugin-manifest.js",
+    "./plugin-host-policy": "./src/plugin-host-policy.js",
+    "./plugin-supply-chain": "./src/plugin-supply-chain.js",
+    "./plugin-stdio": "./src/plugin-stdio.js",
+    "./proposal-review": "./src/proposal-review.js",
+    "./report": "./src/report.js",
+    "./repository-importer": "./src/repository-importer.js",
+    "./repository-reimport-assessment": "./src/repository-reimport-assessment.js",
+    "./schema-definition": "./src/schema-definition.js",
+    "./schema-lock": "./src/schema-lock.js",
+    "./schema-registry": "./src/schema-registry.js",
+    "./semantic-diff": "./src/semantic-diff.js",
+    "./trace-query": "./src/trace-query.js",
+    "./validation-phase-7": "./src/validation-phase-7.js",
+    "./validator": "./src/validator.js",
+    "./yaml-authoring-order": "./src/yaml-authoring-order.js",
+    "./yaml-authoring-profile": "./src/yaml-authoring-profile.js",
+    "./yaml-null-policy": "./src/yaml-null-policy.js",
+    "./yaml-set-policy": "./src/yaml-set-policy.js",
+    "./yaml-writer": "./src/yaml-writer.js"
+  },
+  "bin": {
+    "morivyx": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test && npm run plugin-contract-audit && npm run network-isolation-fixture-audit && npm run package-audit && npm run example-audit",
+    "conformance": "node --test --experimental-test-coverage --test-coverage-lines=95 --test-coverage-branches=92 --test-coverage-functions=99 && npm run plugin-contract-audit && npm run network-isolation-fixture-audit && npm run package-audit && npm run example-audit",
+    "network-isolation-fixture-audit": "node scripts/network-isolation-fixture-audit.mjs && node scripts/network-https-transport-audit.mjs",
+    "plugin-contract-audit": "node scripts/plugin-communication-contract-audit.mjs && node scripts/plugin-manifest-contract-audit.mjs && node scripts/repository-reimport-contract-audit.mjs && node scripts/repository-reimport-assessment-contract-audit.mjs && node scripts/github-importer-contract-audit.mjs && node scripts/github-reimport-contract-audit.mjs && node scripts/plugin-supply-chain-contract-audit.mjs && node scripts/plugin-host-policy-contract-audit.mjs && node scripts/plugin-container-contract-audit.mjs && node scripts/network-import-contract-audit.mjs && node scripts/import-snapshot-creation-contract-audit.mjs && node scripts/import-snapshot-revision-contract-audit.mjs && node scripts/import-availability-contract-audit.mjs && node scripts/plugin-stdio-contract-audit.mjs && node scripts/openapi-importer-contract-audit.mjs && node scripts/openapi-reimport-contract-audit.mjs && node scripts/openapi-core-contract-audit.mjs && node scripts/import-presence-contract-audit.mjs && node scripts/figma-importer-contract-audit.mjs && node scripts/figma-reimport-contract-audit.mjs && node scripts/figma-core-contract-audit.mjs && node scripts/github-core-contract-audit.mjs",
+    "package-audit": "node scripts/package-distribution-audit.mjs",
+    "example-audit": "node scripts/repository-workflow-example-audit.mjs && node scripts/github-live-validation-audit.mjs"
+  },
+  "dependencies": {
+    "yaml": "2.9.1"
+  }
+}

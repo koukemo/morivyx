@@ -1,0 +1,17 @@
+{
+  "format": "morivyx.plugin-isolated-run/0.1",
+  "result": {
+    "format": "morivyx.plugin-run-result/0.1",
+    "runId": "run:isolation-fixture",
+    "plugin": { "id": "morivyx.repository-importer.dev", "version": "0.1.0" },
+    "capabilityId": "repository.read-file",
+    "status": "success", "output": { "value": "fixture" }
+  },
+  "isolation": {
+    "backend": "docker", "imageId": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "containerId": "2222222222222222222222222222222222222222222222222222222222222222",
+    "network": "none", "rootFilesystem": "read-only", "inputFilesystem": "read-only",
+    "uid": 65534, "gid": 65534, "capabilities": [], "noNewPrivileges": true,
+    "memoryBytes": 134217728, "pidsLimit": 32, "cpuLimit": 1, "containerRemoved": true
+  }
+}

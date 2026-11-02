@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:figma-importer:0.1",
+  "description": "固定した版のFigma Nodeを読み取る入力とsnapshot。Node原文は保持しない。",
+  "oneOf": [{ "$ref": "#/$defs/Input" }, { "$ref": "#/$defs/Snapshot" }],
+  "$defs": {
+    "FileKey": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$" },
+    "NodeId": { "type": "string", "pattern": "^[A-Za-z0-9:;_-]{1,256}$" },
+    "Version": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$" },
+    "Input": {
+      "type": "object", "additionalProperties": false, "required": ["fileKey", "nodeId", "version"],
+      "properties": { "fileKey": { "$ref": "#/$defs/FileKey" }, "nodeId": { "$ref": "#/$defs/NodeId" }, "version": { "$ref": "#/$defs/Version" } }
+    },
+    "Snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "externalIdentity", "locator", "source", "node", "digest", "digestRule", "retrievedAt", "informationLoss"],
+      "properties": {
+        "kind": { "const": "figma-node-snapshot" },
+        "externalIdentity": {
+          "type": "object", "additionalProperties": false, "required": ["system", "fileKey", "externalId"],
+          "properties": { "system": { "const": "figma" }, "fileKey": { "$ref": "#/$defs/FileKey" }, "externalId": { "type": "string", "minLength": 1 } }
+        },
+        "locator": { "$ref": "#/$defs/NodeId" },
+        "source": {
+          "type": "object", "additionalProperties": false, "required": ["apiOrigin", "fileKey", "version"],
+          "properties": { "apiOrigin": { "const": "https://api.figma.com" }, "fileKey": { "$ref": "#/$defs/FileKey" }, "version": { "$ref": "#/$defs/Version" } }
+        },
+        "node": {
+          "type": "object", "additionalProperties": false, "required": ["id", "type"],
+          "properties": { "id": { "$ref": "#/$defs/NodeId" }, "type": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,63}$" } }
+        },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "digestRule": {
+          "const": "sha256-sorted-json-node/0.1",
+          "description": "選択document NodeのJSON解析値をUTF-8へ直列化してSHA256を計算する。対応表のキーはUnicode符号位置順、配列は元の順、文字列はUnicodeと日時を正規化せずJSON文字列表現を使う。数はECMAScript JSON.stringifyの有限数表現を使い、負のゼロは0になる。安全でない整数、非有限数、単独surrogateは拒否する。原文の数値字句と空白は保持しない。"
+        },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "informationLoss": { "const": ["node-json-not-retained", "node-names-and-text-not-retained", "geometry-and-paint-not-retained", "images-not-downloaded", "component-and-style-tables-not-retained", "plugin-data-not-requested", "file-metadata-not-retained", "node-rename-history-not-tracked", "json-number-lexemes-not-retained"] }
+      }
+    }
+  }
+}

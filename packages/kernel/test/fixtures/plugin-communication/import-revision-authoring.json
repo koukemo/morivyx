@@ -1,0 +1,8 @@
+{
+  "format": "morivyx.import-snapshot-revision/0.1",
+  "artifactId": "urn:uuid:00000000-0000-4000-8000-000000000801",
+  "changeSetId": "urn:uuid:00000000-0000-4000-8000-000000000803",
+  "actor": "urn:uuid:00000000-0000-4000-8000-000000000900",
+  "resultingRevision": "graph:import-updated",
+  "recordedAt": "2026-09-08T17:00:00Z"
+}

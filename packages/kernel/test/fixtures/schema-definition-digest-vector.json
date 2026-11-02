@@ -1,0 +1,50 @@
+{
+  "name": "Schema definition digest",
+  "expected": {
+    "canonicalByteLength": 740,
+    "canonicalJson": "{\"authoringOrders\":{\"attributes\":[\"observedAt\",\"recordedAt\"],\"provenance\":[\"method\",\"actor\",\"recordedAt\"],\"root\":[\"format\",\"kind\",\"id\",\"type\",\"typeVersion\",\"revision\",\"lifecycle\",\"reviewState\",\"attributes\",\"provenance\",\"extensions\"]},\"digestAlgorithm\":\"sha256\",\"entityTypes\":[{\"lifecycle\":[\"active\",\"draft\",\"retired\"],\"requiredAttributes\":[\"observedAt\",\"recordedAt\"],\"typeId\":\"example.observation\"}],\"format\":\"morivyx.schema/0.1\",\"relationTypes\":[{\"cycle\":\"forbidden\",\"maxCount\":1,\"minCount\":1,\"predicate\":\"example.refers_to\",\"sourceTypes\":[\"example.observation\"],\"targetTypes\":[\"example.observation\"]}],\"reviewStates\":[\"approved\",\"proposed\",\"rejected\",\"unreviewed\"],\"schemaId\":\"example.test\",\"stableIdScheme\":\"urn-uuid-v4\",\"version\":\"0.1\"}",
+    "digest": "sha256:a70a753274809f4e1a2a93c5dabb308dc8ccaa5f88db57d83a96ea8b7cbc7da4"
+  },
+  "schemaDefinition": {
+    "format": "morivyx.schema/0.1",
+    "schemaId": "example.test",
+    "version": "0.1",
+    "stableIdScheme": "urn-uuid-v4",
+    "digestAlgorithm": "sha256",
+    "reviewStates": ["approved", "proposed", "rejected", "unreviewed"],
+    "entityTypes": [
+      {
+        "typeId": "example.observation",
+        "requiredAttributes": ["observedAt", "recordedAt"],
+        "lifecycle": ["active", "draft", "retired"]
+      }
+    ],
+    "relationTypes": [
+      {
+        "predicate": "example.refers_to",
+        "sourceTypes": ["example.observation"],
+        "targetTypes": ["example.observation"],
+        "minCount": 1,
+        "maxCount": 1,
+        "cycle": "forbidden"
+      }
+    ],
+    "authoringOrders": {
+      "root": [
+        "format",
+        "kind",
+        "id",
+        "type",
+        "typeVersion",
+        "revision",
+        "lifecycle",
+        "reviewState",
+        "attributes",
+        "provenance",
+        "extensions"
+      ],
+      "attributes": ["observedAt", "recordedAt"],
+      "provenance": ["method", "actor", "recordedAt"]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+format: "morivyx.trace-report/0.1"
+id: "urn:uuid:550e8400-e29b-41d4-a716-446655440015"
+queryId: "governing-decision"
+graphRevision: "graph:stage-1-package-v1"
+schemaLockDigest: "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+focusId: "urn:uuid:550e8400-e29b-41d4-a716-446655440000"
+evaluatedAt: "2026-08-04T00:00:00Z"
+status: "partial"
+paths: []
+missing:
+  - "governs"

@@ -1,0 +1,28 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    recorded["記録済みの外部 Artifact<br/>version / digest / digest 規則"]
+    source["ExternalSource<br/>外部同一性と取得元"]
+    fetch["外部取得<br/>取得結果を固定する"]
+    resolved{"取得結果"}
+    compare["Kernel の比較<br/>外部通信を行わない"]
+    current["current<br/>記録値と一致"]
+    stale["stale<br/>version または digest が不一致"]
+    missing["missing<br/>参照先の消失を確定"]
+    unavailable["unavailable<br/>存在と内容を確定できない"]
+    report["決定的な Report<br/>判定と問題一覧"]
+    unchanged["正規 Graph<br/>比較だけでは変更しない"]
+    proposal["必要な場合だけ<br/>ChangeSet を提案"]
+
+    source --> fetch --> resolved
+    recorded --> compare
+    resolved -->|取得できた| compare
+    resolved -->|存在しない| missing
+    resolved -->|取得できない| unavailable
+    compare -->|一致| current
+    compare -->|不一致| stale
+    current --> report
+    stale --> report
+    missing --> report
+    unavailable --> report
+    report -.-> unchanged
+    report --> proposal

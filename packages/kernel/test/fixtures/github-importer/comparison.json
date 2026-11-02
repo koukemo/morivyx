@@ -1,0 +1,18 @@
+{
+  "format": "morivyx.github-import-comparison/0.1",
+  "externalIdentity": { "system": "github", "repositoryId": 123, "externalId": "github:123:source.txt" },
+  "locator": "source.txt",
+  "previous": {
+    "source": { "apiOrigin": "https://api.github.com", "owner": "fixture-owner", "repository": "fixture-repository", "commit": "1111111111111111111111111111111111111111", "blobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", "mode": "100644" },
+    "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "digestRule": "sha256-bytes", "byteLength": 0, "retrievedAt": "2026-09-08T15:00:00Z"
+  },
+  "current": {
+    "status": "resolved",
+    "source": { "apiOrigin": "https://api.github.com", "owner": "fixture-owner", "repository": "fixture-repository", "commit": "4444444444444444444444444444444444444444", "blobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", "mode": "100644" },
+    "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "digestRule": "sha256-bytes", "byteLength": 0, "retrievedAt": "2026-09-08T15:10:00Z"
+  },
+  "status": "current",
+  "issues": []
+}

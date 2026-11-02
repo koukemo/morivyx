@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:plugin-host-policy:0.1",
+  "description": "信頼された実行側が渡す許可情報。OS隔離や配布物の真正性を保証しない。",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "plugin", "capability"],
+  "properties": {
+    "format": { "const": "morivyx.plugin-host-policy/0.1" },
+    "plugin": { "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "packageDigest"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "packageDigest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "capability": { "type": "object", "additionalProperties": false,
+      "required": ["id", "effect", "permissions", "resources"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "effect": { "enum": ["pure", "read-only"] },
+        "permissions": { "type": "object", "additionalProperties": false,
+          "required": ["graphRead", "fileRead", "network", "secrets", "devices"],
+          "properties": {
+            "graphRead": { "$ref": "#/$defs/Names" }, "fileRead": { "$ref": "#/$defs/Names" },
+            "network": { "$ref": "#/$defs/Names" }, "secrets": { "$ref": "#/$defs/Names" },
+            "devices": { "$ref": "#/$defs/Names" }
+          }
+        },
+        "resources": { "type": "object", "additionalProperties": false,
+          "required": ["timeoutMs", "maxOutputBytes"],
+          "properties": {
+            "timeoutMs": { "$ref": "#/$defs/Limit" }, "maxOutputBytes": { "$ref": "#/$defs/Limit" },
+            "maxMemoryBytes": { "$ref": "#/$defs/Limit" }, "maxCostUnits": { "$ref": "#/$defs/Limit" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Names": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "Limit": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 }
+  }
+}

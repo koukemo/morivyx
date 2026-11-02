@@ -1,0 +1,23 @@
+%%{init: {"flowchart": {"wrappingWidth": 340}}}%%
+flowchart TB
+    subgraph pkg[".morivyx/（Graph package）の入力ファイル"]
+        direction TB
+        elements["graph/ の要素<br/>Entity と Relation を一件一ファイル"]
+        approvals["approvals/ の記録<br/>承認の記録を一件一ファイル"]
+        lock["schema.lock.yaml<br/>検査規則の固定情報"]
+    end
+
+    revid["要素ごとの Revision ID<br/>内容の要約値"]
+    root["根の digest<br/>全要素の ID と Revision ID から計算"]
+    lockdigest["固定情報の digest"]
+    revfile["revision.yaml<br/>記録の一時点（GraphRevision）<br/>根の digest と固定情報の digest を保持"]
+    kensa["Validator（順番に検査する機能）<br/>固定した規則と承認の記録で判定"]
+
+    elements -->|"内容を要約する"| revid
+    revid -->|"並べて要約する"| root
+    lock -->|"内容を要約する"| lockdigest
+    root -->|"記録する"| revfile
+    lockdigest -->|"記録する"| revfile
+    elements -->|"検査対象として渡す"| kensa
+    lock -->|"固定した規則を渡す"| kensa
+    approvals -.->|"別入力として渡す"| kensa

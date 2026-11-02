@@ -1,0 +1,52 @@
+{
+  "input": {
+    "graphRevision": "graph:decision-markdown-v1",
+    "projectorPackageDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "decision": {
+      "suffix": 1,
+      "lifecycle": "accepted",
+      "reviewState": "approved",
+      "attributes": {
+        "question": "Use **Graph** [now]?",
+        "rationale": "# Evidence\r\n- Keep history.",
+        "consequences": ["Keep `history`.", "Avoid <copy>."],
+        "revisitTriggers": ["Schema changes.", "Cost > limit."],
+        "challengeReview": {
+          "result": "reviewed",
+          "scope": ["known", "unknown"]
+        }
+      }
+    },
+    "entities": [
+      { "alias": "goal", "suffix": 2, "type": "core.goal" },
+      { "alias": "option", "suffix": 3, "type": "core.option" },
+      { "alias": "knowledge", "suffix": 4, "type": "core.knowledge" },
+      { "alias": "observation", "suffix": 5, "type": "core.observation" },
+      { "alias": "artifact", "suffix": 6, "type": "core.artifact" }
+    ],
+    "relations": [
+      { "suffix": 20, "predicate": "addresses", "to": "goal" },
+      { "suffix": 21, "predicate": "considers", "to": "option" },
+      { "suffix": 22, "predicate": "selects", "to": "option" },
+      { "suffix": 23, "predicate": "supported_by", "to": "knowledge" },
+      { "suffix": 24, "predicate": "challenged_by", "to": "observation" },
+      { "suffix": 25, "predicate": "governs", "to": "artifact" }
+    ]
+  },
+  "expected": {
+    "sourceRevision": "sha256:e5557e7cdcaf4dbc557f58a16a3e3576ab2f8cec6d730df898c97d9bf5c47bef",
+    "rulesDigest": "sha256:c0483e58df03721e400c1a466aecc9ad0c3ec243d722b0bdb8caa23a9378aea8",
+    "configurationDigest": "sha256:b6c04c703527ecb217002cf64d624e91c1d0f420ac5c7c08b5770a3d930d1340",
+    "digest": "sha256:4016d5247eda4f3696e3fe5c7fc5494e1480173c8e27d22582b679fd3e26a498",
+    "byteLength": 3212,
+    "lineCount": 72,
+    "relationPredicates": [
+      "addresses",
+      "considers",
+      "selects",
+      "supported_by",
+      "challenged_by",
+      "governs"
+    ]
+  }
+}

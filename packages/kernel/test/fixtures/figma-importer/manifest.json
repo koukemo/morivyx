@@ -1,0 +1,12 @@
+{
+  "format": "morivyx.plugin-manifest/0.1",
+  "identity": { "id": "morivyx.figma-importer.dev", "version": "0.1.0", "packageDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111", "distributor": "morivyx" },
+  "compatibility": { "communicationContracts": ["morivyx.plugin-run-request/0.1", "morivyx.plugin-run-result/0.1"], "coreSchemas": [], "profileSchemas": [] },
+  "capabilities": [{
+    "id": "figma.read-node", "effect": "read-only",
+    "inputFormat": "morivyx.figma-node-input/0.1", "outputFormat": "morivyx.figma-node-snapshot/0.1",
+    "permissions": { "graphRead": [], "fileRead": [], "network": ["https://api.figma.com"], "secrets": ["figma-read-token"], "devices": [] },
+    "retry": "safe-to-retry", "resources": { "timeoutMs": 35000, "maxOutputBytes": 1048576 }
+  }],
+  "supplyChain": { "source": "fixture" }, "migrations": []
+}

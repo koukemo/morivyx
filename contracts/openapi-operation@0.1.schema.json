@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:morivyx:openapi-operation:0.1",
+  "oneOf": [{ "$ref": "#/$defs/Input" }, { "$ref": "#/$defs/Snapshot" }],
+  "$defs": {
+    "method": { "enum": ["get", "put", "post", "delete", "options", "head", "patch", "trace"] },
+    "path": { "type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^/" },
+    "externalId": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "Input": {
+      "type": "object", "additionalProperties": false,
+      "required": ["externalId", "documentText", "path", "method"],
+      "properties": {
+        "externalId": { "$ref": "#/$defs/externalId" },
+        "documentText": { "type": "string", "minLength": 1, "maxLength": 524288 },
+        "path": { "$ref": "#/$defs/path" },
+        "method": { "$ref": "#/$defs/method" }
+      }
+    },
+    "Snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "externalIdentity", "locator", "digest", "digestRule", "retrievedAt", "openapiVersion", "operation", "informationLoss"],
+      "properties": {
+        "kind": { "const": "openapi-operation-snapshot" },
+        "externalIdentity": {
+          "type": "object", "additionalProperties": false, "required": ["system", "externalId"],
+          "properties": { "system": { "const": "openapi" }, "externalId": { "$ref": "#/$defs/externalId" } }
+        },
+        "locator": { "type": "string", "pattern": "^/paths/" },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "digestRule": { "const": "sha256-utf8-document" },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "openapiVersion": { "type": "string", "pattern": "^3\\.1\\.[0-9]+$" },
+        "operation": {
+          "type": "object", "additionalProperties": false, "required": ["path", "method"],
+          "properties": {
+            "path": { "$ref": "#/$defs/path" }, "method": { "$ref": "#/$defs/method" },
+            "operationId": { "type": "string", "minLength": 1, "maxLength": 512 }
+          }
+        },
+        "informationLoss": {
+          "const": ["document-text-not-retained", "non-selected-operations-not-retained", "descriptions-and-examples-not-retained", "parameters-and-schemas-not-interpreted", "security-and-server-settings-not-retained", "references-not-resolved", "operation-rename-history-not-tracked"]
+        }
+      }
+    }
+  }
+}

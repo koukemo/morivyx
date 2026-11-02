@@ -1,0 +1,21 @@
+{
+  "format": "morivyx.plugin-supply-chain/0.1",
+  "plugin": {
+    "id": "morivyx.repository-importer.dev",
+    "version": "0.1.0",
+    "distributor": "morivyx"
+  },
+  "source": "fixture",
+  "expectedPackageDigest": "sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+  "package": {
+    "expectedDigest": "sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+    "actualDigest": "sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+    "byteLength": 3,
+    "status": "matched"
+  },
+  "signature": null,
+  "sbom": null,
+  "status": "matched",
+  "authenticity": "not-verified",
+  "issues": []
+}

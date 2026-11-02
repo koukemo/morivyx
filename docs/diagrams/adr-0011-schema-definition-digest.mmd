@@ -1,0 +1,13 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    md["Markdown の Schema 定義<br/>人間向けの正本"]
+    yaml["機械可読な Schema 定義<br/>morivyx.schema/0.1"]
+    content["Schema 内容の digest<br/>接頭辞 morivyx:schema:v1"]
+    lock["schema.lock.yaml<br/>各 Schema の digest が内容 digest を参照"]
+    reg["Schema の登録簿<br/>同じ ID・version・digest だけを使う"]
+
+    md -->|"意味を一致させる"| yaml
+    yaml -->|"内容を要約する"| content
+    content -->|"固定情報へ記録する"| lock
+    content -->|"登録簿へ記録する"| reg
+    md -.-x|"ファイル自体の digest は使わない"| content

@@ -1,0 +1,10 @@
+[
+  { "name": "empty", "input": "", "code": "PLUGIN_STDIO_INPUT_INVALID" },
+  { "name": "whitespace", "input": " \n\t", "code": "PLUGIN_STDIO_INPUT_INVALID" },
+  { "name": "multiline", "input": "{\n}\n", "code": "PLUGIN_STDIO_INPUT_INVALID" },
+  { "name": "two-objects", "input": "{} {}", "code": "PLUGIN_STDIO_INPUT_INVALID" },
+  { "name": "untrusted-syntax", "input": "{\"INPUT_SENTINEL\": invalid}", "code": "PLUGIN_STDIO_INPUT_INVALID" },
+  { "name": "null", "input": "null", "code": "PLUGIN_STDIO_REQUEST_INVALID" },
+  { "name": "array", "input": "[]", "code": "PLUGIN_STDIO_REQUEST_INVALID" },
+  { "name": "missing-contract", "input": "{\"INPUT_SENTINEL\":true}", "code": "PLUGIN_STDIO_REQUEST_INVALID" }
+]

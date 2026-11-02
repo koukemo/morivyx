@@ -1,0 +1,7 @@
+{
+  "format": "morivyx.plugin-run-request/0.1",
+  "runId": "run:figma-fixture",
+  "plugin": { "id": "morivyx.figma-importer.dev", "version": "0.1.0" },
+  "capability": { "id": "figma.read-node", "effect": "read-only" },
+  "input": { "fileKey": "fixtureFile", "nodeId": "1:2", "version": "1001" }
+}

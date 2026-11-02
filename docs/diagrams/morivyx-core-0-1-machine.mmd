@@ -1,0 +1,13 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    md["Markdown 正本<br/>morivyx-core-0-1.md"]
+    yaml["機械可読な Schema 定義<br/>morivyx.core@0.1.yaml"]
+    dig["Schema 内容の digest<br/>sha256:f3bfeb8c…"]
+    lock["schema.lock.yaml の schemas digest<br/>正式な登録 digest として参照"]
+    pkg["Graph package 検査値<br/>Schema 固定情報の digest を再計算"]
+
+    md -->|"意味を一致させる"| yaml
+    yaml -->|"ADR-0011 の手順で要約する"| dig
+    dig -->|"記録する"| lock
+    lock -->|"更新する"| pkg
+    md -.-x|"ファイル自体の digest は使わない"| dig

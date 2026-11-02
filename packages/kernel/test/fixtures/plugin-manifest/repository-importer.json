@@ -1,0 +1,41 @@
+{
+  "format": "morivyx.plugin-manifest/0.1",
+  "identity": {
+    "id": "morivyx.repository-importer.dev",
+    "version": "0.1.0",
+    "packageDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "distributor": "morivyx"
+  },
+  "compatibility": {
+    "communicationContracts": [
+      "morivyx.plugin-run-request/0.1",
+      "morivyx.plugin-run-result/0.1"
+    ],
+    "coreSchemas": [],
+    "profileSchemas": []
+  },
+  "capabilities": [
+    {
+      "id": "repository.read-file",
+      "effect": "read-only",
+      "inputFormat": "morivyx.repository-read-input/0.1",
+      "outputFormat": "morivyx.repository-file-snapshot/0.1",
+      "permissions": {
+        "graphRead": [],
+        "fileRead": ["repository-root"],
+        "network": [],
+        "secrets": [],
+        "devices": []
+      },
+      "retry": "safe-to-retry",
+      "resources": {
+        "timeoutMs": 5000,
+        "maxOutputBytes": 1048576
+      }
+    }
+  ],
+  "supplyChain": {
+    "source": "fixture"
+  },
+  "migrations": []
+}
