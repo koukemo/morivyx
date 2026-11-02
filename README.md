@@ -46,6 +46,8 @@ python3 -m unittest discover -s packages/portable-core -p 'test_*.py'
 python3 tools/check-portable-vectors.py
 ```
 
+[文書の形式と参照及び図の寸法の検査](docs/documentation-check.md)もローカルで実行できます。
+
 Pythonの中核自体は標準機能だけを使い、Node.js、Gitと通信を呼び出しません。
 Node.jsの配布物を作る場合は、次を使います。
 
