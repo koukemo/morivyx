@@ -125,6 +125,13 @@ function validateNode(node, path) {
     if (node.flow && node.items.length > 0) {
       invalid(path, "YAML の flow style を使えません。");
     }
+    for (const item of node.srcToken?.items ?? []) {
+      const keyIndicator = item.start?.find((token) => token.type === "explicit-key-ind");
+      const valueIndicator = item.sep?.find((token) => token.type === "map-value-ind");
+      if (keyIndicator && valueIndicator && keyIndicator.indent !== valueIndicator.indent) {
+        invalid(path, "明示した項目名の ? と値の : は同じ字下げ位置にします。");
+      }
+    }
     const normalizedKeys = new Set();
     for (const pair of node.items) {
       if (!isPair(pair) || !isScalar(pair.key)) {
