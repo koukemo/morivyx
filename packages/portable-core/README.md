@@ -7,6 +7,7 @@ description: 標準機能だけを使う27モジュールと、検査及び保�
 # Pythonの中核実装
 
 最初に試す場合は、[Python単独の手順](../../docs/tutorials/python-only.md)を使えます。
+[Node.jsとPythonの選び方](../../docs/tutorials/README.md#実行環境を選ぶ)で、既存データの読取、サンプルの準備と新しい保存先への書込に必要な環境を比較できます。
 Node.jsで保存した正本をPythonで確認する例は、[判断の保存と差分の手順](../../docs/tutorials/getting-started.md)にあります。
 
 Coreの読取、記録と検査値、Graphの検証と索引、関係の追跡、差分と明示した変更の計算、出力と新規領域への復旧を行います。
