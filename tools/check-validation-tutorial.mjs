@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { cp, mkdtemp, readFile, readdir, realpath, rm, writeFile } from "node:fs/promises";
+import { cp, lstat, mkdtemp, readFile, readdir, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -99,6 +99,7 @@ try {
   assert.equal(pyUsage.stdout, ""); assert.match(pyUsage.stderr, /usage:/i);
   for (const script of ["package_records", "package_validation"]) portable(script, base, 1);
   assert.deepEqual(await snapshot(temporary), before, "commands must not change or create input files");
+  await assert.rejects(lstat(absent), { code: "ENOENT" }, "missing input directory must not be created");
   assert.deepEqual(await snapshot(sample), source, "the original sample must stay unchanged");
   console.log(JSON.stringify({ valid: true, workflow: "inspect-validate-and-diagnose", commandCount,
     sourceUnchanged: true, negativeCopiesUnchanged: true, absentInputNotCreated: true,
