@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { createHash } from "node:crypto";
 
 const TIMESTAMP_PATTERN =
@@ -86,7 +87,7 @@ function normalizeUnicode(value) {
       );
     }
   }
-  return value.normalize("NFC");
+  return normalizeNfc(value);
 }
 
 function logicalArrayItems(value) {

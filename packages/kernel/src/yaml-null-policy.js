@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { isMap, isPair, isScalar, isSeq } from "yaml";
 import { PackageError } from "./errors.js";
 
@@ -89,7 +90,7 @@ function validateNodeNulls(node, format, path, root) {
     return;
   }
   for (const pair of node.items) {
-    const key = pair.key.value.normalize("NFC");
+    const key = normalizeNfc(pair.key.value);
     validateNodeNulls(pair.value, format, pointerChild(path, key), root);
   }
 }

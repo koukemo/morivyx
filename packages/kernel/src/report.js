@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { randomUUID } from "node:crypto";
 import { link, lstat, open, unlink } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
@@ -184,7 +185,7 @@ function requireString(record, field, path, pointer) {
       `Reportの文字列項目が不正です: ${field}`,
     );
   }
-  return value.normalize("NFC");
+  return normalizeNfc(value);
 }
 
 function requireStableId(record, field, path, pointer) {
@@ -330,7 +331,7 @@ function validateMissing(missing, path) {
     if (typeof value !== "string" || value.length === 0) {
       invalid(path, `/missing/${index}`, "Trace Reportのmissing項目が不正です。");
     }
-    const current = value.normalize("NFC");
+    const current = normalizeNfc(value);
     if (previous !== undefined && compareUnicode(previous, current) >= 0) {
       invalid(
         path,

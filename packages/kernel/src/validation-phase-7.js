@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 const LIFECYCLE_TRANSITIONS = new Map([
   [
     "core.criterion",
@@ -35,7 +36,7 @@ function issue(code, elementId, path, relatedId = "") {
 }
 
 function text(value) {
-  return typeof value === "string" ? value.normalize("NFC") : "";
+  return typeof value === "string" ? normalizeNfc(value) : "";
 }
 
 function singleElementsById(elements) {

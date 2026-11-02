@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { canonicalJson, compareUnicode, digestValue } from "./canonical.js";
 import { PackageError } from "./errors.js";
 import { readGraphPackage } from "./package-reader.js";
@@ -134,7 +135,7 @@ function validateTraceQueryInput({
 }
 
 function text(value) {
-  return value.normalize("NFC");
+  return normalizeNfc(value);
 }
 
 function elementIndex(elements) {

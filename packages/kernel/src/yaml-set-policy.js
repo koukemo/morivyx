@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { isMap, isPair, isScalar, isSeq } from "yaml";
 import { PackageError } from "./errors.js";
 
@@ -9,7 +10,7 @@ function pointerChild(path, value) {
 function mapPair(node, key) {
   return node.items.find(
     (pair) =>
-      isPair(pair) && isScalar(pair.key) && pair.key.value.normalize("NFC") === key,
+      isPair(pair) && isScalar(pair.key) && normalizeNfc(pair.key.value) === key,
   );
 }
 
@@ -27,7 +28,7 @@ function compareUnicode(left, right) {
 
 function scalarString(node) {
   return isScalar(node) && typeof node.value === "string"
-    ? node.value.normalize("NFC")
+    ? normalizeNfc(node.value)
     : undefined;
 }
 

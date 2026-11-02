@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import {
   canonicalJson,
   compareUnicode,
@@ -17,9 +18,9 @@ function sourceInvalid(path, message) {
 }
 
 function append(index, key, value) {
-  const normalizedKey = key.normalize("NFC");
+  const normalizedKey = normalizeNfc(key);
   const values = index.get(normalizedKey) ?? [];
-  values.push(value.normalize("NFC"));
+  values.push(normalizeNfc(value));
   index.set(normalizedKey, values);
 }
 
@@ -82,7 +83,7 @@ export function buildGraphIndex(input) {
     );
 
   ordered.forEach(({ element, index }) => {
-    const id = element.id.normalize("NFC");
+    const id = normalizeNfc(element.id);
     if (byId.has(id)) {
       sourceInvalid(`/elements/${index}/id`, "stable IDが重複しています。");
     }
@@ -97,7 +98,7 @@ export function buildGraphIndex(input) {
         if (
           typeof endpoint !== "string" ||
           !STABLE_ID_PATTERN.test(endpoint) ||
-          !byId.has(endpoint.normalize("NFC"))
+          !byId.has(normalizeNfc(endpoint))
         ) {
           sourceInvalid(
             `/elements/${index}/attributes/${field}`,
@@ -111,7 +112,7 @@ export function buildGraphIndex(input) {
   });
 
   return {
-    graphRevision: graphRevision.normalize("NFC"),
+    graphRevision: normalizeNfc(graphRevision),
     rootDigest: graphRootDigest(ordered.map(({ element }) => element)),
     byId,
     byType: sortLists(byType),

@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { isAlias, isMap, isPair, isScalar, isSeq } from "yaml";
 import { PackageError } from "./errors.js";
 import { validateYamlAuthoringOrder } from "./yaml-authoring-order.js";
@@ -124,7 +125,7 @@ function validateNode(node, path) {
         invalid(path, "YAML の項目名は scalar 文字列にします。");
       }
       validateScalar(pair.key, path, true);
-      const key = pair.key.value.normalize("NFC");
+      const key = normalizeNfc(pair.key.value);
       if (key === "<<") {
         invalid(path, "YAML の merge key を使えません。");
       }
@@ -167,7 +168,7 @@ export function validateYamlDocument(document, path) {
 
 export function normalizeYamlLogicalValue(value) {
   if (typeof value === "string") {
-    return value.normalize("NFC");
+    return normalizeNfc(value);
   }
   if (Array.isArray(value)) {
     return value.map(normalizeYamlLogicalValue);
@@ -179,7 +180,7 @@ export function normalizeYamlLogicalValue(value) {
   const normalized = {};
   const keys = new Set();
   for (const [rawKey, entry] of Object.entries(value)) {
-    const key = rawKey.normalize("NFC");
+    const key = normalizeNfc(rawKey);
     if (keys.has(key)) {
       throw new TypeError(`NFC 正規化後に重複する項目です: ${key}`);
     }

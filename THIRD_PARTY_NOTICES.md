@@ -19,6 +19,16 @@ description: 中核SDKの直接依存と、同梱した条件の範囲を示す�
 同梱した条件は、[公式配布物](https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz)を固定情報の`integrity`へ照合し、取り出した本文です。
 [原作者の公開本文](https://github.com/eemeli/yaml/blob/v2.9.1/LICENSE)も参照できます。
 
+## Unicodeの正規化データ
+
+Unicode 16.0.0の文字データから、正規分解、結合クラスと合成に必要な表を抽出して同梱します。
+公式の正規化試験から、区分と五つの入力列も検査用に保持します。
+これらのデータはUnicode License V3に従い、Morivyxの独自実装へ適用する`Apache-2.0`と区別します。
+
+著作権表示と利用条件の全文は、[Node.jsの実装](packages/kernel/src/unicode-nfc.js)と[Pythonの実装](packages/portable-core/unicode_nfc.py)へ含めています。
+[公式の利用条件](https://www.unicode.org/license.txt)と、[元データの検査値及び再照合方法](docs/unicode-normalization.md)も参照できます。
+実行時の通信と外部ライブラリの導入は不要です。
+
 ## Pythonと実行環境
 
 Pythonの中核は標準機能だけを使います。

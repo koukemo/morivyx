@@ -6,3 +6,8 @@ are licensed under the Apache License, Version 2.0.
 Previously saved distribution archives and review bundles are excluded from
 this notice. Third-party materials, including quotations and adaptations,
 retain their own license terms.
+
+Unicode 16.0.0 normalization data and derived test vectors are provided under
+Unicode License V3. The complete Unicode copyright and permission notice is
+embedded in the kernel's src/unicode-nfc.js and the portable-core's
+unicode_nfc.py alongside the derived runtime tables.

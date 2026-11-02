@@ -1,3 +1,4 @@
+import { normalizeNfc } from "./unicode-nfc.js";
 import { createHash } from "node:crypto";
 import { canonicalJson, compareUnicode, digestValue } from "./canonical.js";
 import { PackageError } from "./errors.js";
@@ -88,8 +89,7 @@ function assertStringList(value, path, allowEmpty = true) {
 }
 
 function markdownText(value) {
-  return value
-    .normalize("NFC")
+  return normalizeNfc(value)
     .replaceAll("\r\n", "\n")
     .replaceAll("\r", "\n")
     .replaceAll("\t", "    ")
@@ -322,7 +322,7 @@ export function projectDecisionMarkdown(input) {
     invalid("/decisionId", "焦点のDecisionがGraphにありません。");
   }
   validateDecision(decision);
-  const graphRevision = input.graphRevision.normalize("NFC");
+  const graphRevision = normalizeNfc(input.graphRevision);
   const markdown = renderMarkdown(
     { ...input, graphRevision },
     decision,
