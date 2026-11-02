@@ -10,7 +10,7 @@
     "NOTICE"
   ],
   "engines": {
-    "node": ">=26.0.0"
+    "node": ">=26.13.0"
   },
   "exports": {
     ".": "./src/package-reader.js",
