@@ -1,0 +1,11 @@
+format: "morivyx.decision-revision-request/0.1"
+decisionId: "urn:uuid:00000000-0000-4000-8000-000000000002"
+attributes:
+  consequences:
+    - "保存前と読み取り時に構造を検証する。"
+  question: "設定の保存形式を何にするか？"
+  rationale: "YAMLを維持し、読み取り時にも構造を検証する。"
+changeSetId: "urn:uuid:00000000-0000-4000-8000-000000000004"
+resultingRevision: "graph:tutorial-revised"
+actor: "urn:uuid:00000000-0000-4000-8000-000000000009"
+recordedAt: "2026-11-02T00:20:00Z"
