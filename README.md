@@ -10,6 +10,12 @@ description: Node.jsとPythonの中核実装、Core仕様と適合検査を含�
 Node.jsのKernel、Pythonの独立した中核、Coreの仕様と適合検査を含みます。
 版は`0.1.0`です。
 
+## 使い始める
+
+[判断を保存して差分を確認するチュートリアル](docs/tutorials/getting-started.md)で、サンプルの準備から、別の保存先への判断の追加、差分とNode.js及びPythonでの読取まで試せます。
+Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorials/python-only.md)を使えます。
+使い方を探す場合は、[利用手順の入口](docs/tutorials/README.md)から選べます。
+
 ## 含める機能
 
 - ファイルで保存した正本の読取、検証、検査値と由来の照合。
@@ -51,7 +57,10 @@ GitHubからのソース配布、ローカルでの導入と梱包は可能で�
 - [Pythonの範囲](packages/portable-core/README.md)
 - [ライセンス本文](LICENSE)と[権利表示](NOTICE)
 - [外部依存の表示](THIRD_PARTY_NOTICES.md)
-- 同梱ファイルの由来と検査値（同梱対象外の参照）
+- [初版の同梱ファイルの由来と検査値](SOURCE-MANIFEST.json)
+
+由来の一覧はタグ`v0.1.0`を作った時点の配布記録です。
+その後の文書更新と実装例を含む現在の全ファイル一覧ではありません。
 
 同梱した独自コード、文書、図、Schemaと検証用データは`Apache-2.0`です。
 外部由来の内容は元の条件を維持します。

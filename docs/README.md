@@ -6,6 +6,8 @@ description: 配布したCore定義、設計文書、採用済みの契約と用
 
 # 中核仕様の入口
 
+使い始める場合は、[利用手順の入口](tutorials/README.md)から進めます。
+
 ## Coreと保存
 
 - [Coreの定義](schema/morivyx-core-0-1.md)
