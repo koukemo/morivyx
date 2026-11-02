@@ -5,6 +5,7 @@ import { copyFile, mkdir, mkdtemp, readdir, readFile, realpath, rm, stat, symlin
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { canonicalJson } from "../packages/kernel/src/canonical.js";
 import { readGraphPackage } from "../packages/kernel/src/package-reader.js";
 import { validatePackage } from "../packages/kernel/src/validator.js";
 
@@ -12,6 +13,9 @@ const repository = fileURLToPath(new URL("../", import.meta.url));
 const python = process.argv[2] ?? "python3";
 const root = await realpath(await mkdtemp(join(tmpdir(), "morivyx-backup-tutorial-")));
 const sha = (data) => createHash("sha256").update(data).digest("hex");
+const logicalSnapshot = (contents) => canonicalJson({ revision: contents.revision, schemaLock: contents.schemaLock,
+  elements: contents.elements.toSorted((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+  changeSets: contents.changeSets.toSorted((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0) });
 function execute(command, args, { cwd = repository, env = process.env, expected = 0, input } = {}) {
   const result = spawnSync(command, args, { cwd, env, input, encoding: "utf8", timeout: 30000, maxBuffer: 4 * 1024 * 1024 });
   assert.ifError(result.error);
@@ -54,6 +58,7 @@ try {
   assert.deepEqual(await snapshot(sample), original);
   const backups = [];
   for (const name of ["base", "after"]) {
+    const sourcePackage = await readGraphPackage(join(sample, name));
     const path = join(root, `${name}.json`);
     const receipt = execute(python, ["-B", "examples/backup-restore/export.py", join(sample, name, ".morivyx"), path]);
     const data = await readFile(path);
@@ -61,12 +66,15 @@ try {
     assert.equal(receipt.backupSha256, sha(data));
     assert.equal(receipt.backupBytes, data.length);
     assert.equal(receipt.files, Object.keys(JSON.parse(data)).length);
+    assert.equal(receipt.graphRevision, sourcePackage.revision.id);
+    assert.equal(receipt.rootDigest, sourcePackage.revision.rootDigest);
+    assert.equal(receipt.schemaLockDigest, sourcePackage.revision.schemaLockDigest);
     assert.equal((await stat(path)).mode & 0o777, 0o600);
     const before = sha(data);
     const refusal = execute(python, ["-B", "examples/backup-restore/export.py", join(sample, name, ".morivyx"), path], { expected: 1 });
     assert.equal(refusal.error.code, "BACKUP_OUTPUT_EXISTS");
     assert.equal(sha(await readFile(path)), before);
-    backups.push({ name, path, receipt, files: JSON.parse(data) });
+    backups.push({ name, path, receipt, files: JSON.parse(data), logical: logicalSnapshot(sourcePackage) });
   }
   assert.deepEqual(await snapshot(sample), original);
   const isolated = join(root, "isolated"), empty = join(root, "empty-path");
@@ -102,8 +110,12 @@ try {
   const boundaryReceipt = restore(exactLimitPath, join(parent, "exact-limit"), sha(exactLimitData));
   assert.equal(boundaryReceipt.restored, true);
   assert.equal(boundaryReceipt.rootDigest, backups[0].receipt.rootDigest);
+  const [duplicateKey, duplicateValue] = Object.entries(backups[0].files)[0];
+  const duplicateData = Buffer.from(JSON.stringify(backups[0].files).slice(0, -1) +
+    `,${JSON.stringify(duplicateKey)}:${JSON.stringify(duplicateValue)}}`);
+  assert.deepEqual(JSON.parse(duplicateData), backups[0].files);
   for (const [name, data, code] of [
-    ["duplicate", Buffer.from('{"revision.yaml":"","revision.yaml":""}'), "BACKUP_INPUT_INVALID"],
+    ["duplicate", duplicateData, "BACKUP_INPUT_INVALID"],
     ["oversized", oversizedData, "BACKUP_INPUT_INVALID"],
   ]) {
     const path = join(isolated, `${name}.json`), target = join(parent, name);
@@ -129,6 +141,7 @@ try {
     const read = execute(selectedPython, ["-B", join(runtime, "package_records.py"), target], { cwd: isolated, env });
     assert.equal(read.calculatedRootDigest, backup.receipt.rootDigest);
     assert.equal(read.calculatedSchemaLockDigest, backup.receipt.schemaLockDigest);
+    assert.equal(logicalSnapshot(await readGraphPackage(folder)), backup.logical);
     const exportedAgain = join(isolated, `${backup.name}-again.json`);
     const again = execute(selectedPython, ["-B", join(example, "export.py"), target, exportedAgain], { cwd: isolated, env });
     assert.equal(again.backupSha256, backup.receipt.backupSha256);
@@ -145,7 +158,7 @@ try {
   assert.equal(decoded.elements.length, 2);
   console.log(JSON.stringify({ valid: true, packages: backups.length, files: backups.map(b => b.receipt.files),
     sourceUnchangedBeforeRemoval: true, sourceRemovedBeforeRestore: true, nodeAndGitAbsentFromChildPath: true,
-    restoredBytesMatchExport: true, rootAndSchemaDigestsMatch: true, existingBackupsAndTargetsUnchanged: true,
+    restoredBytesMatchExport: true, originalLogicalRecordsMatch: true, rootAndSchemaDigestsMatch: true, existingBackupsAndTargetsUnchanged: true,
     wrongPinsCreateNoTarget: true, malformedInputsCreateNoTarget: true, exactInputLimitRestored: true,
     outputsInsideSourceRefused: true, caseAliasChecked,
     python: selectedPython, node: process.versions.node }, null, 2));
