@@ -103,6 +103,33 @@ class YamlRecordTests(unittest.TestCase):
             with self.subTest(source=source[:100]), self.assertRaises(ValueError):
                 read_yaml(source)
 
+    def test_separated_values_and_parent_relative_quoted_continuations(self):
+        cases = [
+            ('value:\n  "one"\nafter: "end"\n', {"value": "one", "after": "end"}),
+            ('values:\n  -\n    7\n  -\n    false\n  -\n    []\n  -\n    {}\n', {"values": [7, False, [], {}]}),
+            ('value:\n    "first\n second"\n', {"value": "first second"}),
+            ('outer:\n  value:\n      "first\n   second"\n', {"outer": {"value": "first second"}}),
+            ('values:\n  -\n      "first\\\n   second"\n', {"values": ["firstsecond"]}),
+            ('values:\n  -   -\n       "one"\n', {"values": [["one"]]}),
+            ('? "value"\n:\n    "first\n second"\n', {"value": "first second"}),
+            ('values:\n  -   value:\n          "first\n       second"\n', {"values": [{"value": "first second"}]}),
+        ]
+        for source, expected in cases:
+            with self.subTest(source=source):
+                self.assertEqual(read_yaml(source), expected)
+
+    def test_separated_values_keep_scalar_boundaries_and_rejection_guards(self):
+        for source in [
+            'value:\n"one"\n', 'value:\n  "one"\n  "two"\n',
+            'value:\n  "first\nsecond"\n',
+            'value:\n  "first\n   second": "bad"\n',
+            'value:\n  unquoted\n', 'value:\n  [1]\n', 'value:\n  1.5\n',
+            'value:\n  !!str "bad"\n', 'value:\n  "bad\tvalue"\n',
+            "".join(" " * (i * 2) + "x:\n" for i in range(MAX_DEPTH + 2)) + " " * ((MAX_DEPTH + 3) * 2) + '"end"\n',
+        ]:
+            with self.subTest(source=source[:100]), self.assertRaises(ValueError):
+                read_yaml(source)
+
     def test_input_encoding_and_bounds(self):
         for source in [b"x: \xff\n", b"\xef\xbb\xbfx: 1\n", b"x: 1\r\n",
                        b"x:\t1\n", b"x: 1", b"x: 1\n\n", b"x: 1\n \n", b"x: \x00\n",

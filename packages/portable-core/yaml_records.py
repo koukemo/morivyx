@@ -316,7 +316,7 @@ def read_yaml(source):
         while True:
             while text.startswith("- "):
                 payload = text[1:].lstrip(" ")
-                if not (payload.startswith(("- ", "? ")) or payload == "?" or mapping_pair(payload) is not None):
+                if not (payload.startswith(("- ", "? ")) or payload in ("-", "?") or mapping_pair(payload) is not None):
                     break
                 compact_depth += 1
                 if compact_depth > MAX_DEPTH:
@@ -337,7 +337,19 @@ def read_yaml(source):
                 explicit_key = True
             break
         pair = mapping_pair(text, check_implicit_length=not explicit_key)
-        rest = text[1:].lstrip(" ") if text.startswith("- ") else pair[1] if pair is not None else ""
+        standalone = pair is None and text != "-" and not text.startswith("- ")
+        if text.startswith("- "):
+            rest = text[1:].lstrip(" ")
+        elif pair is not None:
+            rest = pair[1]
+        else:
+            rest = text if standalone else ""
+        parent_indent = indent
+        if standalone and lines:
+            previous_indent, previous_text = lines[-1]
+            previous_pair = mapping_pair(previous_text)
+            if previous_text == "-" or (previous_pair is not None and not previous_pair[1]):
+                parent_indent = previous_indent
         if rest.startswith('"') and not closes_double_quote(rest, 1):
             fragments = [text]
             while True:
@@ -345,12 +357,14 @@ def read_yaml(source):
                     raise ValueError("unterminated YAML string")
                 continuation = physical[line_number]
                 line_number += 1
-                if continuation.strip(" ") and len(continuation) - len(continuation.lstrip(" ")) <= indent:
+                if continuation.strip(" ") and len(continuation) - len(continuation.lstrip(" ")) <= parent_indent:
                     raise ValueError("invalid quoted continuation indentation")
                 fragments.append(continuation)
                 if closes_double_quote(continuation):
                     break
             text = "\n".join(fragments)
+            if standalone and mapping_pair(text) is not None:
+                raise ValueError("multiline implicit keys are forbidden")
         lines.append((indent, text.rstrip(" ")))
     if not lines:
         raise ValueError("record must contain a mapping")
@@ -358,6 +372,7 @@ def read_yaml(source):
     position = 0
 
     def value(rest, indent, depth, allow_indentless=False):
+        nonlocal position
         if rest:
             return scalar(rest)
         if position >= len(lines):
@@ -366,6 +381,9 @@ def read_yaml(source):
         indentless = allow_indentless and next_indent == indent and (next_text == "-" or next_text.startswith("- "))
         if next_indent <= indent and not indentless:
             raise ValueError("missing block value")
+        if next_text != "-" and not next_text.startswith("- ") and mapping_pair(next_text) is None:
+            position += 1
+            return scalar(next_text)
         return block(next_indent, depth + 1, stop_on_mapping=indentless)
 
     def block(indent, depth, stop_on_mapping=False):
