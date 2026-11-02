@@ -88,7 +88,7 @@ def double_string(token):
     raise ValueError("unterminated YAML string")
 
 
-def mapping_pair(text):
+def mapping_pair(text, check_implicit_length=False):
     quoted, i = None, 0
     while i < len(text):
         c = text[i]
@@ -104,6 +104,8 @@ def mapping_pair(text):
             if i == 0 and c in "\"'":
                 quoted = c
             elif c == ":" and (i + 1 == len(text) or text[i + 1] == " "):
+                if check_implicit_length and len(text[:i]) > 1024:
+                    raise ValueError("implicit YAML key spelling exceeds 1024 Unicode characters")
                 return text[:i].rstrip(" "), text[i + 1:].lstrip(" ")
         i += 1
     return None
@@ -310,6 +312,7 @@ def read_yaml(source):
             raise ValueError("YAML directives, document markers and comments are forbidden")
         # Expand compact block list mappings into the same indentation grammar.
         compact_depth = 0
+        explicit_key = False
         while True:
             while text.startswith("- ") and (
                 text[2:].startswith(("- ", "? ")) or text[2:] == "?" or mapping_pair(text[2:]) is not None
@@ -330,8 +333,9 @@ def read_yaml(source):
                     indent, text = payload_indent, payload
                     continue
                 text = key + ": " + payload
+                explicit_key = True
             break
-        pair = mapping_pair(text)
+        pair = mapping_pair(text, check_implicit_length=not explicit_key)
         rest = text[2:] if text.startswith("- ") else pair[1] if pair is not None else ""
         if rest.startswith('"') and not closes_double_quote(rest, 1):
             fragments = [text]
