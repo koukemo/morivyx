@@ -19,9 +19,13 @@ def main():
     parser.add_argument("backup", help="new JSON file; parent must exist")
     args = parser.parse_args()
     try:
-        if Path(args.backup).resolve().is_relative_to(Path(args.directory).resolve()):
-            print('{"error":{"code":"BACKUP_OUTPUT_IN_SOURCE"}}', file=sys.stderr)
-            return 1
+        source_info = Path(args.directory).stat()
+        output_parent = Path(args.backup).parent.resolve(strict=True)
+        for parent in (output_parent, *output_parent.parents):
+            info = parent.stat()
+            if (info.st_dev, info.st_ino) == (source_info.st_dev, source_info.st_ino):
+                print('{"error":{"code":"BACKUP_OUTPUT_IN_SOURCE"}}', file=sys.stderr)
+                return 1
         package = read_package(args.directory)
         files = write_package_files(package)
         data = (json.dumps(files, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
