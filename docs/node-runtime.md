@@ -30,8 +30,16 @@ Node.js本体の最低版を定める。
 `package.json`の`engines.node`とlockを`>=26.13.0`へ揃える。
 導入時は`engine-strict=true`、導入先のアプリでは`--engine-strict`を指定する。
 `.nvmrc`と`.node-version`の選択版も26.13.0である。
+CLIは、ソースから直接実行する場合も、引数処理と正本の読書きの前に版を検査する。
+対応外の版では`NODE_VERSION_UNSUPPORTED`と終了値1を返す。
+この実行時検査はCLIの入口に適用し、ライブラリとしての導入には従来の版要件を使う。
+境界値、実際の旧版と配布物の[確認結果](validation/cli-runtime-minimum.md)を保存する。
 過去のタグと検証結果は、その時点の資料として保持する。
 
 ![公式の修正情報を確認し、最低版を26.13.0へ揃えて下限未満の導入を拒否する流れ](diagrams/node-security-floor.png)
 
 [図の生成元](diagrams/node-security-floor.mmd)
+
+![導入時とCLIの実行時に最低版を検査し、対応外なら読書きへ進まない流れ](diagrams/cli-runtime-minimum.png)
+
+[CLIの図の生成元](diagrams/cli-runtime-minimum.mmd)

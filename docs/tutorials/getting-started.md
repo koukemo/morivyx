@@ -180,6 +180,7 @@ console.log(contents.elements.map(({ type, attributes }) => ({ type, attributes 
 | 状況 | 確認すること |
 |---|---|
 | `ERR_MODULE_NOT_FOUND`で`yaml`が見つからない | リポジトリ直下で導入の`npm ci`を実行する |
+| `NODE_VERSION_UNSUPPORTED`になる | CLIを起動したNode.jsを26.13.0以上の正式版へ切り替える。導入後に実行環境を戻していないか確認する |
 | サンプル作成が`EEXIST`になる | `.tutorial`が既にあるため、新しいフォルダー名を選び、以降のコマンドのパスも合わせる |
 | `create-decision`が既存の保存先を拒否する | `.tutorial/after-2`など未使用の保存先を指定する |
 | ファイルやSchemaが見つからない | リポジトリ直下で実行しているか、Node.jsとPythonに渡すフォルダーの違いを確認する |
