@@ -65,6 +65,7 @@ GitHubからのソース配布、ローカルでの導入と梱包は可能で�
 - [文字の正規化とUnicodeの版](docs/unicode-normalization.md)
 - [YAMLの文字とエスケープ](docs/yaml-source-characters.md)
 - [YAMLの明示した項目名と長い項目名](docs/yaml-explicit-keys.md)
+- [YAML項目名の長さの数え方](docs/yaml-key-length.md)
 - [ライセンス本文](LICENSE)と[権利表示](NOTICE)
 - [外部依存の表示](THIRD_PARTY_NOTICES.md)
 - [初版の同梱ファイルの由来と検査値](SOURCE-MANIFEST.json)
