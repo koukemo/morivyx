@@ -14,7 +14,8 @@ description: サンプルの準備、読取、判断の追加、差分とNode.js
 
 ## 1. ソースと実行環境を準備する
 
-Node.js `22.13.0`以上と`npm`、ソース取得用の`Git`を用意します。
+Node.js `26.0.0`以上と`npm`、ソース取得用の`Git`を用意します。
+開発用の選択版は`26.13.0`です。
 Pythonの節も試す場合は、検査済みの`3.14`または`3.15`を用意します。
 以下はシェルで実行し、特に断りのないコマンドはリポジトリ直下で実行します。
 ソース取得と依存ライブラリの導入には通信が必要です。
@@ -29,6 +30,10 @@ node packages/kernel/src/cli.js --version
 ```
 
 Pythonを使わない場合は、`python3 --version`を省略できます。
+`nvm`を導入済みの場合は、リポジトリ直下で`nvm install`と`nvm use`を実行すると、`.nvmrc`の版を選べます。
+`.node-version`にも同じ版を記録しています。
+これらのファイル自体が、実行中のNode.jsを自動で切り替えるものではありません。
+導入時に`EBADENGINE`が出た場合は、`node --version`を確認して26以上へ切り替えます。
 CLIの版として`0.1.0`が表示されます。
 現時点ではソース配布です。
 `npm install @morivyx/kernel`によるレジストリからの導入は案内していません。
@@ -148,7 +153,7 @@ npm pack ./packages/kernel --ignore-scripts
 以下の絶対パスは、実際に作った配布用ファイルとデータのパスへ置き換えます。
 
 ```sh
-npm install /path/to/morivyx/morivyx-kernel-0.1.0.tgz --ignore-scripts
+npm install /path/to/morivyx/morivyx-kernel-0.1.0.tgz --ignore-scripts --engine-strict
 ```
 
 アプリケーションに、次の内容の`read-package.mjs`を作ります。
@@ -167,6 +172,8 @@ console.log(contents.elements.map(({ type, attributes }) => ({ type, attributes 
 自分のプロジェクトで`node read-package.mjs`を実行すると、資料と判断の内容を取得できます。
 `readGraphPackage`は読取、`validatePackage`はSchemaとGraphの検証を行う別の関数です。
 ソース配布から導入する手順なので、npmへの登録は必要ありません。
+`--engine-strict`は、自分のプロジェクトへ導入するときにもNode.jsの要件を検査する指定です。
+配布元の`.npmrc`は、導入先のプロジェクトには引き継がれません。
 
 ## うまく動かないとき
 
