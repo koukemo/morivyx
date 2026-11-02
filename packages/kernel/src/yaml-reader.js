@@ -30,6 +30,7 @@ export async function readYamlRecord(path, required = true) {
     document = parseDocument(source, {
       prettyErrors: false,
       uniqueKeys: true,
+      keepSourceTokens: true,
     });
   } catch (error) {
     throw new PackageError(
