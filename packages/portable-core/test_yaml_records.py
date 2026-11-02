@@ -19,6 +19,22 @@ def logical_records(value):
 
 
 class YamlRecordTests(unittest.TestCase):
+    def test_plain_keys_use_exact_core_spelling(self):
+        accepted = [".nAn", ".Nan", ".nAN", ".iNF", "+.iNf", "-.iNf", "+0o7", "-0o7", "+0xAf", "-0xAf", "+.nan", "-.NaN"]
+        rejected = [".nan", ".NaN", ".NAN", ".inf", ".Inf", ".INF", "+.Inf", "-.INF", "0o7", "0xAf", "true", "False", "null", "1.0"]
+        for token in accepted + rejected:
+            with self.subTest(token=token):
+                source = 'format: "morivyx.git-graph/0.1"\nextensions:\n  ' + token + ': "value"\n'
+                if token in accepted:
+                    value = read_yaml(source)
+                    self.assertEqual(value["extensions"], {token: "value"})
+                    self.assertEqual(read_yaml(write_yaml(value)), value)
+                else:
+                    with self.assertRaises(ValueError):
+                        read_yaml(source)
+                quoted = 'format: "morivyx.git-graph/0.1"\nextensions:\n  "' + token + '": "value"\n'
+                self.assertEqual(read_yaml(quoted)["extensions"], {token: "value"})
+
     def test_nonempty_package_fixed_input_and_output(self):
         vector = json.loads((FIXTURES / "graph-package-roundtrip-vector.json").read_text())
         inputs = logical_records(vector["inputLogicalValue"])

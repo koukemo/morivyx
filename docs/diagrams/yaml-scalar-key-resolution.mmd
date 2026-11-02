@@ -1,0 +1,16 @@
+flowchart TB
+  A["YAMLの項目名を読む<br/>大小文字と符号を確認"] --> B{"基本型の正確な表記で<br/>文字列以外に解決するか"}
+  B -->|はい| C["数値や真偽値の項目名<br/>従来どおり拒否"]
+  B -->|いいえ| D["文字列の項目名を保持<br/>混在した大小文字<br/>符号付きの八進に似た表記"]
+  A --> E["引用符で囲んだ対照例<br/>文字列として保持"]
+  D --> F["両実装で1078例を照合<br/>受理809例と拒否269例<br/>元の本文を保持"]
+  C --> F
+  E --> F
+  F --> G["三正本の表記を変更<br/>論理値と検査値が一致<br/>定義と意味の検証も一致"]
+  F --> H["値の制約は維持<br/>文字列値は二重引用符<br/>浮動小数点と範囲外は拒否"]
+  classDef check fill:#e7f2f8,stroke:#236b8e,color:#183a49
+  classDef ok fill:#e5f1eb,stroke:#196956,color:#183a49
+  classDef stop fill:#fff4e6,stroke:#8d5618,color:#183a49
+  class A,B,F check
+  class D,E,G ok
+  class C,H stop
