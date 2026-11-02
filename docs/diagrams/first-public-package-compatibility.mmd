@@ -1,0 +1,17 @@
+flowchart TB
+  A["公開初版を固定<br/>v0.1.0のコミットとタグ<br/>元の三正本19ファイル"] --> B["当時の独立実装で生成<br/>元の読取と正規化後の読取<br/>出力と診断を固定"]
+  B --> C["現在の両実装で照合<br/>論理値と検査値<br/>全量出力と検証範囲"]
+  C --> D["元の一時領域を除去<br/>Pythonだけを別領域へ<br/>Node.jsとGitは探索不可"]
+  D --> E["新しい領域へ実際に復旧<br/>両実装で再読取<br/>出力と同じ本文を確認"]
+  A --> F["破損した9例<br/>不足と改変を拒否<br/>保存先を作成しない"]
+  E --> G["既存の保存先は拒否<br/>本文を変更しない"]
+  C --> H["Schema不足の二正本<br/>全体として有効にしない<br/>当時の診断を維持"]
+  E --> I["三資料の有限な互換検査<br/>長期経過と全機能の互換<br/>段階全体の完了は未実証"]
+  H --> I
+  F --> I
+  classDef source fill:#e7f2f8,stroke:#236b8e,color:#183a49
+  classDef check fill:#e5f1eb,stroke:#196956,color:#183a49
+  classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
+  class A,B source
+  class C,D,E,G check
+  class F,H,I scope

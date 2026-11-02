@@ -1,0 +1,934 @@
+{
+  "format": "morivyx.test.first-public-packages/1",
+  "repository": "koukemo/morivyx",
+  "commit": "306dec450c30c3dd5945ca4f0ffb787b50dc4193",
+  "tag": "v0.1.0",
+  "tagObject": "84ec87cb665977f7604505db6ee220b1acece8db",
+  "sourceManifestSha256": "3b5509a0b3e289d42122e89bc0ad0f18e08387cf915afc09c22f316fee7b19de",
+  "expectationReader": {
+    "sourceCommit": "306dec450c30c3dd5945ca4f0ffb787b50dc4193",
+    "python": "3.14.10",
+    "productionModules": 26
+  },
+  "sourceFiles": {
+    "packages/portable-core/approval_assessment.py": "59b73eeab52cf8170f30aa62a68a8a4091de9f0db990c446ec39b8b9e248cdb9",
+    "packages/portable-core/approval_validation.py": "84f8bd3559be7eb13cdf3eaba5c0b9094fb8bbdd5a8273c0d2cdfd13e7cc675d",
+    "packages/portable-core/canonical.py": "161d1e5aaa8cfc423f1194315c9335b6c90d3f749f3f44eabd3bf48f690fcff4",
+    "packages/portable-core/changeset_apply.py": "2127a465fb0010f1bec5f7214330bcd37cad7c8d01e67d12438b82f77d245e8d",
+    "packages/portable-core/external_comparison.py": "fc4d7cae922617d31c14ad824dd930f877d1715f44592a51bb0c7d28f32a93d5",
+    "packages/portable-core/graph_index.py": "d077b025797c81e4ccc3f9f705f31a2696ed6ee2307b31f1ea5dd071ee6a489e",
+    "packages/portable-core/graph_validation.py": "969d8c54bfc47d85357022c8066f338815329c7c7f6db8e5d6ef2dcd19b9123b",
+    "packages/portable-core/migration_apply.py": "e241c3baa433fe738b1091451bdf0b7c492a6ce14b5033e152549d386ecd3677",
+    "packages/portable-core/migration_validation.py": "e75ce413c611e0b2b555d4501e5883bfbb8193e32149873d0be88c018f4800b1",
+    "packages/portable-core/package_history.py": "4513680d21495f0fb15e1bd80a23438028e2f52223d580562355154b3f3d3445",
+    "packages/portable-core/package_migration.py": "263784739dffcca6c127833020add35e3197a8be0475965c1858189e22f4be5e",
+    "packages/portable-core/package_records.py": "57a33d75dc889e499ced089bebe2bb6f7cecd95eeeae8cea4708ddc3454208e1",
+    "packages/portable-core/package_restore.py": "e6c80313bc57a3c2734b6f9841813ecd33aa2f91757d5eb5ab530e1bb6f2d055",
+    "packages/portable-core/package_trace.py": "09fd16d783077ced7918b187a2803c62c5a1954ee6a8890d25d7ac6f3ca04a82",
+    "packages/portable-core/package_validation.py": "6209515e4d20b3f991aa26b63dabb844dbea449b26dc838f09c79d5b1045891c",
+    "packages/portable-core/portable_cli.py": "1d6b7ee8baf5899337c9065ace9da10f9fd525f52c092cf541f3241938214e10",
+    "packages/portable-core/record_validation.py": "4cf1bc2511c5c3838e5330d6ce5c80579181b06c5f3058c5336853100807eb54",
+    "packages/portable-core/report_records.py": "2284bd1e577f38d896d777a2f5999272b2d7bd1b6f56db0d5b4e6b6426f544d7",
+    "packages/portable-core/report_validation.py": "07e1a8798558d4b3731fb98140a74abd0c36ab249597bc775f62730bde89efb6",
+    "packages/portable-core/schema_registry.py": "58e54a2a9f81d3f2a15bc37f2150f8054b728bd5198ebbefc28b4607cb2e63c8",
+    "packages/portable-core/schema_validation.py": "36c6061fb3893cbd5e737571c78bd3be84dae1aa78edae820a26e950549f5d0d",
+    "packages/portable-core/semantic_diff.py": "d82fd5a87a570e99f491e3360a41a5967f97847317ff940e0d587aab2b488357",
+    "packages/portable-core/stdin_transport.py": "fda381ac29c9aaec0be5239fbc27e1b70d84dc60dd65ff0bd60680899d3c36f7",
+    "packages/portable-core/trace_query.py": "21d3f8ed1cfa7a138e204ee070b1a66648016567c6d2307f32f2b5d5b988a602",
+    "packages/portable-core/yaml_authoring.py": "68cc972b0756790a7b5a1282d67a9b677d1fbd324846fba7fa2ee209700166e8",
+    "packages/portable-core/yaml_records.py": "66d91f886ce6431b489919eb45d8ef97d05300ed8325c1643fd399726c18c90a",
+    "packages/portable-core/core-schema.yaml": "58bd70834e9d93a821463af667883d78cb1124442109065b1a851348323a8f4e",
+    "packages/kernel/test/fixtures/package-v1/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23",
+    "packages/kernel/test/fixtures/package-v1/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53",
+    "packages/kernel/test/fixtures/package-v1/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123",
+    "packages/kernel/test/fixtures/package-v1/.morivyx/revision.yaml": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc",
+    "packages/kernel/test/fixtures/package-v1/.morivyx/schema.lock.yaml": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440005.yaml": "420bbdd96c4f600b56b7f57f4aff0fa241694cbee83193abdd31a8aca7207de2",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/ledger/550e8400-e29b-41d4-a716-446655440012.yaml": "2754f4625e0c884fc02f13976863473f890af07e56fd956a909ea94b970a1d43",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/migrations/550e8400-e29b-41d4-a716-446655440014.yaml": "d548e8b740ccd1043400e14fa19e8d6cf7f63c53cb1599e7c5408f838c35100b",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/reports/550e8400-e29b-41d4-a716-446655440015.yaml": "5bd3384433c0cad640317c3cd0a6afe866a61b785e7ab0596cf777e69a7cc2f5",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/revision.yaml": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc",
+    "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/schema.lock.yaml": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f",
+    "packages/portable-core/fixtures/portable-cli-vectors.json": "24c885f346f4bc509a58be49172feb01a3da97ba7ebeff974777a76f03af2e2c"
+  },
+  "snapshots": [
+    {
+      "name": "package-v1",
+      "origin": {
+        "directory": "packages/kernel/test/fixtures/package-v1/.morivyx/"
+      },
+      "files": {
+        "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "format: \"morivyx.approval/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440003\"\nactor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\ntargetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntargetRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\noperation: \"activate\"\nscope: \"single-revision\"\napprovedAt: \"2026-07-30T03:00:00Z\"\nrecordedAt: \"2026-07-30T03:01:00Z\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-28T10:12:14+09:00\"\n  recordedAt: \"2026-07-28T10:15:00+09:00\"\n  stringValues:\n    - \"true\"\n    - \"01\"\n    - \"null\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-28T10:15:00+09:00\"\nextensions:\n  example.test/unknown:\n    ordered:\n      - \"A\"\n      - \"B\"\n    value: \"é\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440002\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-29T02:00:00Z\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n  stringValues:\n    - \"second\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n",
+        "revision.yaml": "format: \"morivyx.graph-revision/0.1\"\nid: \"graph:stage-1-package-v1\"\nparentRevision: null\nrootDigest: \"sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\n",
+        "schema.lock.yaml": "format: \"morivyx.schema-lock/0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nschemas:\n  - schemaId: \"morivyx.core\"\n    version: \"0.1\"\n    digest: \"sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da\"\n"
+      },
+      "fileSha256": {
+        "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123",
+        "revision.yaml": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc",
+        "schema.lock.yaml": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f"
+      },
+      "expectedLogical": {
+        "schemaLock": {
+          "format": "morivyx.schema-lock/0.1",
+          "stableIdScheme": "urn-uuid-v4",
+          "digestAlgorithm": "sha256",
+          "schemas": [
+            {
+              "schemaId": "morivyx.core",
+              "version": "0.1",
+              "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+            }
+          ]
+        },
+        "revision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:stage-1-package-v1",
+          "parentRevision": null,
+          "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        },
+        "elements": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-28T10:12:14+09:00",
+              "recordedAt": "2026-07-28T10:15:00+09:00",
+              "stringValues": [
+                "true",
+                "01",
+                "null"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-28T10:15:00+09:00"
+            },
+            "extensions": {
+              "example.test/unknown": {
+                "ordered": [
+                  "A",
+                  "B"
+                ],
+                "value": "é"
+              }
+            }
+          },
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-29T02:00:00Z",
+              "recordedAt": "2026-07-29T02:05:00Z",
+              "stringValues": [
+                "second"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-29T02:05:00Z"
+            }
+          }
+        ],
+        "approvals": [
+          {
+            "format": "morivyx.approval/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "targetRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "operation": "activate",
+            "scope": "single-revision",
+            "approvedAt": "2026-07-30T03:00:00Z",
+            "recordedAt": "2026-07-30T03:01:00Z"
+          }
+        ],
+        "changeSets": [],
+        "migrations": [],
+        "reports": []
+      },
+      "expectedRootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+      "expectedSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+      "expectedValidation": {
+        "valid": false,
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "graphRevision": "graph:stage-1-package-v1",
+        "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+        "issues": [
+          {
+            "code": "SCHEMA_LOCK_MISSING",
+            "phase": 2,
+            "elementId": "",
+            "path": "/schemas/morivyx.core@0.1",
+            "relatedId": ""
+          }
+        ],
+        "validation": {
+          "scope": "package-records-schema-and-graph-constraints",
+          "recordStructuresValidated": true,
+          "recordAuthoringValidated": true,
+          "recordDigestsValidated": true,
+          "approvalLedgerValidated": true,
+          "migrationBindingsValidated": true,
+          "reportsValidated": true,
+          "schemaLockBindingValidated": false,
+          "graphConstraintsValidated": false,
+          "approvalAuthorityValidated": false,
+          "signaturesValidated": false,
+          "packageValidated": false
+        }
+      },
+      "expectedExport": {
+        "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "format: \"morivyx.approval/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440003\"\nactor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\ntargetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntargetRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\noperation: \"activate\"\nscope: \"single-revision\"\napprovedAt: \"2026-07-30T03:00:00Z\"\nrecordedAt: \"2026-07-30T03:01:00Z\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-28T01:12:14Z\"\n  recordedAt: \"2026-07-28T01:15:00Z\"\n  stringValues:\n    - \"true\"\n    - \"01\"\n    - \"null\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-28T01:15:00Z\"\nextensions:\n  example.test/unknown:\n    ordered:\n      - \"A\"\n      - \"B\"\n    value: \"é\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440002\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-29T02:00:00Z\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n  stringValues:\n    - \"second\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n",
+        "revision.yaml": "format: \"morivyx.graph-revision/0.1\"\nid: \"graph:stage-1-package-v1\"\nparentRevision: null\nrootDigest: \"sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\n",
+        "schema.lock.yaml": "format: \"morivyx.schema-lock/0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nschemas:\n  - schemaId: \"morivyx.core\"\n    version: \"0.1\"\n    digest: \"sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da\"\n"
+      },
+      "expectedExportLogical": {
+        "schemaLock": {
+          "format": "morivyx.schema-lock/0.1",
+          "stableIdScheme": "urn-uuid-v4",
+          "digestAlgorithm": "sha256",
+          "schemas": [
+            {
+              "schemaId": "morivyx.core",
+              "version": "0.1",
+              "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+            }
+          ]
+        },
+        "revision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:stage-1-package-v1",
+          "parentRevision": null,
+          "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        },
+        "elements": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-28T01:12:14Z",
+              "recordedAt": "2026-07-28T01:15:00Z",
+              "stringValues": [
+                "true",
+                "01",
+                "null"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-28T01:15:00Z"
+            },
+            "extensions": {
+              "example.test/unknown": {
+                "ordered": [
+                  "A",
+                  "B"
+                ],
+                "value": "é"
+              }
+            }
+          },
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-29T02:00:00Z",
+              "recordedAt": "2026-07-29T02:05:00Z",
+              "stringValues": [
+                "second"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-29T02:05:00Z"
+            }
+          }
+        ],
+        "approvals": [
+          {
+            "format": "morivyx.approval/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "targetRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "operation": "activate",
+            "scope": "single-revision",
+            "approvedAt": "2026-07-30T03:00:00Z",
+            "recordedAt": "2026-07-30T03:01:00Z"
+          }
+        ],
+        "changeSets": [],
+        "migrations": [],
+        "reports": []
+      }
+    },
+    {
+      "name": "package-v1-roundtrip",
+      "origin": {
+        "directory": "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/"
+      },
+      "files": {
+        "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "format: \"morivyx.approval/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440003\"\nactor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\ntargetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntargetRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\noperation: \"activate\"\nscope: \"single-revision\"\napprovedAt: \"2026-07-30T03:00:00Z\"\nrecordedAt: \"2026-07-30T03:01:00Z\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-28T10:12:14+09:00\"\n  recordedAt: \"2026-07-28T10:15:00+09:00\"\n  stringValues:\n    - \"true\"\n    - \"01\"\n    - \"null\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-28T10:15:00+09:00\"\nextensions:\n  example.test/unknown:\n    ordered:\n      - \"A\"\n      - \"B\"\n    value: \"é\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440002\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-29T02:00:00Z\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n  stringValues:\n    - \"second\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n",
+        "ledger/550e8400-e29b-41d4-a716-446655440005.yaml": "format: \"morivyx.changeset/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440005\"\nbaseRevision: \"graph:stage-1-package-v1\"\nresultingRevision: \"graph:stage-1-package-v2\"\nresultingRootDigest: \"sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\noperations:\n  - op: \"revise\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\n    beforeRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\n    afterRevision: \"sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4\"\n  - op: \"create\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440004\"\n    afterRevision: \"sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a\"\nprovenance:\n  method: \"generated\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-31T05:00:00Z\"\nrecordedAt: \"2026-07-31T05:00:00Z\"\n",
+        "ledger/550e8400-e29b-41d4-a716-446655440012.yaml": "format: \"morivyx.changeset/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440012\"\nbaseRevision: \"graph:stage-1-package-v1\"\nresultingRevision: \"graph:stage-1-migration-v1\"\nresultingRootDigest: \"sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538\"\nschemaLockDigest: \"sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d\"\noperations:\n  - op: \"revise\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\n    beforeRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\n    afterRevision: \"sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4\"\n  - op: \"create\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440004\"\n    afterRevision: \"sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a\"\nprovenance:\n  method: \"generated\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-08-03T00:00:00Z\"\nrecordedAt: \"2026-08-03T00:00:00Z\"\n",
+        "migrations/550e8400-e29b-41d4-a716-446655440014.yaml": "format: \"morivyx.migration/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440014\"\nbaseRevision: \"graph:stage-1-package-v1\"\nsourceSchemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\ntargetSchemaLockDigest: \"sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d\"\nrulesDigest: \"sha256:8800ac85f305b58f6863ea94ad51113e8abd7a1ffeebbe4956d98492bb758854\"\nmappingDigest: \"sha256:7b948be1c612ec87bd6ec317af7c2c38896fe0b447d8ada0a041f8db85863f5a\"\nplannedSemanticDiffDigest: \"sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090\"\nchangeSetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440012\"\nresultingRevision: \"graph:stage-1-migration-v1\"\nresultingRootDigest: \"sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538\"\nprovenance:\n  method: \"generated\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-08-03T00:00:00Z\"\nrecordedAt: \"2026-08-03T00:00:00Z\"\n",
+        "reports/550e8400-e29b-41d4-a716-446655440015.yaml": "format: \"morivyx.trace-report/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440015\"\nqueryId: \"governing-decision\"\ngraphRevision: \"graph:stage-1-package-v1\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\nfocusId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\nevaluatedAt: \"2026-08-04T00:00:00Z\"\nstatus: \"partial\"\npaths: []\nmissing:\n  - \"governs\"\n",
+        "revision.yaml": "format: \"morivyx.graph-revision/0.1\"\nid: \"graph:stage-1-package-v1\"\nparentRevision: null\nrootDigest: \"sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\n",
+        "schema.lock.yaml": "format: \"morivyx.schema-lock/0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nschemas:\n  - schemaId: \"morivyx.core\"\n    version: \"0.1\"\n    digest: \"sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da\"\n"
+      },
+      "fileSha256": {
+        "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "af3928b8f8e80e14230755a3318384d053646fd390e79fe7f3d9262d26843f23",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "251dae5cad8ef7967e55472b814fd546bb7437b8929889c427c316cf1a913a53",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "7df6c270ed3938d6832fe2714385f33a033d0838623005f83ea69fc6d6cd6123",
+        "ledger/550e8400-e29b-41d4-a716-446655440005.yaml": "420bbdd96c4f600b56b7f57f4aff0fa241694cbee83193abdd31a8aca7207de2",
+        "ledger/550e8400-e29b-41d4-a716-446655440012.yaml": "2754f4625e0c884fc02f13976863473f890af07e56fd956a909ea94b970a1d43",
+        "migrations/550e8400-e29b-41d4-a716-446655440014.yaml": "d548e8b740ccd1043400e14fa19e8d6cf7f63c53cb1599e7c5408f838c35100b",
+        "reports/550e8400-e29b-41d4-a716-446655440015.yaml": "5bd3384433c0cad640317c3cd0a6afe866a61b785e7ab0596cf777e69a7cc2f5",
+        "revision.yaml": "c70b257463e02f9edc3b3d99e9824cb21b5cadb4019bb811bf828e49115921cc",
+        "schema.lock.yaml": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f"
+      },
+      "expectedLogical": {
+        "schemaLock": {
+          "format": "morivyx.schema-lock/0.1",
+          "stableIdScheme": "urn-uuid-v4",
+          "digestAlgorithm": "sha256",
+          "schemas": [
+            {
+              "schemaId": "morivyx.core",
+              "version": "0.1",
+              "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+            }
+          ]
+        },
+        "revision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:stage-1-package-v1",
+          "parentRevision": null,
+          "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        },
+        "elements": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-28T10:12:14+09:00",
+              "recordedAt": "2026-07-28T10:15:00+09:00",
+              "stringValues": [
+                "true",
+                "01",
+                "null"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-28T10:15:00+09:00"
+            },
+            "extensions": {
+              "example.test/unknown": {
+                "ordered": [
+                  "A",
+                  "B"
+                ],
+                "value": "é"
+              }
+            }
+          },
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-29T02:00:00Z",
+              "recordedAt": "2026-07-29T02:05:00Z",
+              "stringValues": [
+                "second"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-29T02:05:00Z"
+            }
+          }
+        ],
+        "approvals": [
+          {
+            "format": "morivyx.approval/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "targetRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "operation": "activate",
+            "scope": "single-revision",
+            "approvedAt": "2026-07-30T03:00:00Z",
+            "recordedAt": "2026-07-30T03:01:00Z"
+          }
+        ],
+        "changeSets": [
+          {
+            "format": "morivyx.changeset/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440005",
+            "baseRevision": "graph:stage-1-package-v1",
+            "resultingRevision": "graph:stage-1-package-v2",
+            "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+            "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+            "operations": [
+              {
+                "op": "revise",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+                "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+              },
+              {
+                "op": "create",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+                "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+              }
+            ],
+            "provenance": {
+              "method": "generated",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-31T05:00:00Z"
+            },
+            "recordedAt": "2026-07-31T05:00:00Z"
+          },
+          {
+            "format": "morivyx.changeset/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+            "baseRevision": "graph:stage-1-package-v1",
+            "resultingRevision": "graph:stage-1-migration-v1",
+            "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+            "schemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+            "operations": [
+              {
+                "op": "revise",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+                "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+              },
+              {
+                "op": "create",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+                "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+              }
+            ],
+            "provenance": {
+              "method": "generated",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-08-03T00:00:00Z"
+            },
+            "recordedAt": "2026-08-03T00:00:00Z"
+          }
+        ],
+        "migrations": [
+          {
+            "format": "morivyx.migration/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440014",
+            "baseRevision": "graph:stage-1-package-v1",
+            "sourceSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+            "targetSchemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+            "rulesDigest": "sha256:8800ac85f305b58f6863ea94ad51113e8abd7a1ffeebbe4956d98492bb758854",
+            "mappingDigest": "sha256:7b948be1c612ec87bd6ec317af7c2c38896fe0b447d8ada0a041f8db85863f5a",
+            "plannedSemanticDiffDigest": "sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090",
+            "changeSetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+            "resultingRevision": "graph:stage-1-migration-v1",
+            "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+            "provenance": {
+              "method": "generated",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-08-03T00:00:00Z"
+            },
+            "recordedAt": "2026-08-03T00:00:00Z"
+          }
+        ],
+        "reports": [
+          {
+            "valid": true,
+            "type": "trace-report",
+            "report": {
+              "format": "morivyx.trace-report/0.1",
+              "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440015",
+              "queryId": "governing-decision",
+              "graphRevision": "graph:stage-1-package-v1",
+              "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+              "focusId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+              "evaluatedAt": "2026-08-04T00:00:00Z",
+              "status": "partial",
+              "paths": [],
+              "missing": [
+                "governs"
+              ]
+            },
+            "digest": "sha256:a3b31f52a7de2b6042f95c3b8f0e439105cab5a8be1a895cc2b7cca32a78462f"
+          }
+        ]
+      },
+      "expectedRootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+      "expectedSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+      "expectedValidation": {
+        "valid": false,
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "graphRevision": "graph:stage-1-package-v1",
+        "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+        "issues": [
+          {
+            "code": "SCHEMA_LOCK_MISSING",
+            "phase": 2,
+            "elementId": "",
+            "path": "/schemas/morivyx.core@0.1",
+            "relatedId": ""
+          }
+        ],
+        "validation": {
+          "scope": "package-records-schema-and-graph-constraints",
+          "recordStructuresValidated": true,
+          "recordAuthoringValidated": true,
+          "recordDigestsValidated": true,
+          "approvalLedgerValidated": true,
+          "migrationBindingsValidated": true,
+          "reportsValidated": true,
+          "schemaLockBindingValidated": false,
+          "graphConstraintsValidated": false,
+          "approvalAuthorityValidated": false,
+          "signaturesValidated": false,
+          "packageValidated": false
+        }
+      },
+      "expectedExport": {
+        "approvals/550e8400-e29b-41d4-a716-446655440003.yaml": "format: \"morivyx.approval/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440003\"\nactor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\ntargetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntargetRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\noperation: \"activate\"\nscope: \"single-revision\"\napprovedAt: \"2026-07-30T03:00:00Z\"\nrecordedAt: \"2026-07-30T03:01:00Z\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440000.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-28T01:12:14Z\"\n  recordedAt: \"2026-07-28T01:15:00Z\"\n  stringValues:\n    - \"true\"\n    - \"01\"\n    - \"null\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-28T01:15:00Z\"\nextensions:\n  example.test/unknown:\n    ordered:\n      - \"A\"\n      - \"B\"\n    value: \"é\"\n",
+        "graph/entities/550e8400-e29b-41d4-a716-446655440002.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440002\"\ntype: \"core.observation\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  observedAt: \"2026-07-29T02:00:00Z\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n  stringValues:\n    - \"second\"\nprovenance:\n  method: \"observed\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-29T02:05:00Z\"\n",
+        "ledger/550e8400-e29b-41d4-a716-446655440005.yaml": "format: \"morivyx.changeset/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440005\"\nbaseRevision: \"graph:stage-1-package-v1\"\nresultingRevision: \"graph:stage-1-package-v2\"\nresultingRootDigest: \"sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\noperations:\n  - op: \"revise\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\n    beforeRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\n    afterRevision: \"sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4\"\n  - op: \"create\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440004\"\n    afterRevision: \"sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a\"\nprovenance:\n  method: \"generated\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-07-31T05:00:00Z\"\nrecordedAt: \"2026-07-31T05:00:00Z\"\n",
+        "ledger/550e8400-e29b-41d4-a716-446655440012.yaml": "format: \"morivyx.changeset/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440012\"\nbaseRevision: \"graph:stage-1-package-v1\"\nresultingRevision: \"graph:stage-1-migration-v1\"\nresultingRootDigest: \"sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538\"\nschemaLockDigest: \"sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d\"\noperations:\n  - op: \"revise\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\n    beforeRevision: \"sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62\"\n    afterRevision: \"sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4\"\n  - op: \"create\"\n    targetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440004\"\n    afterRevision: \"sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a\"\nprovenance:\n  method: \"generated\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-08-03T00:00:00Z\"\nrecordedAt: \"2026-08-03T00:00:00Z\"\n",
+        "migrations/550e8400-e29b-41d4-a716-446655440014.yaml": "format: \"morivyx.migration/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440014\"\nbaseRevision: \"graph:stage-1-package-v1\"\nsourceSchemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\ntargetSchemaLockDigest: \"sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d\"\nrulesDigest: \"sha256:8800ac85f305b58f6863ea94ad51113e8abd7a1ffeebbe4956d98492bb758854\"\nmappingDigest: \"sha256:7b948be1c612ec87bd6ec317af7c2c38896fe0b447d8ada0a041f8db85863f5a\"\nplannedSemanticDiffDigest: \"sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090\"\nchangeSetId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440012\"\nresultingRevision: \"graph:stage-1-migration-v1\"\nresultingRootDigest: \"sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538\"\nprovenance:\n  method: \"generated\"\n  actor: \"urn:uuid:550e8400-e29b-41d4-a716-446655440001\"\n  recordedAt: \"2026-08-03T00:00:00Z\"\nrecordedAt: \"2026-08-03T00:00:00Z\"\n",
+        "reports/550e8400-e29b-41d4-a716-446655440015.yaml": "format: \"morivyx.trace-report/0.1\"\nid: \"urn:uuid:550e8400-e29b-41d4-a716-446655440015\"\nqueryId: \"governing-decision\"\ngraphRevision: \"graph:stage-1-package-v1\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\nfocusId: \"urn:uuid:550e8400-e29b-41d4-a716-446655440000\"\nevaluatedAt: \"2026-08-04T00:00:00Z\"\nstatus: \"partial\"\npaths: []\nmissing:\n  - \"governs\"\n",
+        "revision.yaml": "format: \"morivyx.graph-revision/0.1\"\nid: \"graph:stage-1-package-v1\"\nparentRevision: null\nrootDigest: \"sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\n",
+        "schema.lock.yaml": "format: \"morivyx.schema-lock/0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nschemas:\n  - schemaId: \"morivyx.core\"\n    version: \"0.1\"\n    digest: \"sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da\"\n"
+      },
+      "expectedExportLogical": {
+        "schemaLock": {
+          "format": "morivyx.schema-lock/0.1",
+          "stableIdScheme": "urn-uuid-v4",
+          "digestAlgorithm": "sha256",
+          "schemas": [
+            {
+              "schemaId": "morivyx.core",
+              "version": "0.1",
+              "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+            }
+          ]
+        },
+        "revision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:stage-1-package-v1",
+          "parentRevision": null,
+          "rootDigest": "sha256:089d6b8fe74452ded675f333b8deac5dd500caa4b2ec8a660fab92e7f2855cb5",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        },
+        "elements": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-28T01:12:14Z",
+              "recordedAt": "2026-07-28T01:15:00Z",
+              "stringValues": [
+                "true",
+                "01",
+                "null"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-28T01:15:00Z"
+            },
+            "extensions": {
+              "example.test/unknown": {
+                "ordered": [
+                  "A",
+                  "B"
+                ],
+                "value": "é"
+              }
+            }
+          },
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440002",
+            "type": "core.observation",
+            "typeVersion": "0.1",
+            "revision": "sha256:2b56691b87622570d4d69c26a56cfd3cb9e01e8c83c434c88f9d4284ba94e3c6",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "observedAt": "2026-07-29T02:00:00Z",
+              "recordedAt": "2026-07-29T02:05:00Z",
+              "stringValues": [
+                "second"
+              ]
+            },
+            "provenance": {
+              "method": "observed",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-29T02:05:00Z"
+            }
+          }
+        ],
+        "approvals": [
+          {
+            "format": "morivyx.approval/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440003",
+            "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+            "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+            "targetRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+            "operation": "activate",
+            "scope": "single-revision",
+            "approvedAt": "2026-07-30T03:00:00Z",
+            "recordedAt": "2026-07-30T03:01:00Z"
+          }
+        ],
+        "changeSets": [
+          {
+            "format": "morivyx.changeset/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440005",
+            "baseRevision": "graph:stage-1-package-v1",
+            "resultingRevision": "graph:stage-1-package-v2",
+            "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+            "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+            "operations": [
+              {
+                "op": "revise",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+                "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+              },
+              {
+                "op": "create",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+                "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+              }
+            ],
+            "provenance": {
+              "method": "generated",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-07-31T05:00:00Z"
+            },
+            "recordedAt": "2026-07-31T05:00:00Z"
+          },
+          {
+            "format": "morivyx.changeset/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+            "baseRevision": "graph:stage-1-package-v1",
+            "resultingRevision": "graph:stage-1-migration-v1",
+            "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+            "schemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+            "operations": [
+              {
+                "op": "revise",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+                "beforeRevision": "sha256:a22c6d07f0f48f1822bab48c1d9976b74be1f68fd5a79878a8b189af87002e62",
+                "afterRevision": "sha256:9f51932d46b8633a540b77fa145cc489e4fd498c95b09966e6278127840f9ae4"
+              },
+              {
+                "op": "create",
+                "targetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440004",
+                "afterRevision": "sha256:4db0aef0e77cc2d25f56d6392094916370778eb4c94a4e21d185a2c1b379c53a"
+              }
+            ],
+            "provenance": {
+              "method": "generated",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-08-03T00:00:00Z"
+            },
+            "recordedAt": "2026-08-03T00:00:00Z"
+          }
+        ],
+        "migrations": [
+          {
+            "format": "morivyx.migration/0.1",
+            "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440014",
+            "baseRevision": "graph:stage-1-package-v1",
+            "sourceSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+            "targetSchemaLockDigest": "sha256:85724a0823d941a238089f9de10f1fd81d5ff5710cc6f873a88bb067a58eb10d",
+            "rulesDigest": "sha256:8800ac85f305b58f6863ea94ad51113e8abd7a1ffeebbe4956d98492bb758854",
+            "mappingDigest": "sha256:7b948be1c612ec87bd6ec317af7c2c38896fe0b447d8ada0a041f8db85863f5a",
+            "plannedSemanticDiffDigest": "sha256:58cd060db029a17b8095c8fd8b8d55841792004a565ebebe4976993ada791090",
+            "changeSetId": "urn:uuid:550e8400-e29b-41d4-a716-446655440012",
+            "resultingRevision": "graph:stage-1-migration-v1",
+            "resultingRootDigest": "sha256:323394de2907b95362fa00bd9e8042bf1245da5b0665f14432767d285da1e538",
+            "provenance": {
+              "method": "generated",
+              "actor": "urn:uuid:550e8400-e29b-41d4-a716-446655440001",
+              "recordedAt": "2026-08-03T00:00:00Z"
+            },
+            "recordedAt": "2026-08-03T00:00:00Z"
+          }
+        ],
+        "reports": [
+          {
+            "valid": true,
+            "type": "trace-report",
+            "report": {
+              "format": "morivyx.trace-report/0.1",
+              "id": "urn:uuid:550e8400-e29b-41d4-a716-446655440015",
+              "queryId": "governing-decision",
+              "graphRevision": "graph:stage-1-package-v1",
+              "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+              "focusId": "urn:uuid:550e8400-e29b-41d4-a716-446655440000",
+              "evaluatedAt": "2026-08-04T00:00:00Z",
+              "status": "partial",
+              "paths": [],
+              "missing": [
+                "governs"
+              ]
+            },
+            "digest": "sha256:a3b31f52a7de2b6042f95c3b8f0e439105cab5a8be1a895cc2b7cca32a78462f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "complete-core",
+      "origin": {
+        "vectorPath": "packages/portable-core/fixtures/portable-cli-vectors.json",
+        "case": "package-read"
+      },
+      "files": {
+        "schema.lock.yaml": "format: \"morivyx.schema-lock/0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nschemas:\n  - schemaId: \"morivyx.core\"\n    version: \"0.1\"\n    digest: \"sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da\"\n",
+        "revision.yaml": "format: \"morivyx.graph-revision/0.1\"\nid: \"graph:package-validation\"\nparentRevision: null\nrootDigest: \"sha256:d0716a7d77575d6c8283334e58b8652fd127ae98cda2b3edc10b5709d8bb6da8\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\n",
+        "schemas/morivyx.core@0.1.yaml": "format: \"morivyx.schema/0.1\"\nschemaId: \"morivyx.core\"\nversion: \"0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nreviewStates:\n  - \"approved\"\n  - \"proposed\"\n  - \"rejected\"\n  - \"unreviewed\"\nentityTypes:\n  - typeId: \"core.actor\"\n    requiredAttributes:\n      - \"actorKind\"\n      - \"name\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.artifact\"\n    requiredAttributes:\n      - \"artifactKind\"\n      - \"uri\"\n    optionalAttributes:\n      - \"digest\"\n      - \"externalVersion\"\n      - \"mediaType\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.constraint\"\n    requiredAttributes:\n      - \"rule\"\n      - \"severity\"\n    optionalAttributes:\n      - \"condition\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.context\"\n    requiredAttributes:\n      - \"scope\"\n    optionalAttributes:\n      - \"environment\"\n      - \"timeRange\"\n      - \"trustBoundary\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.criterion\"\n    requiredAttributes:\n      - \"evaluationRule\"\n      - \"method\"\n      - \"necessity\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.decision\"\n    requiredAttributes:\n      - \"consequences\"\n      - \"question\"\n      - \"rationale\"\n    optionalAttributes:\n      - \"challengeReview\"\n      - \"revisitTriggers\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.execution\"\n    requiredAttributes:\n      - \"actor\"\n      - \"executedAt\"\n      - \"outcome\"\n    optionalAttributes:\n      - \"idempotencyKey\"\n      - \"inputs\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.external-source\"\n    requiredAttributes:\n      - \"externalId\"\n      - \"system\"\n    optionalAttributes:\n      - \"snapshotAt\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.goal\"\n    requiredAttributes:\n      - \"beneficiaries\"\n      - \"scope\"\n      - \"statement\"\n    optionalAttributes:\n      - \"horizon\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.intent\"\n    requiredAttributes:\n      - \"motivation\"\n      - \"priority\"\n    optionalAttributes:\n      - \"interpretation\"\n      - \"nonNegotiables\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.knowledge\"\n    requiredAttributes:\n      - \"claim\"\n      - \"epistemicState\"\n      - \"scope\"\n    optionalAttributes:\n      - \"confidence\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.learning\"\n    requiredAttributes:\n      - \"insight\"\n    optionalAttributes:\n      - \"confidence\"\n      - \"recommendedChange\"\n    lifecycle:\n      - \"active\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.observation\"\n    requiredAttributes:\n      - \"method\"\n      - \"observedAt\"\n      - \"value\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.option\"\n    requiredAttributes:\n      - \"description\"\n    optionalAttributes:\n      - \"tradeoffs\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.plan\"\n    requiredAttributes:\n      - \"actions\"\n    optionalAttributes:\n      - \"dependencies\"\n      - \"stopConditions\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.verification\"\n    requiredAttributes:\n      - \"method\"\n      - \"result\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\nrelationTypes:\n  - predicate: \"addresses\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"against\"\n    sourceTypes:\n      - \"core.verification\"\n    targetTypes:\n      - \"core.criterion\"\n    minCount: 1\n    maxCount: 1\n    cycle: \"not_applicable\"\n  - predicate: \"challenged_by\"\n    sourceTypes:\n      - \"core.decision\"\n      - \"core.knowledge\"\n    targetTypes:\n      - \"core.knowledge\"\n      - \"core.observation\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"considers\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.option\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"constrained_by\"\n    sourceTypes:\n      - \"core.execution\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.plan\"\n    targetTypes:\n      - \"core.constraint\"\n      - \"core.knowledge\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"depends_on\"\n    sourceTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    targetTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"allowed\"\n  - predicate: \"derived_from\"\n    sourceTypes:\n      - \"core.artifact\"\n      - \"core.learning\"\n    targetTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"evaluates\"\n    sourceTypes:\n      - \"core.verification\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.execution\"\n      - \"core.goal\"\n    minCount: 1\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"executes\"\n    sourceTypes:\n      - \"core.execution\"\n    targetTypes:\n      - \"core.plan\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"governs\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.execution\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"has_criterion\"\n    sourceTypes:\n      - \"core.goal\"\n    targetTypes:\n      - \"core.criterion\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"interprets\"\n    sourceTypes:\n      - \"core.intent\"\n    targetTypes:\n      - \"core.goal\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"observes\"\n    sourceTypes:\n      - \"core.observation\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.context\"\n      - \"core.execution\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"produces\"\n    sourceTypes:\n      - \"core.execution\"\n      - \"core.verification\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.observation\"\n    minCount: 0\n    maxCount: 1\n    cycle: \"not_applicable\"\n  - predicate: \"pursues\"\n    sourceTypes:\n      - \"core.plan\"\n    targetTypes:\n      - \"core.goal\"\n      - \"core.intent\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"realizes\"\n    sourceTypes:\n      - \"core.artifact\"\n    targetTypes:\n      - \"core.intent\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"refines\"\n    sourceTypes:\n      - \"core.goal\"\n    targetTypes:\n      - \"core.goal\"\n    minCount: 0\n    maxCount: null\n    cycle: \"forbidden\"\n  - predicate: \"selects\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.option\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"supersedes\"\n    sourceTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    targetTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"forbidden\"\n  - predicate: \"supported_by\"\n    sourceTypes:\n      - \"core.decision\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.knowledge\"\n      - \"core.observation\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"triggers\"\n    sourceTypes:\n      - \"core.learning\"\n    targetTypes:\n      - \"core.decision\"\n      - \"core.goal\"\n      - \"core.plan\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"updates\"\n    sourceTypes:\n      - \"core.learning\"\n    targetTypes:\n      - \"core.knowledge\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\nauthoringOrders:\n  root:\n    - \"format\"\n    - \"kind\"\n    - \"id\"\n    - \"type\"\n    - \"typeVersion\"\n    - \"revision\"\n    - \"lifecycle\"\n    - \"reviewState\"\n    - \"attributes\"\n    - \"provenance\"\n    - \"extensions\"\n  attributes: []\n  provenance:\n    - \"method\"\n    - \"actor\"\n    - \"recordedAt\"\n",
+        "graph/entities/00000000-0000-4000-8000-000000000001.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:00000000-0000-4000-8000-000000000001\"\ntype: \"core.actor\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:510293a3f44b22fc5cb4fcfd6ce460345b118c665bb213eff58bf3a583ccf852\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  actorKind: \"synthetic\"\n  name: \"合成😀\"\nprovenance:\n  method: \"asserted\"\n  actor: \"urn:uuid:00000000-0000-4000-8000-000000000001\"\n  recordedAt: \"2026-10-27T00:00:00Z\"\n",
+        "graph/entities/00000000-0000-4000-8000-000000000002.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:00000000-0000-4000-8000-000000000002\"\ntype: \"core.actor\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:2235b8e77d4ba593dd0d4525c039573e6d961a8dd12d5da4e5067d92b9fed312\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  actorKind: \"synthetic\"\n  name: \"synthetic\"\nprovenance:\n  method: \"asserted\"\n  actor: \"urn:uuid:00000000-0000-4000-8000-000000000001\"\n  recordedAt: \"2026-10-27T00:00:00Z\"\n"
+      },
+      "fileSha256": {
+        "schema.lock.yaml": "c75110bfd6657bd450da5ab7fd7acd3c0eaaa009753797fdd0f95cf9dcd5b12f",
+        "revision.yaml": "d25528c7fcd68ffe0c3d28d4cf143fcea4e3eae00b73301712e06e39d292bcdd",
+        "schemas/morivyx.core@0.1.yaml": "58bd70834e9d93a821463af667883d78cb1124442109065b1a851348323a8f4e",
+        "graph/entities/00000000-0000-4000-8000-000000000001.yaml": "ece449205d6f34bef3401588e5a6759fedb07845dc839fcd97b1fcd4228b08f5",
+        "graph/entities/00000000-0000-4000-8000-000000000002.yaml": "52ba7e1deec18ca19fbad68f03b0540bfc7d0d5dc910421174858553a52b131d"
+      },
+      "expectedLogical": {
+        "schemaLock": {
+          "format": "morivyx.schema-lock/0.1",
+          "stableIdScheme": "urn-uuid-v4",
+          "digestAlgorithm": "sha256",
+          "schemas": [
+            {
+              "schemaId": "morivyx.core",
+              "version": "0.1",
+              "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+            }
+          ]
+        },
+        "revision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:package-validation",
+          "parentRevision": null,
+          "rootDigest": "sha256:d0716a7d77575d6c8283334e58b8652fd127ae98cda2b3edc10b5709d8bb6da8",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        },
+        "elements": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:00000000-0000-4000-8000-000000000001",
+            "type": "core.actor",
+            "typeVersion": "0.1",
+            "revision": "sha256:510293a3f44b22fc5cb4fcfd6ce460345b118c665bb213eff58bf3a583ccf852",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "actorKind": "synthetic",
+              "name": "合成😀"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+              "recordedAt": "2026-10-27T00:00:00Z"
+            }
+          },
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:00000000-0000-4000-8000-000000000002",
+            "type": "core.actor",
+            "typeVersion": "0.1",
+            "revision": "sha256:2235b8e77d4ba593dd0d4525c039573e6d961a8dd12d5da4e5067d92b9fed312",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "actorKind": "synthetic",
+              "name": "synthetic"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+              "recordedAt": "2026-10-27T00:00:00Z"
+            }
+          }
+        ],
+        "approvals": [],
+        "changeSets": [],
+        "migrations": [],
+        "reports": []
+      },
+      "expectedRootDigest": "sha256:d0716a7d77575d6c8283334e58b8652fd127ae98cda2b3edc10b5709d8bb6da8",
+      "expectedSchemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+      "expectedValidation": {
+        "valid": true,
+        "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+        "graphRevision": "graph:package-validation",
+        "rootDigest": "sha256:d0716a7d77575d6c8283334e58b8652fd127ae98cda2b3edc10b5709d8bb6da8",
+        "issues": [],
+        "validation": {
+          "scope": "package-records-schema-and-graph-constraints",
+          "recordStructuresValidated": true,
+          "recordAuthoringValidated": true,
+          "recordDigestsValidated": true,
+          "approvalLedgerValidated": true,
+          "migrationBindingsValidated": true,
+          "reportsValidated": true,
+          "schemaLockBindingValidated": true,
+          "graphConstraintsValidated": true,
+          "approvalAuthorityValidated": false,
+          "signaturesValidated": false,
+          "packageValidated": false
+        }
+      },
+      "expectedExport": {
+        "graph/entities/00000000-0000-4000-8000-000000000001.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:00000000-0000-4000-8000-000000000001\"\ntype: \"core.actor\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:510293a3f44b22fc5cb4fcfd6ce460345b118c665bb213eff58bf3a583ccf852\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  actorKind: \"synthetic\"\n  name: \"合成😀\"\nprovenance:\n  method: \"asserted\"\n  actor: \"urn:uuid:00000000-0000-4000-8000-000000000001\"\n  recordedAt: \"2026-10-27T00:00:00Z\"\n",
+        "graph/entities/00000000-0000-4000-8000-000000000002.yaml": "format: \"morivyx.git-graph/0.1\"\nkind: \"entity\"\nid: \"urn:uuid:00000000-0000-4000-8000-000000000002\"\ntype: \"core.actor\"\ntypeVersion: \"0.1\"\nrevision: \"sha256:2235b8e77d4ba593dd0d4525c039573e6d961a8dd12d5da4e5067d92b9fed312\"\nlifecycle: \"draft\"\nreviewState: \"unreviewed\"\nattributes:\n  actorKind: \"synthetic\"\n  name: \"synthetic\"\nprovenance:\n  method: \"asserted\"\n  actor: \"urn:uuid:00000000-0000-4000-8000-000000000001\"\n  recordedAt: \"2026-10-27T00:00:00Z\"\n",
+        "revision.yaml": "format: \"morivyx.graph-revision/0.1\"\nid: \"graph:package-validation\"\nparentRevision: null\nrootDigest: \"sha256:d0716a7d77575d6c8283334e58b8652fd127ae98cda2b3edc10b5709d8bb6da8\"\nschemaLockDigest: \"sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842\"\n",
+        "schema.lock.yaml": "format: \"morivyx.schema-lock/0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nschemas:\n  - schemaId: \"morivyx.core\"\n    version: \"0.1\"\n    digest: \"sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da\"\n",
+        "schemas/morivyx.core@0.1.yaml": "format: \"morivyx.schema/0.1\"\nschemaId: \"morivyx.core\"\nversion: \"0.1\"\nstableIdScheme: \"urn-uuid-v4\"\ndigestAlgorithm: \"sha256\"\nreviewStates:\n  - \"approved\"\n  - \"proposed\"\n  - \"rejected\"\n  - \"unreviewed\"\nentityTypes:\n  - typeId: \"core.actor\"\n    requiredAttributes:\n      - \"actorKind\"\n      - \"name\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.artifact\"\n    requiredAttributes:\n      - \"artifactKind\"\n      - \"uri\"\n    optionalAttributes:\n      - \"digest\"\n      - \"externalVersion\"\n      - \"mediaType\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.constraint\"\n    requiredAttributes:\n      - \"rule\"\n      - \"severity\"\n    optionalAttributes:\n      - \"condition\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.context\"\n    requiredAttributes:\n      - \"scope\"\n    optionalAttributes:\n      - \"environment\"\n      - \"timeRange\"\n      - \"trustBoundary\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.criterion\"\n    requiredAttributes:\n      - \"evaluationRule\"\n      - \"method\"\n      - \"necessity\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.decision\"\n    requiredAttributes:\n      - \"consequences\"\n      - \"question\"\n      - \"rationale\"\n    optionalAttributes:\n      - \"challengeReview\"\n      - \"revisitTriggers\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.execution\"\n    requiredAttributes:\n      - \"actor\"\n      - \"executedAt\"\n      - \"outcome\"\n    optionalAttributes:\n      - \"idempotencyKey\"\n      - \"inputs\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.external-source\"\n    requiredAttributes:\n      - \"externalId\"\n      - \"system\"\n    optionalAttributes:\n      - \"snapshotAt\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.goal\"\n    requiredAttributes:\n      - \"beneficiaries\"\n      - \"scope\"\n      - \"statement\"\n    optionalAttributes:\n      - \"horizon\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.intent\"\n    requiredAttributes:\n      - \"motivation\"\n      - \"priority\"\n    optionalAttributes:\n      - \"interpretation\"\n      - \"nonNegotiables\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.knowledge\"\n    requiredAttributes:\n      - \"claim\"\n      - \"epistemicState\"\n      - \"scope\"\n    optionalAttributes:\n      - \"confidence\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.learning\"\n    requiredAttributes:\n      - \"insight\"\n    optionalAttributes:\n      - \"confidence\"\n      - \"recommendedChange\"\n    lifecycle:\n      - \"active\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.observation\"\n    requiredAttributes:\n      - \"method\"\n      - \"observedAt\"\n      - \"value\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.option\"\n    requiredAttributes:\n      - \"description\"\n    optionalAttributes:\n      - \"tradeoffs\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.plan\"\n    requiredAttributes:\n      - \"actions\"\n    optionalAttributes:\n      - \"dependencies\"\n      - \"stopConditions\"\n    lifecycle:\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\n  - typeId: \"core.verification\"\n    requiredAttributes:\n      - \"method\"\n      - \"result\"\n    lifecycle:\n      - \"accepted\"\n      - \"active\"\n      - \"deprecated\"\n      - \"draft\"\n      - \"retracted\"\n      - \"superseded\"\nrelationTypes:\n  - predicate: \"addresses\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"against\"\n    sourceTypes:\n      - \"core.verification\"\n    targetTypes:\n      - \"core.criterion\"\n    minCount: 1\n    maxCount: 1\n    cycle: \"not_applicable\"\n  - predicate: \"challenged_by\"\n    sourceTypes:\n      - \"core.decision\"\n      - \"core.knowledge\"\n    targetTypes:\n      - \"core.knowledge\"\n      - \"core.observation\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"considers\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.option\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"constrained_by\"\n    sourceTypes:\n      - \"core.execution\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.plan\"\n    targetTypes:\n      - \"core.constraint\"\n      - \"core.knowledge\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"depends_on\"\n    sourceTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    targetTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"allowed\"\n  - predicate: \"derived_from\"\n    sourceTypes:\n      - \"core.artifact\"\n      - \"core.learning\"\n    targetTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"evaluates\"\n    sourceTypes:\n      - \"core.verification\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.execution\"\n      - \"core.goal\"\n    minCount: 1\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"executes\"\n    sourceTypes:\n      - \"core.execution\"\n    targetTypes:\n      - \"core.plan\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"governs\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.execution\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"has_criterion\"\n    sourceTypes:\n      - \"core.goal\"\n    targetTypes:\n      - \"core.criterion\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"interprets\"\n    sourceTypes:\n      - \"core.intent\"\n    targetTypes:\n      - \"core.goal\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"observes\"\n    sourceTypes:\n      - \"core.observation\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.context\"\n      - \"core.execution\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"produces\"\n    sourceTypes:\n      - \"core.execution\"\n      - \"core.verification\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.observation\"\n    minCount: 0\n    maxCount: 1\n    cycle: \"not_applicable\"\n  - predicate: \"pursues\"\n    sourceTypes:\n      - \"core.plan\"\n    targetTypes:\n      - \"core.goal\"\n      - \"core.intent\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"realizes\"\n    sourceTypes:\n      - \"core.artifact\"\n    targetTypes:\n      - \"core.intent\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"refines\"\n    sourceTypes:\n      - \"core.goal\"\n    targetTypes:\n      - \"core.goal\"\n    minCount: 0\n    maxCount: null\n    cycle: \"forbidden\"\n  - predicate: \"selects\"\n    sourceTypes:\n      - \"core.decision\"\n    targetTypes:\n      - \"core.option\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"supersedes\"\n    sourceTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    targetTypes:\n      - \"core.actor\"\n      - \"core.artifact\"\n      - \"core.constraint\"\n      - \"core.context\"\n      - \"core.criterion\"\n      - \"core.decision\"\n      - \"core.execution\"\n      - \"core.external-source\"\n      - \"core.goal\"\n      - \"core.intent\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n      - \"core.observation\"\n      - \"core.option\"\n      - \"core.plan\"\n      - \"core.verification\"\n    minCount: 0\n    maxCount: null\n    cycle: \"forbidden\"\n  - predicate: \"supported_by\"\n    sourceTypes:\n      - \"core.decision\"\n      - \"core.knowledge\"\n      - \"core.learning\"\n    targetTypes:\n      - \"core.artifact\"\n      - \"core.knowledge\"\n      - \"core.observation\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"triggers\"\n    sourceTypes:\n      - \"core.learning\"\n    targetTypes:\n      - \"core.decision\"\n      - \"core.goal\"\n      - \"core.plan\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\n  - predicate: \"updates\"\n    sourceTypes:\n      - \"core.learning\"\n    targetTypes:\n      - \"core.knowledge\"\n    minCount: 0\n    maxCount: null\n    cycle: \"not_applicable\"\nauthoringOrders:\n  root:\n    - \"format\"\n    - \"kind\"\n    - \"id\"\n    - \"type\"\n    - \"typeVersion\"\n    - \"revision\"\n    - \"lifecycle\"\n    - \"reviewState\"\n    - \"attributes\"\n    - \"provenance\"\n    - \"extensions\"\n  attributes: []\n  provenance:\n    - \"method\"\n    - \"actor\"\n    - \"recordedAt\"\n"
+      },
+      "expectedExportLogical": {
+        "schemaLock": {
+          "format": "morivyx.schema-lock/0.1",
+          "stableIdScheme": "urn-uuid-v4",
+          "digestAlgorithm": "sha256",
+          "schemas": [
+            {
+              "schemaId": "morivyx.core",
+              "version": "0.1",
+              "digest": "sha256:f3bfeb8caaaf7ef46c847dd23c16845fedf6cd1c4547e75bd607961c995c90da"
+            }
+          ]
+        },
+        "revision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:package-validation",
+          "parentRevision": null,
+          "rootDigest": "sha256:d0716a7d77575d6c8283334e58b8652fd127ae98cda2b3edc10b5709d8bb6da8",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        },
+        "elements": [
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:00000000-0000-4000-8000-000000000001",
+            "type": "core.actor",
+            "typeVersion": "0.1",
+            "revision": "sha256:510293a3f44b22fc5cb4fcfd6ce460345b118c665bb213eff58bf3a583ccf852",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "actorKind": "synthetic",
+              "name": "合成😀"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+              "recordedAt": "2026-10-27T00:00:00Z"
+            }
+          },
+          {
+            "format": "morivyx.git-graph/0.1",
+            "kind": "entity",
+            "id": "urn:uuid:00000000-0000-4000-8000-000000000002",
+            "type": "core.actor",
+            "typeVersion": "0.1",
+            "revision": "sha256:2235b8e77d4ba593dd0d4525c039573e6d961a8dd12d5da4e5067d92b9fed312",
+            "lifecycle": "draft",
+            "reviewState": "unreviewed",
+            "attributes": {
+              "actorKind": "synthetic",
+              "name": "synthetic"
+            },
+            "provenance": {
+              "method": "asserted",
+              "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+              "recordedAt": "2026-10-27T00:00:00Z"
+            }
+          }
+        ],
+        "approvals": [],
+        "changeSets": [],
+        "migrations": [],
+        "reports": []
+      }
+    }
+  ]
+}
