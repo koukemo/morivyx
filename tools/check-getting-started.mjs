@@ -15,7 +15,7 @@ function execute(command, args, expected = 0, input) {
     cwd: repository, encoding: "utf8", timeout: 30_000, maxBuffer: 2 * 1024 * 1024, input,
   });
   assert.ifError(result.error);
-  if (expected === 0) assert.equal(result.status, 0, result.stderr);
+  if (expected === 0) assert.equal(result.status, 0, result.stderr || result.stdout);
   else assert.notEqual(result.status, 0);
   return expected === 0 ? JSON.parse(result.stdout) : null;
 }
@@ -58,6 +58,32 @@ try {
   const saved = await snapshot(after);
   execute(process.execPath, [cli, "create-decision", base, request, after], 1);
   assert.deepEqual(await snapshot(after), saved);
+  const revised = join(root, "revised");
+  const revisionRequest = "examples/getting-started/revise.yaml";
+  const updated = node(cli, "revise-decision", after, revisionRequest, revised);
+  assert.equal(updated.decisionId, created.decisionId);
+  assert.notEqual(updated.decisionRevision, created.decisionRevision);
+  assert.equal(updated.elementCount, 2);
+  assert.deepEqual(await snapshot(after), saved);
+  assert.equal(node(cli, "validate", revised).valid, true);
+  const revisedDecision = node("examples/getting-started/read.mjs", revised).elements
+    .find(value => value.id === created.decisionId);
+  assert.equal(revisedDecision.attributes.rationale, "YAMLを維持し、読み取り時にも構造を検証する。");
+  assert.equal(revisedDecision.lifecycle, "draft");
+  assert.equal(revisedDecision.reviewState, "unreviewed");
+  const revisionDiff = node(cli, "diff", after, revised, "--evaluated-at", "2026-11-02T00:30:00Z");
+  assert(revisionDiff.report.entries.length > 0);
+  assert(revisionDiff.report.entries.every(entry => entry.targetId === created.decisionId));
+  assert(!revisionDiff.report.entries.some(entry => entry.kind === "entity_added"));
+  const history = node("examples/getting-started/history.mjs", revised);
+  assert.equal(history.parentRevision, "graph:tutorial-decision");
+  assert.equal(history.changeSets.length, 2);
+  const revisionChange = history.changeSets.find(value => value.resultingRevision === "graph:tutorial-revised");
+  assert.deepEqual(revisionChange.operations, [{ op: "revise", targetId: created.decisionId,
+    beforeRevision: created.decisionRevision, afterRevision: updated.decisionRevision }]);
+  const revisedSaved = await snapshot(revised);
+  execute(process.execPath, [cli, "revise-decision", after, revisionRequest, revised], 1);
+  assert.deepEqual(await snapshot(revised), revisedSaved);
   const pyRead = execute(python, ["packages/portable-core/package_records.py", join(after, ".morivyx")]);
   assert.equal(pyRead.counts.elements, 2);
   assert.equal(pyRead.counts.changeSets, 1);
@@ -70,7 +96,8 @@ try {
   assert.deepEqual(execute(python, ["packages/portable-core/portable_cli.py", "read-yaml"], 0,
     JSON.stringify('question: "保存形式を何にするか？"\nanswer: "YAML"\n')),
   { question: "保存形式を何にするか？", answer: "YAML" });
-  console.log(JSON.stringify({ valid: true, workflow: "create-read-diff-python", baseUnchanged: true,
+  console.log(JSON.stringify({ valid: true, workflow: "create-revise-history-diff-python", baseUnchanged: true,
+    revisionInputUnchanged: true, sameDecisionId: true, storedChangeSets: history.changeSets.length,
     existingDestinationsUnchanged: true, addedElements: 1, pythonRootDigestMatches: true,
     node: process.version, python }, null, 2));
 } finally {

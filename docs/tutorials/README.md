@@ -9,6 +9,7 @@ description: 判断の保存、差分の確認とPython単独の利用へ進む�
 | 試したいこと | 手順 | 得られる結果 |
 |---|---|---|
 | 判断と理由を保存する | [最初の判断を保存して差分を確認する](getting-started.md) | 元を保持したまま判断を加え、差分を確認する |
+| 判断の理由を改訂する | [判断を改訂して履歴を比較する](revise-decision.md) | 同じ識別子の新しい版を保存し、改訂前後と変更記録を確認する |
 | Node.jsのAPIを使う | [実装例](../../examples/getting-started/read.mjs)と[実行手順](getting-started.md#5-差分と理由を確認する) | 保存した要素と理由をJavaScriptの値として読む |
 | Node.jsを導入せずに試す | [Pythonだけで中核の操作を試す](python-only.md) | YAMLの読取と固定例の検証を行う |
 
