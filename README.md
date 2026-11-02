@@ -13,6 +13,7 @@ Node.jsのKernel、Pythonの独立した中核、Coreの仕様と適合検査を
 ## 使い始める
 
 [判断を保存して差分を確認するチュートリアル](docs/tutorials/getting-started.md)で、サンプルの準備から、別の保存先への判断の追加、差分とNode.js及びPythonでの読取まで試せます。
+[自分のNode.jsアプリへ導入する手順](docs/tutorials/installed-node.md)で、配布アーカイブからの導入、公開APIとCLIの利用、固定した依存の再導入まで試せます。
 Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorials/python-only.md)を使えます。
 使い方を探す場合は、[利用手順の入口](docs/tutorials/README.md)から選べます。
 
