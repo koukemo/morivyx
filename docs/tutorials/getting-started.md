@@ -148,6 +148,8 @@ python3 tools/check-portable-vectors.py
 
 ## うまく動かないとき
 
+[正本の検査と失敗の切り分け](validate-package.md)では、終了コードと出力先、読取と意味の検証の違い及び元を保持した確認方法を説明しています。
+
 | 状況 | 確認すること |
 |---|---|
 | `ERR_MODULE_NOT_FOUND`で`yaml`が見つからない | リポジトリ直下で導入の`npm ci`を実行する |
