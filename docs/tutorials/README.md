@@ -12,7 +12,7 @@ description: 判断の保存、差分の確認、正本の出力と復元及びP
 | 判断の理由を改訂する | [判断を改訂して履歴を比較する](revise-decision.md) | 同じ識別子の新しい版を保存し、改訂前後と変更記録を確認する |
 | 資料から判断と根拠をたどる | [資料から判断と根拠をたどる](trace-relations.md) | 関係のある経路と不足する関係を確認する |
 | 正本を別の保存先へ戻す | [正本をJSONへ出力して復元する](backup-restore.md) | 全体の検査値を照合し、元と既存の保存先を保持して復元する |
-| Node.jsのAPIを使う | [実装例](../../examples/getting-started/read.mjs)と[実行手順](getting-started.md#5-差分と理由を確認する) | 保存した要素と理由をJavaScriptの値として読む |
+| 自分のNode.jsアプリへ組み込む | [別のNode.jsアプリへSDKを導入する](installed-node.md) | 配布アーカイブを導入し、公開APIとCLIで正本を読む |
 | Node.jsを導入せずに試す | [Pythonだけで中核の操作を試す](python-only.md) | YAMLの読取と固定例の検証を行う |
 
 Morivyxは現時点では、アプリケーションへ組み込む中核SDKとCLIのソース配布です。

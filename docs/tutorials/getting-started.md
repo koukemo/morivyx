@@ -142,38 +142,9 @@ python3 tools/check-portable-vectors.py
 
 ## 自分のアプリケーションから使う
 
-リポジトリ直下で配布用ファイルを作れます。
-
-```sh
-npm pack ./packages/kernel --ignore-scripts
-```
-
-`morivyx-kernel-0.1.0.tgz`ができます。
-自分のNode.jsプロジェクトで、そのファイルを指定して導入します。
-以下の絶対パスは、実際に作った配布用ファイルとデータのパスへ置き換えます。
-
-```sh
-npm install /path/to/morivyx/morivyx-kernel-0.1.0.tgz --ignore-scripts --engine-strict
-```
-
-アプリケーションに、次の内容の`read-package.mjs`を作ります。
-
-```js
-import { readGraphPackage } from "@morivyx/kernel";
-import { validatePackage } from "@morivyx/kernel/validator";
-
-const directory = "/path/to/morivyx/.tutorial/after";
-const validation = await validatePackage(directory);
-if (!validation.valid) throw new Error(JSON.stringify(validation.issues));
-const contents = await readGraphPackage(directory);
-console.log(contents.elements.map(({ type, attributes }) => ({ type, attributes })));
-```
-
-自分のプロジェクトで`node read-package.mjs`を実行すると、資料と判断の内容を取得できます。
-`readGraphPackage`は読取、`validatePackage`はSchemaとGraphの検証を行う別の関数です。
-ソース配布から導入する手順なので、npmへの登録は必要ありません。
-`--engine-strict`は、自分のプロジェクトへ導入するときにもNode.jsの要件を検査する指定です。
-配布元の`.npmrc`は、導入先のプロジェクトには引き継がれません。
+[別のNode.jsアプリへSDKを導入する手順](installed-node.md)で、このサンプルを自分のアプリから読めます。
+配布アーカイブの作成、導入先の設定、公開APIとCLIの利用、固定した依存の再導入まで試せます。
+アプリへ置く実行例も同梱しており、npmへの登録は必要ありません。
 
 ## うまく動かないとき
 
