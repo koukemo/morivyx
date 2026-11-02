@@ -109,6 +109,40 @@ def mapping_pair(text):
     return None
 
 
+def single_string(token):
+    """Read a quoted key, including YAML folding and doubled apostrophes."""
+    result, i = [], 1
+    while i < len(token):
+        c = token[i]
+        i += 1
+        if c == "'":
+            if i < len(token) and token[i] == "'":
+                result.append("'")
+                i += 1
+            else:
+                if token[i:].strip(" "):
+                    raise ValueError("trailing YAML key content")
+                return unicode_text("".join(result))
+        elif c == "\n":
+            breaks = 1
+            while i < len(token) and token[i] in " \n":
+                if token[i] == "\n":
+                    breaks += 1
+                i += 1
+            result.append(" " if breaks == 1 else "\n" * (breaks - 1))
+        elif c == " ":
+            start = i - 1
+            while i < len(token) and token[i] == " ":
+                i += 1
+            if i == len(token) or token[i] != "\n":
+                result.append(token[start:i])
+        elif ord(c) < 0x20:
+            raise ValueError("raw non-printable key character")
+        else:
+            result.append(c)
+    raise ValueError("unterminated quoted key")
+
+
 def plain_key(token):
     if not token or token != token.strip(" ") or token[0] in ",[]{}#&*!|>'\"%@`":
         return False
@@ -131,11 +165,8 @@ def plain_key(token):
 def key_value(token):
     if token.startswith('"'):
         value = double_string(token)
-    elif token.startswith("'") and token.endswith("'"):
-        content = token[1:-1]
-        if "'" in content.replace("''", ""):
-            raise ValueError("invalid quoted key")
-        value = unicode_text(content.replace("''", "'"))
+    elif token.startswith("'"):
+        value = single_string(token)
     elif plain_key(token):
         value = unicode_text(token)
     else:
@@ -174,6 +205,18 @@ def closes_double_quote(text, start=0):
     return False
 
 
+def closes_single_quote(text, start=0):
+    i = start
+    while i < len(text):
+        if text[i:i + 2] == "''":
+            i += 2
+        elif text[i] == "'":
+            return True
+        else:
+            i += 1
+    return False
+
+
 def read_yaml(source):
     """Read the supported bounded block syntax; normalize Unicode, not dates."""
     if type(source) is bytes:
@@ -191,6 +234,71 @@ def read_yaml(source):
     lines = []
     physical = source.split("\n")[:-1]
     line_number = 0
+
+    def next_content_line():
+        nonlocal line_number
+        while line_number < len(physical):
+            raw = physical[line_number]
+            line_number += 1
+            if raw.strip(" "):
+                return raw
+        raise ValueError("missing explicit YAML key or value")
+
+    def explicit_pair(text, indent):
+        """Lower an explicit scalar key to the existing block-pair grammar."""
+        nonlocal line_number
+        token = text[1:].lstrip(" ")
+        if not token:
+            raw = next_content_line()
+            if len(raw) - len(raw.lstrip(" ")) <= indent:
+                raise ValueError("invalid explicit key indentation")
+            token = raw.lstrip(" ")
+        if token[0] in "\"'":
+            closes = closes_double_quote if token[0] == '"' else closes_single_quote
+            fragments = [token]
+            closed = closes(token, 1)
+            while not closed:
+                if line_number >= len(physical):
+                    raise ValueError("unterminated explicit key")
+                raw = physical[line_number]
+                line_number += 1
+                if raw.strip(" ") and len(raw) - len(raw.lstrip(" ")) <= indent:
+                    raise ValueError("invalid explicit key continuation")
+                fragments.append(raw)
+                closed = closes(raw)
+            key = key_value("\n".join(fragments).rstrip(" "))
+        else:
+            fragments = [token.rstrip(" ")]
+            while line_number < len(physical):
+                raw = physical[line_number]
+                if raw.strip(" ") and len(raw) - len(raw.lstrip(" ")) <= indent:
+                    break
+                line_number += 1
+                fragments.append(raw.strip(" "))
+            # Fold internal empty lines, but not separation before the ':' line.
+            folded, blanks = [], 0
+            for fragment in fragments:
+                if not fragment:
+                    blanks += 1
+                    continue
+                if folded:
+                    folded.append("\n" * blanks if blanks else " ")
+                folded.append(fragment)
+                blanks = 0
+            folded = "".join(folded)
+            if not plain_key(folded.replace("\n", " ")):
+                raise ValueError("unsupported explicit plain key")
+            key = unicode_text(folded)
+            if key == "<<":
+                raise ValueError("YAML merge key is forbidden")
+        raw = next_content_line()
+        value_text = raw.lstrip(" ")
+        if len(raw) - len(value_text) != indent or not (value_text == ":" or value_text.startswith(": ")):
+            raise ValueError("expected explicit value at the key indentation")
+        payload = value_text[1:]
+        payload_indent = indent + 1 + len(payload) - len(payload.lstrip(" "))
+        return yaml_quote(key), payload.lstrip(" "), payload_indent
+
     while line_number < len(physical):
         raw = physical[line_number]
         line_number += 1
@@ -202,15 +310,27 @@ def read_yaml(source):
             raise ValueError("YAML directives, document markers and comments are forbidden")
         # Expand compact block list mappings into the same indentation grammar.
         compact_depth = 0
-        while text.startswith("- ") and (
-            text[2:].startswith("- ") or mapping_pair(text[2:]) is not None
-        ):
-            compact_depth += 1
-            if compact_depth > MAX_DEPTH:
-                raise ValueError("compact YAML nesting too deep")
-            lines.append((indent, "-"))
-            indent += 2
-            text = text[2:]
+        while True:
+            while text.startswith("- ") and (
+                text[2:].startswith(("- ", "? ")) or text[2:] == "?" or mapping_pair(text[2:]) is not None
+            ):
+                compact_depth += 1
+                if compact_depth > MAX_DEPTH:
+                    raise ValueError("compact YAML nesting too deep")
+                lines.append((indent, "-"))
+                indent += 2
+                text = text[2:]
+            if text == "?" or text.startswith("? "):
+                key, payload, payload_indent = explicit_pair(text, indent)
+                if payload in ("-", "?") or payload.startswith(("- ", "? ")) or mapping_pair(payload) is not None:
+                    compact_depth += 1
+                    if compact_depth > MAX_DEPTH:
+                        raise ValueError("compact explicit YAML nesting too deep")
+                    lines.append((indent, key + ":"))
+                    indent, text = payload_indent, payload
+                    continue
+                text = key + ": " + payload
+            break
         pair = mapping_pair(text)
         rest = text[2:] if text.startswith("- ") else pair[1] if pair is not None else ""
         if rest.startswith('"') and not closes_double_quote(rest, 1):
@@ -354,11 +474,18 @@ def write_yaml(record):
             lines = []
             for key, child in value.items():
                 key = key if plain_key(key) and not re.search(r"[\x7f-\x9f]", key) else yaml_quote(key)
+                if len(key.encode("utf-16-le")) // 2 > 1024:
+                    # Explicit keys avoid the implicit-key limit, including
+                    # readers that count UTF-16 units instead of code points.
+                    lines.append(prefix + "? " + key)
+                    entry = prefix + ":"
+                else:
+                    entry = prefix + key + ":"
                 if type(child) in (dict, list) and child:
-                    lines.append(prefix + key + ":")
+                    lines.append(entry)
                     lines.extend(render(child, indent + 2))
                 else:
-                    lines.append(prefix + key + ": " + inline(child))
+                    lines.append(entry + " " + inline(child))
             return lines
         if type(value) is list and value:
             lines = []
