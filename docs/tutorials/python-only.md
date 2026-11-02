@@ -40,7 +40,8 @@ python3 -m unittest discover -s packages/portable-core -p 'test_*.py'
 ```
 
 固定例は`valid: true`、`cases: 24`、`operations: 16`、`matched: 24`を確認します。
-単体検査は、この版では229件の成功を確認しています。
+単体検査は、最後の集計で試験数が0件でなく、`OK`と終了コード`0`になることを確認します。
+件数は版によって変わります。
 前者は固定した入力と期待結果、後者は個別の実装動作を調べます。
 これだけで、任意のYAMLへの対応やNode.js版との完全な適合を認定するものではありません。
 
@@ -60,4 +61,5 @@ python3 packages/portable-core/package_validation.py /path/to/package/.morivyx
 入力や既存ファイルを上書きする操作ではありません。
 
 実データを作るところから試す場合は、[判断の保存と差分の手順](getting-started.md)を使えます。
+正本を持ち運ぶ場合は、[JSONへの出力と新しい保存先への復元](backup-restore.md)へ進めます。
 [Pythonの対象範囲](../../packages/portable-core/README.md)と[利用手順の入口](README.md)も参照できます。
