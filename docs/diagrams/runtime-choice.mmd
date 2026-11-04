@@ -9,7 +9,10 @@ flowchart TB
   M --> L
   M --> G
   B --> E["関係の追加"]
-  C --> F["Pythonだけでも可能<br/>読取と復旧はmacOSで確認<br/>対応環境で実行"]
+  B --> N["信頼する子を明示して起動<br/>実行情報と上限を照合する"]
+  N --> F
+  N --> G
+  C --> F["Pythonだけでも可能<br/>同梱の手順はmacOSで確認<br/>対応環境で実行"]
   D --> F
   E --> G["Node.jsの手順を使う<br/>26.13.0以上とnpm<br/>必要ならPythonで照合"]
   F --> H["各手順のサンプルを確認<br/>Node.jsで作る例と<br/>同梱した固定例がある"]
@@ -19,5 +22,5 @@ flowchart TB
   classDef action fill:#e5f1eb,stroke:#196956,color:#183a49
   classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
   class A,B route
-  class C,D,E,F,G,I,K,L,M action
+  class C,D,E,F,G,I,K,L,M,N action
   class H,J scope
