@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
+import { types } from "node:util";
 import { parseDocument } from "yaml";
 import { canonicalJson, compareUnicode } from "./canonical.js";
+import { importErrorCode } from "./import-failure-data.js";
 import { PLUGIN_RUN_RESULT_FORMAT, validatePluginRunRequest, validatePluginRunResult } from "./plugin-communication.js";
 import { servePluginStdio } from "./plugin-stdio.js";
 import { networkBytes } from "./network-import-input.js";
@@ -27,6 +29,7 @@ function plugin() { return { id: FIGMA_IMPORTER_PLUGIN_ID, version: FIGMA_IMPORT
 
 export function validateFigmaImportRequest(request) {
   try {
+    check(!types.isProxy(request), "REQUEST_INVALID");
     validatePluginRunRequest(request);
     check(Buffer.byteLength(canonicalJson(request)) <= 1048576 &&
       request.plugin.id === FIGMA_IMPORTER_PLUGIN_ID && request.plugin.version === FIGMA_IMPORTER_PLUGIN_VERSION &&
@@ -58,7 +61,7 @@ export function validateFigmaImportResult(result, request = null) {
     if (request !== null) check(value.source.fileKey === request.input.fileKey && value.locator === request.input.nodeId &&
       value.source.version === request.input.version, "RESULT_MISMATCH");
   } catch (error) {
-    if (error instanceof ImportError && error.code === "FIGMA_IMPORT_RESULT_MISMATCH") throw error;
+    if (importErrorCode(error, ImportError.prototype, null) === "FIGMA_IMPORT_RESULT_MISMATCH") throw error;
     throw new ImportError("RESULT_INVALID");
   }
   return result;
@@ -196,7 +199,7 @@ export async function importFigmaNode(input, options = {}) {
     return await Promise.race([snapshot(request, { fetchImpl, credential: structuredClone(credential), now, limits, signal: controller.signal }), deadline]);
   } catch (error) {
     return { format: PLUGIN_RUN_RESULT_FORMAT, runId, plugin: plugin(), capabilityId: FIGMA_IMPORT_CAPABILITY_ID, status: "failure",
-      failure: { code: error instanceof ImportError ? error.code : "FIGMA_IMPORT_FAILED", message: "Figmaの読取条件または取得結果を確認できません。" } };
+      failure: { code: importErrorCode(error, ImportError.prototype, "FIGMA_IMPORT_FAILED"), message: "Figmaの読取条件または取得結果を確認できません。" } };
   } finally { clearTimeout(timer); controller?.abort(); }
 }
 

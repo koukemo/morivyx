@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
+import { types } from "node:util";
 import { canonicalJson } from "./canonical.js";
+import { importErrorCode, safeImportRunId } from "./import-failure-data.js";
 import { networkResponseList } from "./network-import-input.js";
 import {
   PLUGIN_RUN_REQUEST_FORMAT,
@@ -78,6 +80,7 @@ function validInput(input) {
 }
 
 export function validateGitHubImportRequest(request) {
+  requireCondition(!types.isProxy(request), "GITHUB_IMPORT_REQUEST_INVALID");
   try {
     validatePluginRunRequest(request);
   } catch {
@@ -168,25 +171,15 @@ function readLimits(overrides = {}) {
   return limits;
 }
 
-function safeRunId(request) {
-  try {
-    const property = Object.getOwnPropertyDescriptor(request, "runId");
-    return property?.enumerable && Object.hasOwn(property, "value") &&
-      typeof property.value === "string" && property.value.length > 0 ? property.value : "invalid-run";
-  } catch {
-    return "invalid-run";
-  }
-}
-
 function failure(request, error) {
   return {
     format: PLUGIN_RUN_RESULT_FORMAT,
-    runId: safeRunId(request),
+    runId: safeImportRunId(request),
     plugin: { id: GITHUB_IMPORTER_PLUGIN_ID, version: GITHUB_IMPORTER_PLUGIN_VERSION },
     capabilityId: GITHUB_IMPORT_CAPABILITY_ID,
     status: "failure",
     failure: {
-      code: error instanceof ImportError ? error.code : "GITHUB_IMPORT_FAILED",
+      code: importErrorCode(error, ImportError.prototype, "GITHUB_IMPORT_FAILED"),
       message: "GitHubの読取条件または取得結果を確認できませんでした。",
     },
   };
