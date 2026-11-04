@@ -16,7 +16,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 |---|---|
 | YAMLを読む、既存の正本を検証する | [Pythonだけで実行可能](python-only.md)。Node.jsのCLIからも読取と検証を実行できる |
 | 既存の正本から索引を作って調べる | [Node.jsとPythonの両方の入口](graph-index.md)がある。手順の最初のサンプル作成にはNode.jsを使う |
-| 判断を作成して保存する、改訂する | [Node.jsで判断を保存](getting-started.md)して[改訂](revise-decision.md)するか、[Pythonだけで準備と検証と復旧](python-decision.md)を組み合わせる |
+| 判断を作成して保存する、改訂する | [Node.jsで判断を保存](getting-started.md)して[改訂](revise-decision.md)するか、[Pythonの実行例](python-decision.md#自分の正本から作成して更新する)へ自分の正本と要求を渡す |
 | 関係を加える | [Node.jsで関係を追加](trace-relations.md)する |
 | Schemaを変えて別の保存先へ移行する | [準備と移行先の保存はNode.js](schema-migration.md)の手順を使う。Pythonでは移行結果を再読取して照合する |
 | 正本を出力する、受け取ったJSONを新しい先へ復旧する | [出力と復旧にはPythonだけ](backup-restore.md)を使える。手順のサンプルを最初から作る場合はNode.jsも使う |
