@@ -26,6 +26,106 @@ Node.js、Gitの起動、通信と追加部品の導入は不要です。
 
 [図の生成元](../diagrams/python-decision-preparation.mmd)
 
+## 自分の正本から作成して更新する
+
+[実行例](../../examples/python-decisions/workflow.py)は、中核の準備、適用と検証及び復旧を組み合わせます。
+既存の正本がある場合は、固定例を組み立てずに利用できます。
+`source_package`を、実際の正本の`.morivyx`へ置き換えます。
+次の`actor`は記法の例なので、実データでは記録する主体の識別子へ置き換えます。
+この指定は本人認証ではありません。
+
+```sh
+source_package=/path/to/project/.morivyx
+work=$(mktemp -d)
+work=$(cd "$work" && pwd -P)
+mkdir "$work/created" "$work/revised"
+actor=urn:uuid:00000000-0000-4000-8000-000000000001
+python3 - "$actor" > "$work/create-request.json" <<'PY'
+from datetime import datetime, timezone
+import json
+import sys
+from uuid import uuid4
+
+request = {
+    "format": "morivyx.decision-creation-request/0.1",
+    "decisionId": "urn:uuid:" + str(uuid4()),
+    "attributes": {"question": "保存形式を何にするか？", "rationale": "後で理由を確認できる形式を選ぶ。",
+                   "consequences": ["元の判断を保持して変更を追跡する。"]},
+    "changeSetId": "urn:uuid:" + str(uuid4()),
+    "resultingRevision": "graph:" + str(uuid4()),
+    "actor": sys.argv[1],
+    "recordedAt": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+}
+print(json.dumps(request, ensure_ascii=False))
+PY
+python3 -B examples/python-decisions/workflow.py create "$source_package" "$work/created/.morivyx" < "$work/create-request.json" > "$work/create-result.json"
+cat "$work/create-result.json"
+```
+
+要求の質問、理由と結果を、自分の内容へ変更して使います。
+読取と復旧はリンクを辿らないため、元の正本はリンクを含まない実際のパスで指定します。
+一時保存先も`pwd -P`で実際の位置にそろえています。
+判断、変更記録と結果の版は毎回新しい識別子を生成します。
+成功時は`restored: true`、作成した`decisionId`と`decisionRevision`、`changeSetId`、正本の版と検査値、`graphValidation`を返します。
+
+更新では、作成時の応答から同じ判断の識別子を取り出します。
+`attributes`は差分だけでなく、更新後に保持する属性全体を指定します。
+
+```sh
+python3 - "$actor" "$work/create-result.json" > "$work/revise-request.json" <<'PY'
+from datetime import datetime, timezone
+import json
+from pathlib import Path
+import sys
+from uuid import uuid4
+
+created = json.loads(Path(sys.argv[2]).read_text())
+request = {
+    "format": "morivyx.decision-revision-request/0.1",
+    "decisionId": created["decisionId"],
+    "attributes": {"question": "保存形式を再検討するか？", "rationale": "利用して分かった条件も理由へ加える。",
+                   "consequences": ["更新前と更新後を別々の正本として保持する。"]},
+    "changeSetId": "urn:uuid:" + str(uuid4()),
+    "resultingRevision": "graph:" + str(uuid4()),
+    "actor": sys.argv[1],
+    "recordedAt": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+}
+print(json.dumps(request, ensure_ascii=False))
+PY
+python3 -B examples/python-decisions/workflow.py revise "$work/created/.morivyx" "$work/revised/.morivyx" < "$work/revise-request.json" > "$work/revise-result.json"
+cat "$work/revise-result.json"
+python3 packages/portable-core/package_validation.py "$work/revised/.morivyx" --previous "$work/created/.morivyx"
+```
+
+元の正本、作成後と更新後は、それぞれ別の保存先に残ります。
+保存先そのものが既にある場合は置き換えずに失敗し、親フォルダーがない場合も失敗します。
+元の正本の内側も保存先には指定できません。
+正本の対応する記録とSchemaを出力し、`.git`や対応外の補助ファイルはコピーしません。
+必要な補助ファイルは、元の保存先に保持します。
+本文の出力時には、既存の規則に従って文字、時刻とYAMLの表記を正規化します。
+
+![元と適用後の内容及び成功出力を確認してから新規領域へ復旧し、中断時は未完了印を残す流れ](../diagrams/python-decision-workflow.png)
+
+[図の生成元](../diagrams/python-decision-workflow.mmd)
+
+### 失敗時の確認
+
+要求の読取から復旧までの処理に失敗した場合は、終了コード`1`、空の標準出力と、標準エラーの`EXAMPLE_DECISION_FAILED`を返します。
+`stage`は`input`、`source`、`prepare`、`validation`、`output`、`restore`のいずれかです。
+それぞれ要求の読取、元の正本、候補と適用、適用後の検証、成功出力の生成、実ファイルへの復旧を示します。
+引数の間違いは通常の使い方を表示して終了コード`2`となります。
+
+要求と成功出力はそれぞれ末尾改行を含めて8,388,608バイト以内です。
+成功出力の生成と上限確認は、保存先を作る前に完了します。
+`restore`で途中失敗した場合は、新しい保存先に`.morivyx-restore-incomplete`が残ることがあります。
+両実装の読取はその保存先を拒否します。
+そのまま再実行して上書きせず、元を保持して別の新しい保存先で試します。
+既存の保存先の削除や未完了印の解除を、この例は行いません。
+
+`graphValidation.valid`は、この実装が扱う構造、SchemaとGraphの制約の結果です。
+本人性、署名、採用権限、履歴全体のつながりと以前のSchemaの意味を確認したとは扱いません。
+元の正本は一度読み取った内容を使い、実行中に他の処理が行う変更を固定する仕組みではありません。
+
 ## 同梱した例から作成と更新を試す
 
 次の例は、同梱した検査用の正本を使います。
