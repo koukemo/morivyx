@@ -1,0 +1,14 @@
+flowchart TB
+  A["確認済みの正本<br/>作成か更新の要求"] --> B["Pythonで候補を準備<br/>入力とファイルは保持"]
+  B --> C["候補と変更記録<br/>結果の版を計算"]
+  C --> D["変更を論理値へ適用<br/>全量を出力して検証"]
+  D --> E{"問題があるか"}
+  E -->|ある| F["診断を確認<br/>保存せず修正する"]
+  E -->|ない| G["新しい保存先へ復旧<br/>既存データは置換しない"]
+  G --> H["実ファイルを再読取<br/>作成後と更新後を照合"]
+  B --> I["本人認証や採用の<br/>許可は発行しない"]
+  H --> J["Node.jsと固定例を比較<br/>Python単独でも検査"]
+  classDef action fill:#e5f1eb,stroke:#196956,color:#183a49
+  classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
+  class A,B,C,D,E,G,H,J action
+  class F,I scope
