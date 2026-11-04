@@ -1,7 +1,7 @@
 ---
 type: Independent Implementation Guide
 title: Pythonの中核実装
-description: 標準機能だけを使う34モジュールと、検査と保存、配布物の照合及び明示的な子の起動の範囲を示す。
+description: 標準機能だけを使う35モジュールと、検査と保存、配布物の照合及び明示的な子の起動と応答の範囲を示す。
 ---
 
 # Pythonの中核実装
@@ -20,6 +20,9 @@ OSの権限の隔離と子孫の全面的な制御は行いません。
 
 [配布物のバイト列を照合する手順](../../docs/tutorials/python-plugin-supply-chain.md)では、本体と付属物の取得済みの内容を独立した固定値へ照合します。
 欠落と不一致を区別しますが、署名の有効性と配布元の真正性は検証しません。
+
+[応答側を作る手順](../../docs/tutorials/python-plugin-stdio.md)では、要求を複写して検証と処理へ渡し、上限付きの結果又は固定した診断を返します。
+PythonとNode.jsの両方の起動側から、同じ合成した応答側へ接続できます。
 
 最初に試す場合は、[Python単独の手順](../../docs/tutorials/python-only.md)を使えます。
 [Node.jsとPythonの選び方](../../docs/tutorials/README.md#実行環境を選ぶ)で、既存データの読取、サンプルの準備と新しい保存先への書込に必要な環境を比較できます。
