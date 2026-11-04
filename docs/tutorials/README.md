@@ -57,6 +57,7 @@ python3 packages/portable-core/package_records.py /path/to/project/.morivyx
 | Pythonだけで判断を保存する | [Pythonだけで判断を作成して更新する](python-decision.md) | 候補を準備し、適用後を検証して新しい保存先へ復旧する |
 | Pythonだけで判断を人が読む本文へ出力する | [Pythonだけで判断をMarkdownへ出力する](python-decision-markdown.md) | 本文と検査値を生成し、元を保持して新しいファイルへ保存する |
 | Pythonだけで別のSchemaへ移行する | [Pythonだけで正本を新しいSchemaへ移行する](python-migration.md) | 実ファイルと明示した要求を検証し、本文と報告名を保持して新しい保存先へ移す |
+| 拡張機能の宣言を検査する | [Pythonだけで拡張機能の宣言を検査する](python-plugin-manifest.md) | 宣言の構造と機能を確認し、実行の許可から分ける |
 
 Morivyxは現時点では、アプリケーションへ組み込む中核SDKとCLIのソース配布です。
 専用の操作画面、実モデル連携、本人認証を済ませた承認操作は含みません。
