@@ -1,7 +1,7 @@
 ---
 type: Independent Implementation Guide
 title: Pythonの中核実装
-description: 標準機能だけを使う31モジュールと、検査及び保存の範囲を示す。
+description: 標準機能だけを使う32モジュールと、検査及び保存の範囲を示す。
 ---
 
 # Pythonの中核実装
@@ -11,6 +11,9 @@ description: 標準機能だけを使う31モジュールと、検査及び保�
 
 [実行側の許可情報へ照合する手順](../../docs/tutorials/python-plugin-host-policy.md)では、要求する権限の包含と資源上限を静的に照合します。
 実際の権限の付与と制限の強制は行いません。
+
+[要求と結果を検査する手順](../../docs/tutorials/python-plugin-messages.md)では、メッセージの形式、宣言への一致と要求への対応を確認します。
+形式が正しい失敗応答の受理を、処理の成功と取り違えません。
 
 最初に試す場合は、[Python単独の手順](../../docs/tutorials/python-only.md)を使えます。
 [Node.jsとPythonの選び方](../../docs/tutorials/README.md#実行環境を選ぶ)で、既存データの読取、サンプルの準備と新しい保存先への書込に必要な環境を比較できます。
