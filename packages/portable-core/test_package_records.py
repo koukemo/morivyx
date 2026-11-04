@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 import package_records as implementation
-from package_records import read_package, read_package_files, write_package_files
+from package_records import read_package, read_package_file_sources, read_package_files, write_package_files
 from yaml_records import read_yaml, write_yaml
 
 
@@ -119,6 +119,37 @@ class PackageRecordTests(unittest.TestCase):
         self.assertEqual(read_package(INPUT_ROOT), read_package_files(before))
         self.assertEqual(inputs(), before)
 
+    def test_file_sources_retain_spelling_and_report_aliases(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve() / "package"
+            materialize(root)
+            report = next(root.glob("reports/*.yaml"))
+            report.rename(root / "reports/別名.yaml")
+            revision = root / "revision.yaml"
+            revision.write_bytes(revision.read_bytes().replace(b"\n", b"\n\n", 1))
+            expected = {path.relative_to(root).as_posix(): path.read_bytes().decode("utf-8")
+                        for path in root.rglob("*.yaml")}
+            actual = read_package_file_sources(root)
+            self.assertEqual(actual, expected)
+            self.assertIn("\n\n", actual["revision.yaml"])
+            self.assertIn("reports/別名.yaml", actual)
+            self.assertEqual(read_package_files(actual), read_package(root))
+            actual.clear()
+            self.assertEqual(read_package_file_sources(root), expected)
+
+    def test_file_sources_validate_before_returning(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve() / "package"
+            materialize(root)
+            (root / "revision.yaml").write_bytes(b"\xff")
+            with self.assertRaises(ValueError):
+                read_package_file_sources(root)
+            (root / "revision.yaml").write_text("{}\n")
+            with self.assertRaises(ValueError):
+                read_package_file_sources(root)
+        with patch.object(implementation, "MAX_TOTAL_BYTES", 1), self.assertRaises(ValueError):
+            read_package_file_sources(INPUT_ROOT)
+
     def test_links_special_files_and_unknown_entries(self):
         for kind in ["root-link", "ancestor-link", "file-link", "directory-link", "hard-link", "fifo", "unknown"]:
             with self.subTest(kind=kind), tempfile.TemporaryDirectory() as temporary:
@@ -150,8 +181,9 @@ class PackageRecordTests(unittest.TestCase):
                     os.mkfifo(path)
                 else:
                     (root / "unknown.yaml").write_text("{}\n")
-                with self.assertRaises((ValueError, OSError)):
-                    read_package(selected)
+                for reader in (read_package, read_package_file_sources):
+                    with self.assertRaises((ValueError, OSError)):
+                        reader(selected)
 
     def test_record_change_during_read_is_rejected(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -167,6 +199,8 @@ class PackageRecordTests(unittest.TestCase):
 
             with patch.object(implementation.os, "read", side_effect=changed), self.assertRaises(ValueError):
                 read_package(root)
+            with patch.object(implementation.os, "read", side_effect=changed), self.assertRaises(ValueError):
+                read_package_file_sources(root)
 
     def test_standalone_cli_inspection_and_logical_export(self):
         command = [sys.executable, "-B", str(Path(__file__).with_name("package_records.py")), str(INPUT_ROOT)]
