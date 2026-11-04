@@ -15,13 +15,15 @@ from typing import NamedTuple
 from canonical import canonical_json as _canonical_json, load_json
 from plugin_host_policy import authorize_plugin_host_policy
 from plugin_messages import authorize_plugin_run_request, validate_plugin_run_result
-from schema_validation import SPACE, ValidationError
+from schema_validation import ValidationError
 from stdin_transport import read_bounded_stdin
 
 GRANT_FORMAT = "morivyx.plugin-execution-grant/0.1"
 GRANT_ENV = "MORIVYX_PLUGIN_EXECUTION_GRANT"
 LIMIT = 8 * 1024 * 1024
 _UNSET = object()
+_TRIM = "".join(chr(value) for value in [*range(9, 14), 0x20, 0xA0, 0x1680, *range(0x2000, 0x200B),
+                                       0x2028, 0x2029, 0x202F, 0x205F, 0x3000, 0xFEFF])
 
 
 class PluginExecutionGrant(NamedTuple):
@@ -238,7 +240,7 @@ def _parse_result(data, request):
     try:
         text = data.decode("utf-8", errors="strict")
         # ECMAScript trim differs from str.strip for BOM and NEL, among others.
-        text = re.sub(rf"^[{SPACE}]+|[{SPACE}]+$", "", text)
+        text = text.strip(_TRIM)
         if not text or "\n" in text:
             raise ValueError("framing")
 

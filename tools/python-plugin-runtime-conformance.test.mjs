@@ -31,6 +31,7 @@ function grantOutcome(value) {
 }
 function processOptions(entry, directory) {
   const value = JSON.parse(valueText(entry));
+  if (entry.inputSpaces) value.request.input = { action: "echo", value: { text: " ".repeat(entry.inputSpaces) } };
   if (entry.inputDepth) { let nested = {}; for (let index = 0; index < entry.inputDepth; index++) nested = { next: nested }; value.request.input = nested; }
   if (entry.inputRepeat) value.request.input = { payload: "x".repeat(entry.inputRepeat) };
   const options = { ...value, command: python, args: ["-B", child, ...(entry.childArgs ?? [])], cwd: directory };
@@ -65,6 +66,7 @@ with tempfile.TemporaryDirectory(prefix='morivyx-runtime-bulk-') as location:
  directory=Path(location);(directory/'work').mkdir()
  for case in source['processes']:
   value=load_json(case['valueJson'])
+  if case.get('inputSpaces'):value['request']['input']={'action':'echo','value':{'text':' '*case['inputSpaces']}}
   if case.get('inputDepth'):
    nested={}
    for _ in range(case['inputDepth']):nested={'next':nested}
@@ -102,9 +104,9 @@ test("371 immutable grant values and wire bytes retain frozen Node outcomes", ()
   }
 });
 
-test("64 real-process outcomes match frozen Node and independent Python transports", async () => {
-  assert.equal(vectors.processCases.length, 64); assert.equal(vectors.processCases.filter(entry => entry.expected.accepted).length, 22);
-  assert.equal(new Set(vectors.processCases.map(entry => entry.name)).size, 64);
+test("65 real-process outcomes match frozen Node and independent Python transports", async () => {
+  assert.equal(vectors.processCases.length, 65); assert.equal(vectors.processCases.filter(entry => entry.expected.accepted).length, 23);
+  assert.equal(new Set(vectors.processCases.map(entry => entry.name)).size, 65);
   assert.equal(sha(await readFile(child)), vectors.reference.childSha256);
   const directory = await mkdtemp(join(tmpdir(), "morivyx-runtime-node-")); await mkdir(join(directory, "work"));
   const previous = process.env.MORIVYX_TEST_RUNTIME_AMBIENT; process.env.MORIVYX_TEST_RUNTIME_AMBIENT = "synthetic-parent-only";
@@ -130,7 +132,7 @@ test("bounded runtime CLI only creates grant data and sanitizes failures", () =>
   }
 });
 
-test("copied production Python and a synthetic child reproduce all 435 cases without Node or Git", async () => {
+test("copied production Python and a synthetic child reproduce all 436 cases without Node or Git", async () => {
   const directory = await mkdtemp(join(tmpdir(), "morivyx-runtime-isolated-"));
   try {
     const runtime = join(directory, "portable-core"), empty = join(directory, "empty-path"), fixture = join(directory, "synthetic-child.py");
@@ -143,6 +145,6 @@ test("copied production Python and a synthetic child reproduce all 435 cases wit
     const env = { ...process.env, PATH: empty, PYTHONPATH: "", PYTHONHOME: "", PYTHONNOUSERSITE: "1", MORIVYX_TEST_RUNTIME_AMBIENT: "synthetic-parent-only" };
     for (const command of ["node", "git"]) assert.equal(spawnSync(command, ["--version"], { env }).error?.code, "ENOENT");
     assert.deepEqual(runBulk(located.stdout.trim(), runtime, fixture, { cwd: directory, env }), expected);
-    console.info(`Production-only runtime modules: ${modules.length}; frozen grants: 371; actual processes: 64`);
+    console.info(`Production-only runtime modules: ${modules.length}; frozen grants: 371; actual processes: 65`);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
