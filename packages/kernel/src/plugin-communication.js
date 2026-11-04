@@ -300,10 +300,10 @@ export function runPluginProcess({
       "この実行方式では指定された資源上限を強制できません。");
   }
   if (
-    !isText(command) ||
+    !isText(command) || command.includes("\0") ||
     !Array.isArray(args) ||
-    args.some((argument) => typeof argument !== "string") ||
-    (cwd !== undefined && typeof cwd !== "string")
+    args.findIndex((argument) => typeof argument !== "string" || argument.includes("\0")) !== -1 ||
+    (cwd !== undefined && (typeof cwd !== "string" || cwd.includes("\0")))
   ) {
     throw new PackageError(
       "PLUGIN_RUN_INVALID",
@@ -311,19 +311,26 @@ export function runPluginProcess({
       "Plugin実行command、args、cwdのいずれかが不正です。",
     );
   }
-  const execution = spawnSync(command, args, {
-    cwd,
-    env: {
-      [PLUGIN_EXECUTION_GRANT_ENV]: canonicalJson(grant),
-    },
-    input: `${JSON.stringify(request)}\n`,
-    maxBuffer: grant.capability.resources.maxOutputBytes,
-    shell: false,
-    timeout: grant.capability.resources.timeoutMs,
-    killSignal: "SIGKILL",
-  });
+  const runFailed = () => new PackageError("PLUGIN_RUN_FAILED", "/",
+    "Pluginプロセスの起動又は実行に失敗しました。");
+  let execution;
+  try {
+    execution = spawnSync(command, args, {
+      cwd,
+      env: {
+        [PLUGIN_EXECUTION_GRANT_ENV]: canonicalJson(grant),
+      },
+      input: `${JSON.stringify(request)}\n`,
+      maxBuffer: grant.capability.resources.maxOutputBytes,
+      shell: false,
+      timeout: grant.capability.resources.timeoutMs,
+      killSignal: "SIGKILL",
+    });
+  } catch {
+    throw runFailed();
+  }
   if (execution.error) {
-    throw new PackageError("PLUGIN_RUN_FAILED", "/", execution.error.message);
+    throw runFailed();
   }
   if (execution.status !== 0) {
     throw new PackageError(
