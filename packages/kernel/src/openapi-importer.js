@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
+import { types } from "node:util";
 import { parseDocument } from "yaml";
 import { canonicalJson } from "./canonical.js";
+import { importErrorCode } from "./import-failure-data.js";
 import { PLUGIN_RUN_RESULT_FORMAT, validatePluginRunRequest, validatePluginRunResult } from "./plugin-communication.js";
 
 export const OPENAPI_IMPORTER_PLUGIN_ID = "morivyx.openapi-importer.dev";
@@ -32,6 +34,7 @@ function plugin() { return { id: OPENAPI_IMPORTER_PLUGIN_ID, version: OPENAPI_IM
 
 export function validateOpenApiImportRequest(request) {
   try {
+    check(!types.isProxy(request), "REQUEST_INVALID");
     validatePluginRunRequest(request);
     check(request.plugin.id === OPENAPI_IMPORTER_PLUGIN_ID && request.plugin.version === OPENAPI_IMPORTER_PLUGIN_VERSION &&
       request.capability.id === OPENAPI_IMPORT_CAPABILITY_ID && request.capability.effect === "pure" && text(request.runId, 256) &&
@@ -41,7 +44,7 @@ export function validateOpenApiImportRequest(request) {
     check(Buffer.byteLength(request.input.documentText) <= OPENAPI_IMPORT_LIMITS.maxDocumentBytes, "INPUT_LIMIT");
     check(Buffer.byteLength(JSON.stringify(request)) <= 1048576, "INPUT_LIMIT");
   } catch (error) {
-    if (error instanceof ImportError) throw error;
+    if (importErrorCode(error, ImportError.prototype, null) !== null) throw error;
     throw new ImportError("REQUEST_INVALID");
   }
   return request;
@@ -108,7 +111,7 @@ export function validateOpenApiImportResult(result, request = null) {
       check(canonicalJson(snapshot) === canonicalJson(metadata(request.input)), "RESULT_MISMATCH");
     }
   } catch (error) {
-    if (error instanceof ImportError && error.code === "OPENAPI_IMPORT_RESULT_MISMATCH") throw error;
+    if (importErrorCode(error, ImportError.prototype, null) === "OPENAPI_IMPORT_RESULT_MISMATCH") throw error;
     throw new ImportError("RESULT_INVALID");
   }
   return result;
@@ -130,7 +133,7 @@ export function importOpenApiOperation(input, options = {}) {
     return result;
   } catch (error) {
     return { format: PLUGIN_RUN_RESULT_FORMAT, runId, plugin: plugin(), capabilityId: OPENAPI_IMPORT_CAPABILITY_ID,
-      status: "failure", failure: { code: error instanceof ImportError ? error.code : "OPENAPI_IMPORT_FAILED",
+      status: "failure", failure: { code: importErrorCode(error, ImportError.prototype, "OPENAPI_IMPORT_FAILED"),
         message: "OpenAPIの取込条件または結果を確認できません。" } };
   }
 }
