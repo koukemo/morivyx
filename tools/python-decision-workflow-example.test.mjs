@@ -33,10 +33,10 @@ async function snapshot(directory) {
   }
   await visit(directory); return result;
 }
-async function fixture(callback) {
+async function fixture(callback, mapping = files) {
   const directory = await realpath(await mkdtemp(join(tmpdir(), "morivyx-python-workflow-")));
   try {
-    const sourceProject = join(directory, "source"), source = join(sourceProject, ".morivyx"); await materialize(source, files);
+    const sourceProject = join(directory, "source"), source = join(sourceProject, ".morivyx"); await materialize(source, mapping);
     const before = await snapshot(source);
     await callback({ directory, source, sourceProject, before });
     assert.deepEqual(await snapshot(source), before, "workflow keeps the source bytes unchanged");
@@ -70,6 +70,50 @@ test("Python workflow creates and revises user packages with the same persisted 
       pythonSource = destination; nodeSource = nodeOutput;
     }
   });
+});
+
+test("creation and revision retain every unchanged source byte and report alias", async () => {
+  const preserved = structuredClone(files);
+  const reportDirectory = join(root, "packages/kernel/test/fixtures/package-v1-roundtrip/.morivyx/reports");
+  const report = (await readdir(reportDirectory)).find(name => name.endsWith(".yaml"));
+  const alias = "reports/保持する別名.yaml";
+  preserved[alias] = (await readFile(join(reportDirectory, report), "utf8")).replace("\n", "\n\n");
+  const originalElement = Object.keys(preserved).find(path => path.startsWith("graph/entities/"));
+  for (const path of [originalElement, "schema.lock.yaml"]) preserved[path] = preserved[path].replace("\n", "\n\n");
+  await fixture(async ({ directory, source, sourceProject }) => {
+    let current = source, nodeSource = sourceProject;
+    for (const [index, value] of vectors.cases.entries()) {
+      const before = await snapshot(current), destination = await target(directory, "retained-" + index);
+      const result = run([script, value.operation, current, destination], JSON.stringify(value.request));
+      assert.equal(result.status, 0, result.stderr); const receipt = JSON.parse(result.stdout);
+      const decisionPath = "graph/entities/" + receipt.decisionId.slice(9) + ".yaml";
+      const ledgerPath = "ledger/" + receipt.changeSetId.slice(9) + ".yaml";
+      const after = await snapshot(destination);
+      for (const [path, body] of Object.entries(before)) {
+        if (path !== "revision.yaml" && path !== decisionPath) assert.deepEqual(after[path], body, value.operation + ": retained " + path);
+      }
+      assert.deepEqual(Object.keys(after).filter(path => !Object.hasOwn(before, path)).sort(),
+        (index === 0 ? [decisionPath, ledgerPath] : [ledgerPath]).sort());
+      assert.deepEqual(after[alias], Buffer.from(preserved[alias]));
+      assert.deepEqual(await snapshot(current), before);
+      const writer = index === 0 ? writeCreatedDecisionPackage : writeRevisedDecisionPackage;
+      const nodeOutput = join(directory, "node-retained-" + index);
+      await writer({ basePath: nodeSource, outputPath: nodeOutput, request: value.request });
+      const nodeFiles = await snapshot(join(nodeOutput, ".morivyx"));
+      assert.deepEqual(Object.keys(after).sort(), Object.keys(nodeFiles).sort());
+      // Node's existing writer reserializes unchanged Graph elements. The
+      // Python example retains their spelling; every other file still agrees.
+      const differing = Object.keys(after).filter(path => !after[path].equals(nodeFiles[path]));
+      assert.deepEqual(differing, [originalElement]);
+      const actual = await readGraphPackage(dirname(destination)), expected = await readGraphPackage(nodeOutput);
+      for (const field of ["elements", "changeSets", "revision", "schemaLock", "approvals", "migrations"])
+        assert.equal(canonicalJson(actual[field]), canonicalJson(expected[field]), field);
+      assert.equal(canonicalJson(actual.reports.map(entry => entry.report)), canonicalJson(expected.reports.map(entry => entry.report)));
+      const validation = run([join(core, "package_validation.py"), destination, "--previous", current], "");
+      assert.equal(validation.status, 0, validation.stderr); assert.equal(JSON.parse(validation.stdout).valid, true);
+      current = destination; nodeSource = nodeOutput;
+    }
+  }, preserved);
 });
 
 test("malformed or oversized requests and invalid attributes fail before creating output", async () => {
