@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile, realpath } from "node:fs/promises";
 import { isAbsolute, relative, resolve, sep } from "node:path";
+import { types } from "node:util";
 import { canonicalJson } from "./canonical.js";
 import { PackageError } from "./errors.js";
 import {
@@ -49,6 +50,13 @@ function assertInputKeys(input) {
 }
 
 function validateRepositoryInput(request) {
+  if (types.isProxy(request)) {
+    throw new PackageError(
+      "PLUGIN_REQUEST_INVALID",
+      "/",
+      "Plugin RunRequestは論理的な対応表でなければなりません。",
+    );
+  }
   validatePluginRunRequest(request);
   if (
     request.plugin.id !== REPOSITORY_IMPORTER_PLUGIN_ID ||
@@ -96,7 +104,12 @@ export function validateRepositoryImportRequest(request) {
 }
 
 function safeRunId(request) {
-  if (request === null || typeof request !== "object" || Array.isArray(request)) {
+  if (
+    request === null ||
+    typeof request !== "object" ||
+    types.isProxy(request) ||
+    Array.isArray(request)
+  ) {
     return "invalid-run";
   }
   const descriptor = Object.getOwnPropertyDescriptor(request, "runId");
@@ -108,10 +121,53 @@ function safeRunId(request) {
   ) {
     return "invalid-run";
   }
-  return descriptor.value;
+  try {
+    canonicalJson(descriptor.value);
+    return descriptor.value;
+  } catch {
+    return "invalid-run";
+  }
+}
+
+function safePackageErrorData(error) {
+  if (
+    error === null ||
+    !["object", "function"].includes(typeof error) ||
+    types.isProxy(error)
+  ) {
+    return null;
+  }
+  // Avoid instanceof: an error or one of its prototypes can be a Proxy.
+  let prototype = Object.getPrototypeOf(error);
+  while (prototype !== null) {
+    if (types.isProxy(prototype)) return null;
+    if (prototype === PackageError.prototype) {
+      const code = Object.getOwnPropertyDescriptor(error, "code");
+      const message = Object.getOwnPropertyDescriptor(error, "message");
+      if (
+        !code ||
+        !message ||
+        !Object.hasOwn(code, "value") ||
+        !Object.hasOwn(message, "value") ||
+        !isText(code.value) ||
+        !isText(message.value)
+      ) {
+        return null;
+      }
+      try {
+        canonicalJson({ code: code.value, message: message.value });
+        return { code: code.value, message: message.value };
+      } catch {
+        return null;
+      }
+    }
+    prototype = Object.getPrototypeOf(prototype);
+  }
+  return null;
 }
 
 function failureResult(request, error) {
+  const diagnostic = safePackageErrorData(error);
   return {
     format: PLUGIN_RUN_RESULT_FORMAT,
     runId: safeRunId(request),
@@ -122,14 +178,8 @@ function failureResult(request, error) {
     capabilityId: REPOSITORY_IMPORT_CAPABILITY_ID,
     status: "failure",
     failure: {
-      code:
-        error instanceof PackageError
-          ? error.code
-          : "REPOSITORY_IMPORT_FAILED",
-      message:
-        error instanceof PackageError
-          ? error.message
-          : "repositoryを読み取れませんでした。",
+      code: diagnostic?.code ?? "REPOSITORY_IMPORT_FAILED",
+      message: diagnostic?.message ?? "repositoryを読み取れませんでした。",
     },
   };
 }
