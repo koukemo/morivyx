@@ -1,7 +1,7 @@
 ---
 type: Independent Implementation Guide
 title: Pythonの中核実装
-description: 標準機能だけを使う28モジュールと、検査及び保存の範囲を示す。
+description: 標準機能だけを使う29モジュールと、検査及び保存の範囲を示す。
 ---
 
 # Pythonの中核実装
@@ -10,6 +10,7 @@ description: 標準機能だけを使う28モジュールと、検査及び保�
 [Node.jsとPythonの選び方](../../docs/tutorials/README.md#実行環境を選ぶ)で、既存データの読取、サンプルの準備と新しい保存先への書込に必要な環境を比較できます。
 Node.jsで保存した正本をPythonで確認する例は、[判断の保存と差分の手順](../../docs/tutorials/getting-started.md)にあります。
 [Pythonだけで判断を作成して更新する手順](../../docs/tutorials/python-decision.md)では、候補の準備、適用と検証を分け、新しい保存先へ復旧します。
+[Pythonだけで判断をMarkdownへ出力する手順](../../docs/tutorials/python-decision-markdown.md)では、元を保持して人が読む本文と検査値を生成します。
 
 Coreの読取、記録と検査値、Graphの検証と索引、関係の追跡、差分と明示した変更の計算、出力と新規領域への復旧を行います。
 既存の正本を暗黙に上書きせず、明示した新しい保存先への復旧を扱います。

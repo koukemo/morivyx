@@ -1,0 +1,13 @@
+flowchart TB
+  A["元の正本を読んで検証<br/>対象の判断を指定"] --> C["Pythonで表示を生成<br/>入力と正本は保持"]
+  B["生成器の資料を保存<br/>資料の検査値を提示"] --> C
+  C --> D["本文と本文の検査値<br/>提示したメタデータを出力"]
+  D --> E["本文の検査値を再計算"]
+  E --> F{"本文と一致するか"}
+  F -->|はい| G["新しいMarkdownへ保存<br/>既存ファイルは保持"]
+  F -->|いいえ| H["保存せずに確認"]
+  D --> I["提示した版や資料の真正性<br/>本人性と採用権限は未確認"]
+  classDef action fill:#e5f1eb,stroke:#196956,color:#183a49
+  classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
+  class A,B,C,D,E,F,G action
+  class H,I scope

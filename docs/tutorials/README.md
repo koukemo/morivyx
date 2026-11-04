@@ -54,6 +54,7 @@ python3 packages/portable-core/package_records.py /path/to/project/.morivyx
 | 自分のNode.jsアプリへ組み込む | [別のNode.jsアプリへSDKを導入する](installed-node.md) | 配布アーカイブを導入し、公開APIとCLIで正本を読む |
 | Node.jsを導入せずに試す | [Pythonだけで中核の操作を試す](python-only.md) | YAMLの読取と固定例の検証を行う |
 | Pythonだけで判断を保存する | [Pythonだけで判断を作成して更新する](python-decision.md) | 候補を準備し、適用後を検証して新しい保存先へ復旧する |
+| Pythonだけで判断を人が読む本文へ出力する | [Pythonだけで判断をMarkdownへ出力する](python-decision-markdown.md) | 本文と検査値を生成し、元を保持して新しいファイルへ保存する |
 
 Morivyxは現時点では、アプリケーションへ組み込む中核SDKとCLIのソース配布です。
 専用の操作画面、実モデル連携、本人認証を済ませた承認操作は含みません。
