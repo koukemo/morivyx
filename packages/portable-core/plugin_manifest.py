@@ -164,10 +164,10 @@ def main():
             raise ValueError("unknown operation")
         output = (json.dumps(result, ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n").encode("utf-8")
         _require(len(output) <= LIMIT, "/")
+        sys.stdout.buffer.write(output)
     except (ValueError, TypeError, KeyError, IndexError, AttributeError, OSError, RecursionError, OverflowError):
         print('{"error":{"code":"PLUGIN_MANIFEST_INPUT_INVALID","path":"/"}}', file=sys.stderr)
         return 1
-    sys.stdout.buffer.write(output)
     return 0
 
 

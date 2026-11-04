@@ -83,7 +83,7 @@ capability = get_declared_plugin_capability(manifest, "my-capability")
 標準入力は、重複項目のない厳密なUTF-8のJSONで8MiBまでです。
 `validate`は`operation`と`manifest`、`capability`はそれらに`capabilityId`を加えた項目だけを受け付けます。
 引数は取りません。
-失敗すると終了コード1、空の標準出力と、標準エラーへの次の固定したJSONを返します。
+入力又は宣言の検査に失敗すると終了コード1、空の標準出力と、標準エラーへの次の固定したJSONを返します。
 
 ```json
 {"error":{"code":"PLUGIN_MANIFEST_INPUT_INVALID","path":"/"}}
