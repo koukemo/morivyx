@@ -2,16 +2,19 @@ flowchart TB
   A["実行環境を選ぶ"] --> B{"何を行うか"}
   B --> C["既存の正本を読む<br/>検証や索引を作る"]
   B --> D["正本の出力と復旧<br/>受け取ったJSONを使う"]
-  B --> E["判断を作成して保存<br/>改訂と関係の追加<br/>移行先への統合した保存"]
+  B --> K["判断を作成して更新<br/>候補を準備して検証"]
+  K --> L["Pythonだけでも可能<br/>準備と適用と復旧を<br/>組み合わせる手順"]
+  K --> G
+  B --> E["関係の追加<br/>移行先への統合した保存"]
   C --> F["Pythonだけでも可能<br/>読取と復旧はmacOSで確認<br/>対応環境で実行"]
   D --> F
   E --> G["Node.jsの手順を使う<br/>26.13.0以上とnpm<br/>必要ならPythonで照合"]
-  F --> H["判断のサンプルを作る場合<br/>同梱の準備スクリプトには<br/>Node.jsを使う"]
+  F --> H["各手順のサンプルを確認<br/>Node.jsで作る例と<br/>同梱した固定例がある"]
   G --> I["Node.jsアプリへ組み込む<br/>SDKを導入して使う<br/>Pythonの導入は不要"]
   F --> J["確認済みの操作を選ぶ<br/>Pythonは3.14と3.15<br/>対応範囲は各手順を参照"]
   classDef route fill:#e7f2f8,stroke:#236b8e,color:#183a49
   classDef action fill:#e5f1eb,stroke:#196956,color:#183a49
   classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
   class A,B route
-  class C,D,E,F,G,I action
+  class C,D,E,F,G,I,K,L action
   class H,J scope

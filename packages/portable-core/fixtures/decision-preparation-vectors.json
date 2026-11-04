@@ -1,0 +1,156 @@
+{
+  "format": "morivyx.decision-preparation-vectors/0.1",
+  "source": {
+    "repository": "https://github.com/koukemo/morivyx",
+    "commit": "2bb25fee6d4214fb5ff9b5e16450076160f5ff8c",
+    "node": "v26.13.0",
+    "apiSha256": {
+      "packages/kernel/src/decision-creation.js": "d4b3aeb234f2ebcfaab2feb47a9b456b3d9190bd238913a61250338d4a56d60a",
+      "packages/kernel/src/decision-revision.js": "eb02170fdb867cb85318a0cee33177c9bd8745b23bf7d6e128d442b50ca6895d"
+    },
+    "baseVectorsSha256": "24c885f346f4bc509a58be49172feb01a3da97ba7ebeff974777a76f03af2e2c"
+  },
+  "cases": [
+    {
+      "operation": "create",
+      "request": {
+        "format": "morivyx.decision-creation-request/0.1",
+        "decisionId": "urn:uuid:00000000-0000-4000-8000-000000001001",
+        "attributes": {
+          "question": "判断を保存する方法は？",
+          "rationale": "根拠を保持する。\né😀",
+          "consequences": [
+            "後で更新できる。"
+          ]
+        },
+        "changeSetId": "urn:uuid:00000000-0000-4000-8000-000000001002",
+        "resultingRevision": "graph:decision-create",
+        "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+        "recordedAt": "2026-10-27T01:00:00+01:00"
+      },
+      "expected": {
+        "candidateElement": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:00000000-0000-4000-8000-000000001001",
+          "type": "core.decision",
+          "typeVersion": "0.1",
+          "lifecycle": "draft",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "question": "判断を保存する方法は？",
+            "rationale": "根拠を保持する。\né😀",
+            "consequences": [
+              "後で更新できる。"
+            ]
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+            "recordedAt": "2026-10-27T01:00:00+01:00"
+          },
+          "revision": "sha256:6bb39b11436eb5de2ed4ef321208ef952cde98f8ce8c15c3720316a39f29eef4"
+        },
+        "changeSet": {
+          "format": "morivyx.changeset/0.1",
+          "id": "urn:uuid:00000000-0000-4000-8000-000000001002",
+          "baseRevision": "graph:package-validation",
+          "resultingRevision": "graph:decision-create",
+          "resultingRootDigest": "sha256:ebcf609b738affc8b4c9bf37621a3ba0747de9dc608562836860219931458adc",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+          "operations": [
+            {
+              "op": "create",
+              "targetId": "urn:uuid:00000000-0000-4000-8000-000000001001",
+              "afterRevision": "sha256:6bb39b11436eb5de2ed4ef321208ef952cde98f8ce8c15c3720316a39f29eef4"
+            }
+          ],
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+            "recordedAt": "2026-10-27T01:00:00+01:00"
+          },
+          "recordedAt": "2026-10-27T01:00:00+01:00"
+        },
+        "resultingRevision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:decision-create",
+          "parentRevision": "graph:package-validation",
+          "rootDigest": "sha256:ebcf609b738affc8b4c9bf37621a3ba0747de9dc608562836860219931458adc",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        }
+      }
+    },
+    {
+      "operation": "revise",
+      "request": {
+        "format": "morivyx.decision-revision-request/0.1",
+        "decisionId": "urn:uuid:00000000-0000-4000-8000-000000001001",
+        "attributes": {
+          "question": "判断の保存方法を再検討するか？",
+          "rationale": "根拠を保持する。\né😀",
+          "consequences": [
+            "更新した理由も保持する。"
+          ]
+        },
+        "changeSetId": "urn:uuid:00000000-0000-4000-8000-000000001003",
+        "resultingRevision": "graph:decision-revise",
+        "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+        "recordedAt": "2026-10-27T02:00:00+01:00"
+      },
+      "expected": {
+        "candidateElement": {
+          "format": "morivyx.git-graph/0.1",
+          "kind": "entity",
+          "id": "urn:uuid:00000000-0000-4000-8000-000000001001",
+          "type": "core.decision",
+          "typeVersion": "0.1",
+          "lifecycle": "draft",
+          "reviewState": "unreviewed",
+          "attributes": {
+            "question": "判断の保存方法を再検討するか？",
+            "rationale": "根拠を保持する。\né😀",
+            "consequences": [
+              "更新した理由も保持する。"
+            ]
+          },
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+            "recordedAt": "2026-10-27T02:00:00+01:00"
+          },
+          "revision": "sha256:81d07513f24b1cecda2128f7db33350a020a7bda6ad0ddcbd74adcd35b9fc20a"
+        },
+        "changeSet": {
+          "format": "morivyx.changeset/0.1",
+          "id": "urn:uuid:00000000-0000-4000-8000-000000001003",
+          "baseRevision": "graph:decision-create",
+          "resultingRevision": "graph:decision-revise",
+          "resultingRootDigest": "sha256:4a5e451e73cc589b60adaefd405149903e9a309634b81bd9a5d27a7c7f57da38",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842",
+          "operations": [
+            {
+              "op": "revise",
+              "targetId": "urn:uuid:00000000-0000-4000-8000-000000001001",
+              "beforeRevision": "sha256:6bb39b11436eb5de2ed4ef321208ef952cde98f8ce8c15c3720316a39f29eef4",
+              "afterRevision": "sha256:81d07513f24b1cecda2128f7db33350a020a7bda6ad0ddcbd74adcd35b9fc20a"
+            }
+          ],
+          "provenance": {
+            "method": "asserted",
+            "actor": "urn:uuid:00000000-0000-4000-8000-000000000001",
+            "recordedAt": "2026-10-27T02:00:00+01:00"
+          },
+          "recordedAt": "2026-10-27T02:00:00+01:00"
+        },
+        "resultingRevision": {
+          "format": "morivyx.graph-revision/0.1",
+          "id": "graph:decision-revise",
+          "parentRevision": "graph:decision-create",
+          "rootDigest": "sha256:4a5e451e73cc589b60adaefd405149903e9a309634b81bd9a5d27a7c7f57da38",
+          "schemaLockDigest": "sha256:a1ff6841d890e7a0646941f052a8c1b698820a8af05d55f828baf4c7bb9ed842"
+        }
+      }
+    }
+  ]
+}
