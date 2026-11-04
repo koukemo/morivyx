@@ -1,0 +1,11 @@
+flowchart TB
+  A["拡張機能の宣言を入力<br/>通信と実行は行わない"] --> B["識別情報と対応形式<br/>機能と権限と資源上限<br/>宣言の構造を検査"]
+  B --> C{"宣言形式は有効か"}
+  C -->|いいえ| D["関数はコードと位置を返す<br/>コマンドは固定した診断"]
+  C -->|はい| E["宣言の検証又は機能の取得<br/>入力の本文は変更しない"]
+  E --> F["283例を既存APIへ照合<br/>30モジュールだけでも一致"]
+  F --> G["実際の権限は付与しない<br/>配布物と署名と真正性<br/>実行の安全性は別の確認"]
+  classDef action fill:#e5f1eb,stroke:#196956,color:#183a49
+  classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
+  class A,B,C,E,F action
+  class D,G scope
