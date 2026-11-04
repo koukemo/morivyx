@@ -38,6 +38,8 @@ def value_for(case):
 
 def process_options(case, directory):
     value = value_for(case)
+    if case.get("inputSpaces"):
+        value["request"]["input"] = {"action": "echo", "value": {"text": " " * case["inputSpaces"]}}
     if case.get("inputDepth"):
         nested = {}
         for _ in range(case["inputDepth"]):
@@ -88,8 +90,8 @@ class PluginRuntimeTests(unittest.TestCase):
                 self.assertEqual(value, before)
 
     def test_frozen_actual_processes_and_input_ownership(self):
-        self.assertEqual(len(VECTORS["processCases"]), 64)
-        self.assertEqual(sum(case["expected"]["accepted"] for case in VECTORS["processCases"]), 22)
+        self.assertEqual(len(VECTORS["processCases"]), 65)
+        self.assertEqual(sum(case["expected"]["accepted"] for case in VECTORS["processCases"]), 23)
         self.assertEqual(hashlib.sha256(CHILD.read_bytes()).hexdigest(), VECTORS["reference"]["childSha256"])
         with tempfile.TemporaryDirectory(prefix="morivyx-runtime-unit-") as location:
             directory = Path(location)
