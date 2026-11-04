@@ -114,6 +114,21 @@ class PluginManifestTests(unittest.TestCase):
             self.assertEqual(plugin_manifest.main(), 1)
         self.assertEqual(diagnostic.getvalue(), '{"error":{"code":"PLUGIN_MANIFEST_INPUT_INVALID","path":"/"}}\n')
 
+    def test_cli_output_failure_does_not_expose_exception_contents(self):
+        class FailingBuffer:
+            def write(self, value):
+                raise OSError("NEVER_ECHO_OUTPUT_PATH")
+
+        class Output:
+            buffer = FailingBuffer()
+
+        raw = json.dumps({"operation": "validate", "manifest": VECTORS["templates"]["repository"]}).encode()
+        diagnostic = StringIO()
+        with patch.object(sys, "argv", [str(SCRIPT)]), patch.object(plugin_manifest, "read_bounded_stdin", return_value=raw), \
+                patch.object(sys, "stdout", Output()), redirect_stderr(diagnostic):
+            self.assertEqual(plugin_manifest.main(), 1)
+        self.assertEqual(diagnostic.getvalue(), '{"error":{"code":"PLUGIN_MANIFEST_INPUT_INVALID","path":"/"}}\n')
+
 
 if __name__ == "__main__":
     unittest.main()
