@@ -11,6 +11,13 @@ description: 標準機能だけを使う29モジュールと、検査及び保�
 Node.jsで保存した正本をPythonで確認する例は、[判断の保存と差分の手順](../../docs/tutorials/getting-started.md)にあります。
 [Pythonだけで判断を作成して更新する手順](../../docs/tutorials/python-decision.md)では、候補の準備、適用と検証を分け、新しい保存先へ復旧します。
 [Pythonだけで判断をMarkdownへ出力する手順](../../docs/tutorials/python-decision-markdown.md)では、元を保持して人が読む本文と検査値を生成します。
+[Pythonだけで正本を移行する手順](../../docs/tutorials/python-migration.md)では、元の実ファイルと明示した要求を照合し、新しい保存先へ復旧します。
+
+`package_records.read_package_file_sources(directory)`は、検査済みの相対パスとUTF-8本文の対応表を返します。
+`read_package`と同じ安全な読取と記録構造の検証を使い、YAMLの表記と報告の別名を保持します。
+従来の`write_package_files(read_package(directory))`は論理値を再出力するため、本文の表記と報告名を正規化する別の操作です。
+実SchemaとGraph制約の検査には`validate_package_files(files)`、移行には`plan_package_migration`も明示して使います。
+本人性の確認と同時変更の全面的な排除を、この読取関数の成功から判断しません。
 
 Coreの読取、記録と検査値、Graphの検証と索引、関係の追跡、差分と明示した変更の計算、出力と新規領域への復旧を行います。
 既存の正本を暗黙に上書きせず、明示した新しい保存先への復旧を扱います。

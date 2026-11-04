@@ -238,7 +238,7 @@ def _open_directory(path):
         raise
 
 
-def read_package(directory):
+def _read_package_sources(directory):
     """Read the explicitly selected package directory through no-follow handles.
 
     No symlinked path component, special file, hard link or unknown entry is read.
@@ -293,7 +293,24 @@ def read_package(directory):
         walk(root, "")
     finally:
         os.close(root)
-    return read_package_files(files)
+    return files
+
+
+def read_package(directory):
+    """Read and validate the logical package through no-follow handles."""
+    return read_package_files(_read_package_sources(directory))
+
+
+def read_package_file_sources(directory):
+    """Return checked UTF-8 sources, retaining spelling and report filenames.
+
+    Uses the same bounded no-follow reader and structural checks as read_package.
+    Does not validate Schema/Graph constraints or authenticate any record.
+    Observed file changes are rejected; concurrent edits are not fully excluded.
+    """
+    files = _read_package_sources(directory)
+    read_package_files(files)
+    return {path: source.decode("utf-8", errors="strict") for path, source in files.items()}
 
 
 def main():

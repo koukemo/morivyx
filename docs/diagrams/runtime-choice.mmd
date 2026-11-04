@@ -5,7 +5,10 @@ flowchart TB
   B --> K["判断を作成して更新<br/>候補を準備して検証"]
   K --> L["Pythonだけでも可能<br/>準備と適用と復旧を<br/>組み合わせる手順"]
   K --> G
-  B --> E["関係の追加<br/>移行先への統合した保存"]
+  B --> M["別の定義へ移行<br/>実ファイルと明示した要求を検証"]
+  M --> L
+  M --> G
+  B --> E["関係の追加"]
   C --> F["Pythonだけでも可能<br/>読取と復旧はmacOSで確認<br/>対応環境で実行"]
   D --> F
   E --> G["Node.jsの手順を使う<br/>26.13.0以上とnpm<br/>必要ならPythonで照合"]
@@ -16,5 +19,5 @@ flowchart TB
   classDef action fill:#e5f1eb,stroke:#196956,color:#183a49
   classDef scope fill:#fff4e6,stroke:#8d5618,color:#183a49
   class A,B route
-  class C,D,E,F,G,I,K,L action
+  class C,D,E,F,G,I,K,L,M action
   class H,J scope
