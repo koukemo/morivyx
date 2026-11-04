@@ -94,9 +94,9 @@ python3 -B examples/python-migrations/workflow.py /path/to/source/.morivyx /path
 python3 -B examples/python-migrations/workflow.py "$work/source" "$work/migrated" < "$work/request.json"
 ```
 
-失敗時は標準出力を空にし、標準エラーへ固定した`EXAMPLE_MIGRATION_FAILED`と`stage`を返します。
+入力の読取以降に失敗した場合は、標準出力を空にし、標準エラーへ固定した`EXAMPLE_MIGRATION_FAILED`と`stage`を返します。
 利用者のパス、本文や内部例外は診断へ展開しません。
-引数の不足は引数解析の終了コード2です。
+引数の不足や過剰な指定は標準の用法と診断を返し、終了コード2です。
 
 | `stage` | 確認する内容 |
 |---|---|
