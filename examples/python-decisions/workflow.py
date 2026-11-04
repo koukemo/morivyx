@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages" / "porta
 from canonical import load_json
 from changeset_apply import apply_change_set
 from decision_preparation import prepare_decision_creation, prepare_decision_revision
-from package_records import read_package, read_package_files, write_package_files
+from package_records import read_package_file_sources, read_package_files, write_package_files
 from package_restore import restore_package_files
 from package_validation import validate_package_files
 from stdin_transport import read_bounded_stdin
@@ -27,8 +27,8 @@ class ExampleFailure(ValueError):
 def write_decision(operation, source, destination, request):
     stage = "source"
     try:
-        contents = read_package(source)
-        previous = write_package_files(contents)
+        previous = read_package_file_sources(source)
+        contents = read_package_files(previous)
         if not validate_package_files(previous)["valid"]:
             raise ValueError("source Graph is invalid")
         stage = "prepare"
@@ -45,7 +45,13 @@ def write_decision(operation, source, destination, request):
         stage = "validation"
         contents.update(elements=applied["elements"], revision=applied["revision"])
         contents["changeSets"].append(plan["changeSet"])
-        files = write_package_files(contents)
+        generated = write_package_files(contents)
+        # These preparations change one Decision and add one ChangeSet only.
+        # Keep every other checked source, including report aliases, verbatim.
+        updated = ("revision.yaml",
+                   "graph/entities/" + plan["candidateElement"]["id"][9:] + ".yaml",
+                   "ledger/" + plan["changeSet"]["id"][9:] + ".yaml")
+        files = {**previous, **{path: generated[path] for path in updated}}
         report = validate_package_files(files, previous_files=previous)
         if not report["valid"]:
             raise ValueError("result Graph is invalid")
