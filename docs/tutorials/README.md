@@ -24,6 +24,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | 自分のNode.jsアプリへ組み込む | [Node.jsとnpm](installed-node.md)を使う。Pythonの導入は不要 |
 | 実行情報を生成し、信頼する子を明示して起動する | [Pythonだけでも実行可能](python-plugin-runtime.md)。時間と出力の上限は扱うが、OSの権限の隔離は行わない |
 | 取得済みの配布物のバイト列を照合する | [Pythonだけで固定値へ比較](python-plugin-supply-chain.md)。署名の有効性と配布元の真正性は未検証 |
+| 要求を受けて結果を返す応答側を作る | [Pythonだけでも実装可能](python-plugin-stdio.md)。許可と時間の管理は起動側へ接続する |
 
 Node.jsの最低要件は`26.13.0`です。
 Pythonは`3.14`と`3.15`で確認しています。
@@ -64,6 +65,7 @@ python3 packages/portable-core/package_records.py /path/to/project/.morivyx
 | 拡張機能の要求と結果を検査する | [Pythonだけで要求と結果を検査する](python-plugin-messages.md) | メッセージの形式、宣言と要求への対応を確認する |
 | 信頼する子を明示して起動する | [Pythonだけで実行情報を生成して子を起動する](python-plugin-runtime.md) | 不変の実行情報、時間と出力の上限及び結果の照合を使う |
 | 本体と付属物のバイト列を照合する | [Pythonだけで配布物を照合する](python-plugin-supply-chain.md) | 独立した固定値と比較し、欠落と不一致を区別する |
+| 拡張機能の応答側を作る | [Pythonで標準入出力を扱う](python-plugin-stdio.md) | 検証と処理を接続し、一つの結果又は固定した診断を返す |
 
 Morivyxは現時点では、アプリケーションへ組み込む中核SDKとCLIのソース配布です。
 専用の操作画面、実モデル連携、本人認証を済ませた承認操作は含みません。
