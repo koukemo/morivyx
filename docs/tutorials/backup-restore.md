@@ -1,22 +1,24 @@
 ---
 type: Tutorial
 title: 正本をJSONへ出力して復元する
-description: 信頼する全体検査値を照合し、二つの正本を新しい保存先へ復元して読む。
+description: 論理値の再出力か元の本文の保持を選び、信頼する全体検査値を照合して新しい先へ復元する。
 ---
 
 # 正本をJSONへ出力して復元する
 
 正本の記録をJSONへ出力し、別の保存先へ復元します。
 復元にはPythonだけを使い、Node.jsとGitの起動は不要です。
-元の本文や履歴を丸ごと保存するバックアップとは、次の違いがあります。
+既定の論理値の再出力と、元の本文を保持する方法から選べます。
+対象は指定した正本のファイルで、履歴と外部成果物の全体を保存する方式ではありません。
 
 | 対象 | この手順で保持するもの |
 |---|---|
 | 正本の記録 | 要素、承認記録、変更記録、移行記録と報告の論理値、識別子、版と検査値 |
 | Schema | 固定情報と同梱した定義の本文 |
-| YAMLの表記 | 出力時に書き直す。元の引用方法、項目順と本文バイト列の保持は目的に含めない |
+| YAMLの表記と報告名 | 既定は再出力する。[本文を保持する方法](#5-元の本文と報告名も保持する)では、元のUTF-8本文と相対ファイル名を引き継ぐ |
 | 過去の版 | 別の正本として指定した版を個別に出力する。Git履歴全体は含めない |
 | その他 | 索引、保存先の外にある成果物本文、鍵とリポジトリの設定は含めない |
+| ファイルの属性 | 所有者、時刻、アクセス権と空のフォルダーは保存しない |
 
 この例のJSONは8 MiBまでです。
 大きな正本の分割や、外部本文を含む全体の保管機能ではありません。
@@ -77,7 +79,8 @@ python3 -B examples/backup-restore/restore.py .tutorial/decision-backup.json .tu
 成功時の`restored: true`、`revision`、`rootDigest`と`schemaLockDigest`を、出力時の値へ照合します。
 `filesWritten`はJSONの対応表の件数です。
 復元したファイルはJSONに含まれる本文のバイト列へ一致します。
-元の正本の表記へ戻すことや、電源断を含む原子的な保存を保証する意味ではありません。
+元の正本の表記を保持するには、第5節の選択肢を出力時に指定します。
+いずれも電源断を含む原子的な保存を保証する意味ではありません。
 
 途中の失敗で`PACKAGE_RESTORE_INCOMPLETE`が返った場合は、残った保存先を成功と扱いません。
 途中保存の印を外して再利用せず、原因を確認して新しい保存先を用意します。
@@ -95,6 +98,30 @@ python3 -B packages/portable-core/package_validation.py .tutorial/restored-decis
 前の正本を指定した比較でも、`historyAncestryValidated`は`false`で、Gitの祖先関係全体の検証ではありません。
 `signaturesValidated`も`false`のままで、復元の成功を本人性や承認権限の確認に数えません。
 
+## 5. 元の本文と報告名も保持する
+
+出力時に`--preserve-source`を付けると、既存の安全な読取を使って、記録構造と検査値を確認した実ファイルの本文を保存します。
+引用方法、許可された空行と項目順、報告の別名を再出力せずに保持します。
+同じJSON形式を使い、復元の入口と全体の検査値の照合方法は変わりません。
+
+```sh
+python3 -B examples/backup-restore/export.py .tutorial/base/.morivyx .tutorial/base-source-backup.json --preserve-source
+mkdir .tutorial/restored-source
+MORIVYX_SOURCE_BACKUP_SHA256='上のbackupSha256へ置換'
+python3 -B examples/backup-restore/restore.py .tutorial/base-source-backup.json .tutorial/restored-source/.morivyx --sha256 "$MORIVYX_SOURCE_BACKUP_SHA256"
+python3 -B packages/portable-core/package_validation.py .tutorial/restored-source/.morivyx
+```
+
+出力結果の`sourceBytesPreserved`は`true`です。
+既定の出力では`false`で、論理値からYAML本文を従来どおり再出力してJSONへ保存します。
+`backupSha256`は信頼できる出力操作の結果から別に保持し、受け取ったJSONだけを根拠に正しい検査値だと判断しません。
+
+この方法は、出力した時点で読み取れたUTF-8本文を同じ相対名で復旧するものです。
+元の保存先がなくなった後でも、正しいJSON、信頼する全体の検査値、Pythonの中核と復元例があれば復旧できます。
+対応する実行環境と権利表示を含むソース一式も別に保管します。
+同時変更の全面的な排除、本人性、署名、Git履歴全体と長期保管の実証ではありません。
+読取は記録構造と検査値までで、実SchemaとGraph制約は復旧後の検証へ明示して接続します。
+
 ## 手順の自動確認
 
 ```sh
@@ -105,6 +132,9 @@ node tools/check-backup-restore-tutorial.mjs python3
 コピーしたPython実装と例だけを使い、子プロセスのPATHにはNode.jsとGitを置きません。
 二つの正本、出力の本文バイト列、根とSchemaの検査値、既存ファイルと保存先の保持、誤った検査値と不正な入力の拒否を確認します。
 OSによる完全な隔離や、実際の提供元の終了を実証する検査ではありません。
+
+[本文を保持する検査](../../tools/backup-source-preservation.test.mjs)は、日本語の報告名と空行を含む正本を出力し、元を除去してから中核だけの環境で復元します。
+相対名と全本文の一致、従来の出力の固定した検査値、既存先、リンク、出力上限及び検査値の不一致の拒否を確認します。
 
 ![正本を出力して全体の検査値を別に保持し、新しい保存先へ復元して照合する流れ](../diagrams/backup-restore-tutorial.png)
 

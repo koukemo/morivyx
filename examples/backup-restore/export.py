@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "packages/portable-core"))
-from package_records import read_package, write_package_files
+from package_records import read_package, read_package_file_sources, read_package_files, write_package_files
 
 LIMIT = 8 * 1024 * 1024
 
@@ -17,6 +17,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", help="source .morivyx directory")
     parser.add_argument("backup", help="new JSON file; parent must exist")
+    parser.add_argument("--preserve-source", action="store_true", help="retain original YAML text and report filenames")
     args = parser.parse_args()
     try:
         source_info = Path(args.directory).stat()
@@ -26,8 +27,12 @@ def main():
             if (info.st_dev, info.st_ino) == (source_info.st_dev, source_info.st_ino):
                 print('{"error":{"code":"BACKUP_OUTPUT_IN_SOURCE"}}', file=sys.stderr)
                 return 1
-        package = read_package(args.directory)
-        files = write_package_files(package)
+        if args.preserve_source:
+            files = read_package_file_sources(args.directory)
+            package = read_package_files(files)
+        else:
+            package = read_package(args.directory)
+            files = write_package_files(package)
         data = (json.dumps(files, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
         if len(data) > LIMIT:
             raise ValueError("export exceeds the restoration example's input limit")
@@ -40,6 +45,7 @@ def main():
             "graphRevision": package["revision"]["id"],
             "rootDigest": package["calculatedRootDigest"],
             "schemaLockDigest": package["calculatedSchemaLockDigest"],
+            "sourceBytesPreserved": args.preserve_source,
         }
     except FileExistsError:
         print('{"error":{"code":"BACKUP_OUTPUT_EXISTS"}}', file=sys.stderr)
