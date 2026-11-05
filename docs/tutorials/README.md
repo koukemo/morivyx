@@ -28,6 +28,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | ローカルファイルを取得し再取込の衝突を調べる | [Pythonだけで取込と判定が可能](python-repository-import.md)。取得元の真正性と読取中の差替えの競合は未実証 |
 | OpenAPI文書から操作を選び再取込を比較する | [Pythonだけで文書を検査して比較](python-openapi-import.md)。参照先の取得と操作の実行は行わない |
 | Figmaの指定した対象を取り込み再取込を比較する | [Pythonの六つの入口](python-figma-import.md)。取得済み本文と明示した取得を区別し、実認証は別に確認する |
+| GitHubの固定した版のファイルを取り込み再取込を評価する | [Pythonの七つの入口](python-github-import.md)。取得済み応答と明示した取得を区別し、ローカル変更の競合も評価する |
 | 既存の台帳へ承認、変更一覧と移行記録を加える | [Pythonだけで追記する](python-ledger-store.md)。本人性と採用権限は別に確認する |
 
 Node.jsの最低要件は`26.13.0`です。
