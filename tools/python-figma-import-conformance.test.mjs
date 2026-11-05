@@ -133,12 +133,12 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
       assert.match(runPython(["-m", "unittest", "test_figma_import"]).stderr, /Ran 7 tests/);
       verifyReplay(runPython(["test_figma_import.py", "--replay"]).stdout);
     });
-    test("only the public 42 production modules and driver reproduce all cases without Node or Git", async () => {
+    test("only the public 43 production modules and driver reproduce all cases without Node or Git", async () => {
       const directory = await mkdtemp(join(tmpdir(), "morivyx-figma-isolated-"));
       try {
         const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
         const modules = (await readdir(core)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-        assert.equal(modules.length, 42);
+        assert.equal(modules.length, 43);
         for (const name of [...modules, "test_figma_import.py"]) await cp(join(core, name), join(directory, name));
         await mkdir(join(directory, "fixtures")); await cp(join(core, "fixtures/figma-import-vectors.json"), join(directory, "fixtures/figma-import-vectors.json"));
         const executable = runPython(["-c", "import sys; print(sys.executable)"]).stdout.trim();
