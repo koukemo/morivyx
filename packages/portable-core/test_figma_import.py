@@ -162,7 +162,42 @@ async def run_case(entry):
     return value
 
 
+async def trusted_error_probes():
+    vectors = fixture()
+    class Derived(figma_import.FigmaImportError):
+        pass
+    class GuardMeta(type):
+        @property
+        def __mro__(cls):
+            raise AssertionError("metaclass property inspected")
+    class Guarded(figma_import.FigmaImportError, metaclass=GuardMeta):
+        def __getattribute__(self, key):
+            if key in ("code", "__dict__"):
+                raise AssertionError("exception property inspected")
+            return object.__getattribute__(self, key)
+    class DictGuard(dict):
+        def get(self, *_args):
+            raise AssertionError("overridden dictionary method invoked")
+    mapping_guard = Derived("SOURCE_UNAVAILABLE")
+    mapping_guard.__dict__ = DictGuard(mapping_guard.__dict__)
+    errors = [figma_import.FigmaImportError("SOURCE_UNAVAILABLE"), Derived("SOURCE_UNAVAILABLE"), Guarded("SOURCE_UNAVAILABLE"), mapping_guard]
+    for value in (property(lambda _self: (_ for _ in ()).throw(AssertionError("getter invoked"))), 7, "\ud800"):
+        error = Derived("SOURCE_UNAVAILABLE")
+        BaseException.__dict__["__dict__"].__get__(error, type(error))["code"] = value
+        errors.append(error)
+    results = []
+    for error in errors:
+        def failed(*_args):
+            raise error
+        result = await import_figma_node(vectors["request"], {**vectors["options"], "fetchImpl": failed})
+        results.append(result["failure"]["code"])
+    return results
+
+
 class FigmaImportTests(unittest.TestCase):
+    def test_trusted_error_inheritance_reads_only_builtin_own_storage(self):
+        self.assertEqual(asyncio.run(trusted_error_probes()), ["FIGMA_IMPORT_SOURCE_UNAVAILABLE"] * 4 + ["FIGMA_IMPORT_FAILED"] * 3)
+
     def test_frozen_outcomes_and_transport_events(self):
         for entry in fixture()["cases"]:
             with self.subTest(case=entry["id"]):
@@ -226,7 +261,9 @@ class FigmaImportTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    if sys.argv[1:2] == ["--probes"]:
+    if sys.argv[1:2] == ["--trusted-probes"]:
+        print(json.dumps(asyncio.run(trusted_error_probes())))
+    elif sys.argv[1:2] == ["--probes"]:
         print(json.dumps([asyncio.run(run_case(entry)) for entry in json.loads(sys.stdin.read())], ensure_ascii=True))
     elif sys.argv[1:2] == ["--replay"]:
         if "--isolated" in sys.argv and (shutil.which("node") is not None or shutil.which("git") is not None):
