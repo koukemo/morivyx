@@ -74,9 +74,13 @@ def _plugin():
 
 
 def _error_code(error, fallback):
-    if type(error) is not FigmaImportError:
+    # Use native descriptors rather than exception or metaclass properties.
+    # A source error's subclasses retain its own data code; unrelated errors
+    # and non-string code values remain outside this trust boundary.
+    ancestry = type.__dict__["__mro__"].__get__(type(error), type(type(error)))
+    if not any(base is FigmaImportError for base in ancestry):
         return fallback
-    code = vars(error).get("code")
+    code = dict.get(BaseException.__dict__["__dict__"].__get__(error, type(error)), "code")
     try:
         if type(code) is str and code:
             canonical_json(code)
@@ -129,7 +133,7 @@ def validate_figma_import_result(result, request=None):
             _check(source["fileKey"] == request["input"]["fileKey"] and value["locator"] == request["input"]["nodeId"] and
                    source["version"] == request["input"]["version"], "RESULT_MISMATCH")
     except Exception as error:
-        if type(error) is FigmaImportError and vars(error).get("code") == "FIGMA_IMPORT_RESULT_MISMATCH":
+        if _error_code(error, None) == "FIGMA_IMPORT_RESULT_MISMATCH":
             raise
         raise FigmaImportError("RESULT_INVALID") from None
     return result

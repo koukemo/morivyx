@@ -130,7 +130,7 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
       }
     }
     test("independent Python reproduces every raw result and acquisition cleanup event", () => {
-      assert.match(runPython(["-m", "unittest", "test_figma_import"]).stderr, /Ran 5 tests/);
+      assert.match(runPython(["-m", "unittest", "test_figma_import"]).stderr, /Ran 6 tests/);
       verifyReplay(runPython(["test_figma_import.py", "--replay"]).stdout);
     });
     test("only the public 39 production modules and driver reproduce all cases without Node or Git", async () => {
@@ -190,6 +190,28 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
       const actual = JSON.parse(runPython(["test_figma_import.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
       assert.equal(actual.length, expected.length);
       for (let index = 0; index < entries.length; index++) assert.deepEqual(actual[index], expected[index], entries[index].id);
+    });
+    test("trusted error inheritance retains source diagnostics without invoking exception properties", async () => {
+      let Original;
+      try { validateFigmaImportRequest(null); } catch (error) { Original = error.constructor; }
+      assert.equal(typeof Original, "function");
+      class Derived extends Original {}
+      const guarded = new Derived("SOURCE_UNAVAILABLE");
+      const prototype = Object.create(Derived.prototype, { code: { get() { throw Error("GETTER_MUST_NOT_RUN"); } } });
+      Object.setPrototypeOf(guarded, prototype);
+      const method = new Derived("SOURCE_UNAVAILABLE"); method.get = () => { throw Error("METHOD_MUST_NOT_RUN"); };
+      const getter = new Derived("SOURCE_UNAVAILABLE");
+      Object.defineProperty(getter, "code", { get() { throw Error("OWN_GETTER_MUST_NOT_RUN"); } });
+      const number = new Derived("SOURCE_UNAVAILABLE"); number.code = 7;
+      const surrogate = new Derived("SOURCE_UNAVAILABLE"); surrogate.code = "\ud800";
+      const expected = [];
+      for (const error of [new Original("SOURCE_UNAVAILABLE"), new Derived("SOURCE_UNAVAILABLE"), guarded, method, getter, number, surrogate]) {
+        const result = await importFigmaNode(fixture.request, { ...fixture.options, fetchImpl: () => { throw error; } });
+        expected.push(result.failure.code);
+      }
+      assert.deepEqual(expected, ["FIGMA_IMPORT_SOURCE_UNAVAILABLE", "FIGMA_IMPORT_SOURCE_UNAVAILABLE", "FIGMA_IMPORT_SOURCE_UNAVAILABLE", "FIGMA_IMPORT_SOURCE_UNAVAILABLE",
+        "FIGMA_IMPORT_FAILED", "FIGMA_IMPORT_FAILED", "FIGMA_IMPORT_FAILED"]);
+      assert.deepEqual(JSON.parse(runPython(["test_figma_import.py", "--trusted-probes"]).stdout), expected);
     });
   }
 }
