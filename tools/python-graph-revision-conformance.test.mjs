@@ -67,7 +67,7 @@ test("only the public production modules and test driver reproduce every case wi
   try {
     const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
     const modules = (await readdir(portable)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-    assert.equal(modules.length, 44);
+    assert.equal(modules.length, 45);
     for (const name of [...modules, "test_graph_revision.py"]) await cp(join(portable, name), join(directory, name));
     const executable = run(["-c", "import sys; print(sys.executable)"]).stdout.trim();
     const child = spawnSync(executable, ["-B", "test_graph_revision.py", "--vectors"], { cwd: directory,
