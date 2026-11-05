@@ -164,7 +164,7 @@ def plain_key(token):
     return not any(ord(c) < 0x20 for c in token) and not re.search(r"[\x7f-\x84\x86-\x9f\ufffe\uffff]", token)
 
 
-def key_value(token):
+def key_value(token, *, allow_merge_keys=False):
     if token.startswith('"'):
         value = double_string(token)
     elif token.startswith("'"):
@@ -173,7 +173,7 @@ def key_value(token):
         value = unicode_text(token)
     else:
         raise ValueError("unsupported mapping key spelling")
-    if value == "<<":
+    if value == "<<" and not allow_merge_keys:
         raise ValueError("YAML merge key is forbidden")
     return value
 
@@ -219,13 +219,13 @@ def closes_single_quote(text, start=0):
     return False
 
 
-def read_yaml(source):
+def read_yaml(source, *, max_bytes=MAX_BYTES, max_depth=MAX_DEPTH, allow_merge_keys=False):
     """Read the supported bounded block syntax; normalize Unicode, not dates."""
     if type(source) is bytes:
-        if len(source) > MAX_BYTES:
+        if max_bytes is not None and len(source) > max_bytes:
             raise ValueError("YAML input too large")
         source = source.decode("utf-8", errors="strict")
-    if type(source) is not str or len(source.encode("utf-8")) > MAX_BYTES:
+    if type(source) is not str or (max_bytes is not None and len(source.encode("utf-8")) > max_bytes):
         raise ValueError("invalid YAML source")
     if source.startswith("\ufeff") or "\r" in source or "\t" in source:
         raise ValueError("BOM, carriage return and tab are forbidden")
@@ -291,7 +291,7 @@ def read_yaml(source):
             if not plain_key(folded.replace("\n", " ")):
                 raise ValueError("unsupported explicit plain key")
             key = unicode_text(folded)
-            if key == "<<":
+            if key == "<<" and not allow_merge_keys:
                 raise ValueError("YAML merge key is forbidden")
         raw = next_content_line()
         value_text = raw.lstrip(" ")
@@ -319,7 +319,7 @@ def read_yaml(source):
                 if not (payload.startswith(("- ", "? ")) or payload in ("-", "?") or mapping_pair(payload) is not None):
                     break
                 compact_depth += 1
-                if compact_depth > MAX_DEPTH:
+                if max_depth is not None and compact_depth > max_depth:
                     raise ValueError("compact YAML nesting too deep")
                 lines.append((indent, "-"))
                 indent += len(text) - len(payload)
@@ -328,7 +328,7 @@ def read_yaml(source):
                 key, payload, payload_indent = explicit_pair(text, indent)
                 if payload in ("-", "?") or payload.startswith(("- ", "? ")) or mapping_pair(payload) is not None:
                     compact_depth += 1
-                    if compact_depth > MAX_DEPTH:
+                    if max_depth is not None and compact_depth > max_depth:
                         raise ValueError("compact explicit YAML nesting too deep")
                     lines.append((indent, key + ":"))
                     indent, text = payload_indent, payload
@@ -388,7 +388,7 @@ def read_yaml(source):
 
     def block(indent, depth, stop_on_mapping=False):
         nonlocal position
-        if depth > MAX_DEPTH:
+        if max_depth is not None and depth > max_depth:
             raise ValueError("YAML nesting too deep")
         sequence = lines[position][1] == "-" or lines[position][1].startswith("- ")
         result = [] if sequence else {}
@@ -406,7 +406,7 @@ def read_yaml(source):
                 if pair is None:
                     raise ValueError("expected a mapping pair")
                 key, rest = pair
-                key = key_value(key)
+                key = key_value(key, allow_merge_keys=allow_merge_keys)
                 if key in result:
                     raise ValueError("duplicate key after NFC normalization")
                 result[key] = value(rest, indent, depth, allow_indentless=True)
@@ -453,7 +453,7 @@ def yaml_quote(text):
     return re.sub(r"[\x7f-\x9f\u2028\u2029\ufffe\uffff]", lambda m: f"\\u{ord(m[0]):04x}", quote(text))
 
 
-def write_yaml(record):
+def write_yaml(record, *, max_bytes=MAX_BYTES, max_depth=MAX_DEPTH, allow_merge_keys=False):
     """Normalize and write one of ten existing record layouts; do not persist."""
     canonical_json(record)
     if type(record) is not dict or record.get("format") not in ORDERS:
@@ -461,11 +461,11 @@ def write_yaml(record):
     format_id = record["format"]
 
     def normalize(value, path, depth):
-        if depth > MAX_DEPTH:
+        if max_depth is not None and depth > max_depth:
             raise ValueError("YAML nesting too deep")
         if type(value) is dict:
             entries = {unicode_text(k): v for k, v in value.items()}
-            if "<<" in entries:
+            if "<<" in entries and not allow_merge_keys:
                 raise ValueError("YAML merge key is forbidden")
             order = field_order(format_id, path)
             keys = sorted(entries, key=lambda k: (order.index(k), "") if k in order else (len(order), k))
@@ -520,6 +520,6 @@ def write_yaml(record):
         return [prefix + inline(value)]
 
     result = "\n".join(render(normalize(record, (), 0), 0)) + "\n"
-    if len(result.encode("utf-8")) > MAX_BYTES:
+    if max_bytes is not None and len(result.encode("utf-8")) > max_bytes:
         raise ValueError("YAML output too large")
     return result

@@ -3,7 +3,7 @@
 import re
 
 from schema_validation import ValidationError
-from yaml_records import ORDERS, field_order, read_yaml
+from yaml_records import MAX_BYTES, MAX_DEPTH, ORDERS, field_order, read_yaml
 
 
 ROOT_ORDERS = {key: value.split() for key, value in ORDERS.items()}
@@ -140,13 +140,13 @@ def map_set(value, identity, nested, path):
             string_set(entry.get(key), child(location, key))
 
 
-def read_authoring_yaml(source):
+def read_authoring_yaml(source, *, max_bytes=MAX_BYTES, max_depth=MAX_DEPTH):
     """Read supported block syntax and check authoring policies for known formats.
 
     Missing fields, unknown keys and incorrect semantic types belong to record
     validators. Unknown formats receive only the bounded syntax checks.
     """
-    record = read_yaml(source)
+    record = read_yaml(source, max_bytes=max_bytes, max_depth=max_depth)
     format_id = record.get("format")
     if type(format_id) is not str or format_id not in ROOT_ORDERS:
         return record
