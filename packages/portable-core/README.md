@@ -1,10 +1,13 @@
 ---
 type: Independent Implementation Guide
 title: Pythonの中核実装
-description: 標準機能だけを使う39モジュールと、検査と保存、配布物の照合、ローカル取込と外部文書の選択及び明示的な取得と子の起動及び応答の範囲を示す。
+description: 標準機能だけを使う40モジュールと、検査と保存、配布物の照合、ローカル取込と外部文書の選択及び明示的な取得と子の起動及び応答の範囲を示す。
 ---
 
 # Pythonの中核実装
+
+[GitHub取込と再取込評価の手順](../../docs/tutorials/python-github-import.md)では、取得済み応答の変換、許可を照合した順次取得とローカル変更の評価をPythonだけで実行します。
+実認証とGraphへの採用は別に確認します。
 
 [Figma取込と再取込比較の手順](../../docs/tutorials/python-figma-import.md)では、取得済み本文の変換、許可を照合した取得と標準入出力応答をPythonだけで実行します。
 時間制限と後片付けを扱い、実認証と外部操作の許可は別に確認します。
