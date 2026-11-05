@@ -1,10 +1,13 @@
 ---
 type: Independent Implementation Guide
 title: Pythonの中核実装
-description: 標準機能だけを使う42モジュールと、検査と保存、配布物の照合、ローカル取込と外部文書の選択及び明示的な取得と子の起動及び応答の範囲を示す。
+description: 標準機能だけを使う43モジュールと、検査と保存、配布物の照合、ローカル取込と外部文書の選択及び明示的な取得と子の起動及び応答の範囲を示す。
 ---
 
 # Pythonの中核実装
+
+[再取込結果を改訂して保存する手順](../../docs/tutorials/python-import-snapshot-revision.md)では、以前の取込履歴と資料を照合します。
+ローカル変更、同じ実行の重複と時刻の逆転を拒否し、元の正本を保持して新しい保存先へ確定します。
 
 [取込結果を新しい正本へ保存する手順](../../docs/tutorials/python-import-snapshot-creation.md)では、要求検証、候補の準備、取込保存と汎用の変更適用をPythonだけで実行します。
 一時出力の再検証後に新しい保存先へ確定し、元の正本を保持します。
