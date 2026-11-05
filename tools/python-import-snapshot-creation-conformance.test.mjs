@@ -161,12 +161,12 @@ if (process.argv.includes("--node-replay")) {
     assert.match(runPython(["-m", "unittest", "test_import_snapshot_creation"]).stderr, /Ran 8 tests/);
     await verifyReplay(runPython(["test_import_snapshot_creation.py", "--replay"]).stdout);
   });
-  test("46 public production modules reproduce every frozen case without Node or Git", async () => {
+  test("47 public production modules reproduce every frozen case without Node or Git", async () => {
     const root = await mkdtemp(join(tmpdir(), "morivyx-snapshot-isolated-"));
     try {
       const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
       const modules = (await readdir(core)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-      assert.equal(modules.length, 46);
+      assert.equal(modules.length, 47);
       for (const name of [...modules, "test_import_snapshot_creation.py"]) await cp(join(core, name), join(root, name));
       await mkdir(join(root, "fixtures"));
       await cp(join(core, "fixtures/import-snapshot-creation-vectors.json"), join(root, "fixtures/import-snapshot-creation-vectors.json"));
