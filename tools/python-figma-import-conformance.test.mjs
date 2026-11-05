@@ -130,7 +130,7 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
       }
     }
     test("independent Python reproduces every raw result and acquisition cleanup event", () => {
-      assert.match(runPython(["-m", "unittest", "test_figma_import"]).stderr, /Ran 6 tests/);
+      assert.match(runPython(["-m", "unittest", "test_figma_import"]).stderr, /Ran 7 tests/);
       verifyReplay(runPython(["test_figma_import.py", "--replay"]).stdout);
     });
     test("only the public 39 production modules and driver reproduce all cases without Node or Git", async () => {
@@ -212,6 +212,18 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
       assert.deepEqual(expected, ["FIGMA_IMPORT_SOURCE_UNAVAILABLE", "FIGMA_IMPORT_SOURCE_UNAVAILABLE", "FIGMA_IMPORT_SOURCE_UNAVAILABLE", "FIGMA_IMPORT_SOURCE_UNAVAILABLE",
         "FIGMA_IMPORT_FAILED", "FIGMA_IMPORT_FAILED", "FIGMA_IMPORT_FAILED"]);
       assert.deepEqual(JSON.parse(runPython(["test_figma_import.py", "--trusted-probes"]).stdout), expected);
+    });
+    test("declared response length keeps source capacity semantics despite long leading zeroes", async () => {
+      const values = ["", "0".repeat(6000), "0".repeat(6000) + "1", "0".repeat(6000) + "2097152",
+        "0".repeat(6000) + "2097153", "9".repeat(6000), "0".repeat(6000) + "x", "-1", "1\n"];
+      const entries = values.map((contentLength, index) => ({ id: `declared-length-${index}`, operation: "acquire",
+        inputText: JSON.stringify({ request: fixture.request, body: JSON.stringify(fixture.response), retrievedAt: fixture.retrievedAt,
+          options: fixture.options, plan: { contentLength } }) }));
+      const expected = [];
+      for (const entry of entries) expected.push(await nodeFigmaCase(entry));
+      const actual = JSON.parse(runPython(["test_figma_import.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
+      assert.equal(actual.length, expected.length);
+      for (let index = 0; index < entries.length; index++) assert.deepEqual(actual[index], expected[index], entries[index].id);
     });
   }
 }
