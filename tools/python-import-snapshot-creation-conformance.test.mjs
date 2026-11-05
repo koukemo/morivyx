@@ -20,6 +20,14 @@ function owned(root, relative) {
   assert.equal(relative.split(/[\\/]/u).includes(".."), false);
   const path = resolve(root, relative); assert.ok(path.startsWith(root + sep)); return path;
 }
+function operationPath(root, value) {
+  if (typeof value !== "string" || !value) return;
+  assert.equal(isAbsolute(value), false);
+  const path = resolve(root, value); assert.ok(path === root || path.startsWith(root + sep));
+}
+function operationInput(root, value) {
+  if (value && typeof value === "object") for (const key of ["basePath", "outputPath"]) operationPath(root, value[key]);
+}
 function normalized(value, root) {
   if (typeof value === "string") return value.replaceAll(root, "ROOT")
     .replace(/\.[^/]+-[0-9]+-[0-9a-f-]{36}\.tmp/gu, ".OUTPUT-TEMP.tmp");
@@ -58,8 +66,15 @@ export async function nodeSnapshotCase(entry, fixture) {
     let base = await api.readGraphPackage(join(root, "base"));
     for (const setup of spec.setup ?? []) {
       const path = owned(root, setup.path); await mkdir(dirname(path), { recursive: true });
-      if (setup.kind === "directory") await mkdir(path);
-      else if (setup.kind === "link") await symlink(setup.target, path);
+      if (setup.kind === "directory" || setup.kind === "replace-directory") {
+        if (setup.kind === "replace-directory") await rm(path, { recursive: true, force: true });
+        await mkdir(path);
+      }
+      else if (setup.kind === "link") {
+        assert.equal(isAbsolute(setup.target), false);
+        const target = resolve(dirname(path), setup.target); assert.ok(target === root || target.startsWith(root + sep));
+        await symlink(setup.target, path);
+      }
       else await writeFile(path, setup.text ?? "owned fixture\n");
     }
     process.chdir(root);
@@ -81,6 +96,7 @@ export async function nodeSnapshotCase(entry, fixture) {
         const basePath = spec.basePath ?? "base";
         if (entry.operation === "write-import") {
           const input = Object.hasOwn(spec, "input") ? spec.input : { basePath, outputPath, request };
+          operationInput(root, input);
           const pending = api.writeImportedSnapshotPackage(input);
           if (spec.mutateAfterCall && input?.request) input.request.artifactId = input.request.actor;
           value = await pending;
@@ -90,7 +106,12 @@ export async function nodeSnapshotCase(entry, fixture) {
             { basePath, outputPath, changeSet: prepared.changeSet,
               candidateElements: [prepared.candidateElement], resultingRevision: prepared.resultingRevision };
           input = Object.hasOwn(spec, "input") ? spec.input : edit(input, spec.writerEdits);
-          value = await api.writeAppliedPackage(input);
+          operationInput(root, input);
+          const pending = api.writeAppliedPackage(input);
+          if (spec.mutateWriterRoot === "replace") Object.assign(input, { basePath: "missing", outputPath: "replaced", changeSet: null,
+            candidateElements: [], resultingRevision: null, appliedChangeSetIds: false });
+          if (spec.mutateWriterRoot === "nested") input.candidateElements.length = 0;
+          value = await pending;
         }
         outcome = { kind: "return", value };
       }
@@ -137,7 +158,7 @@ if (process.argv.includes("--node-replay")) {
     }
   }
   test("Python reproduces all frozen proposal, persistence, rejection and cleanup outcomes", async () => {
-    assert.match(runPython(["-m", "unittest", "test_import_snapshot_creation"]).stderr, /Ran 7 tests/);
+    assert.match(runPython(["-m", "unittest", "test_import_snapshot_creation"]).stderr, /Ran 8 tests/);
     await verifyReplay(runPython(["test_import_snapshot_creation.py", "--replay"]).stdout);
   });
   test("42 public production modules reproduce every frozen case without Node or Git", async () => {
@@ -185,6 +206,31 @@ if (process.argv.includes("--node-replay")) {
     }
     const expected = [];
     for (const entry of entries) expected.push({ id: entry.id, outcome: await nodeSnapshotCase(entry, fixture) });
+    const actual = JSON.parse(runPython(["test_import_snapshot_creation.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
+    assert.deepEqual(actual, expected);
+  });
+  if (hasNodeSource) test("writer captures root fields at call time and retains nested candidate references", async () => {
+    const fixture = JSON.parse(await readFile(join(core, "fixtures/import-snapshot-creation-vectors.json"), "utf8"));
+    const entries = ["replace", "nested"].map(mode => ({ id: `call-capture-${mode}`, operation: "write-applied",
+      inputText: JSON.stringify({ mutateWriterRoot: mode }) }));
+    const expected = [];
+    for (const entry of entries) expected.push({ id: entry.id, outcome: await nodeSnapshotCase(entry, fixture) });
+    assert.equal(expected[0].outcome.kind, "return");
+    assert.equal(expected[1].outcome.code, "CHANGESET_PRECONDITION_FAILED");
+    const actual = JSON.parse(runPython(["test_import_snapshot_creation.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
+    assert.deepEqual(actual, expected);
+  });
+  if (hasNodeSource) test("unlocked unusual Schema names and a locked directory remain validation failures", async () => {
+    const fixture = JSON.parse(await readFile(join(core, "fixtures/import-snapshot-creation-vectors.json"), "utf8"));
+    const entries = ["ordinary.yaml", "owned\\extra.yaml", "owned\nextra.yaml"].map((name, index) => ({
+      id: `schema-extra-${index}`, operation: "write-applied", inputText: JSON.stringify({ setup: [{ path: "base/.morivyx/schemas/" + name, text: "owned invalid schema\n" }] }),
+    }));
+    entries.push({ id: "schema-locked-directory", operation: "write-applied", inputText: JSON.stringify({
+      setup: [{ path: "base/.morivyx/schemas/morivyx.core@0.1.yaml", kind: "replace-directory" }],
+    }) });
+    const expected = [];
+    for (const entry of entries) expected.push({ id: entry.id, outcome: await nodeSnapshotCase(entry, fixture) });
+    for (const row of expected) assert.equal(row.outcome.code, "CHANGESET_TARGET_VALIDATION_FAILED");
     const actual = JSON.parse(runPython(["test_import_snapshot_creation.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
     assert.deepEqual(actual, expected);
   });
