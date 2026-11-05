@@ -70,6 +70,7 @@ python3 packages/portable-core/package_records.py /path/to/project/.morivyx
 | 拡張機能の応答側を作る | [Pythonで標準入出力を扱う](python-plugin-stdio.md) | 検証と処理を接続し、一つの結果又は固定した診断を返す |
 | ファイルを取り込み再取込の衝突を調べる | [Pythonだけでローカル取込を行う](python-repository-import.md) | バイト列の検査値、外部の変更とローカルの衝突を区別する |
 | OpenAPI文書から操作を選んで比較する | [PythonだけでOpenAPI取込と比較を行う](python-openapi-import.md) | 全文の検査値、情報損失と再計算した欠落を区別する |
+| Graphの版を示す記録を検査する | [Pythonだけで記録と診断位置を検査する](python-graph-revision.md) | 元ファイル位置を診断へ結び、記録構造の検査とGraph全体の整合を分ける |
 
 Morivyxは現時点では、アプリケーションへ組み込む中核SDKとCLIのソース配布です。
 専用の操作画面、実モデル連携、本人認証を済ませた承認操作は含みません。

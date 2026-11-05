@@ -30,6 +30,9 @@ PythonとNode.jsの両方の起動側から、同じ合成した応答側へ接�
 [OpenAPI取込と再取込比較の手順](../../docs/tutorials/python-openapi-import.md)では、与えたJSON文書から操作を選び、全文の検査値と情報損失を返します。
 欠落の主張も再計算しますが、参照先の取得と操作の実行は行いません。
 
+[Graphの版を示す記録の検査](../../docs/tutorials/python-graph-revision.md)では、元ファイル位置を診断へ結び付け、固定2644例で結果を照合します。
+記録の構造の検査であり、Graph全体の整合と認可は別に確認します。
+
 最初に試す場合は、[Python単独の手順](../../docs/tutorials/python-only.md)を使えます。
 [Node.jsとPythonの選び方](../../docs/tutorials/README.md#実行環境を選ぶ)で、既存データの読取、サンプルの準備と新しい保存先への書込に必要な環境を比較できます。
 Node.jsで保存した正本をPythonで確認する例は、[判断の保存と差分の手順](../../docs/tutorials/getting-started.md)にあります。
