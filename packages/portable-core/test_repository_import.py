@@ -1,11 +1,16 @@
 import copy
 import hashlib
+import io
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
+
+import repository_import
 
 from canonical import canonical_json
 from plugin_messages import validate_plugin_run_result
@@ -164,6 +169,80 @@ class RepositoryImportTests(unittest.TestCase):
                 output = output["result"]
             self.assertEqual(output["status"], "success")
             validate_repository_import_result(output, request)
+
+    def test_cli_closed_output_pipes_have_stable_exit_and_no_shutdown_traceback(self):
+        request = repository_import_request(run_id="owned", repository_root=str(FIXTURE), external_id="owned", locator="source.txt")
+        valid = json.dumps({"operation": "validate-request", "input": request}).encode()
+        diagnostic = b'{"error":{"code":"REPOSITORY_IMPORT_INPUT_INVALID","path":"/"}}\n'
+        for _ in range(10):
+            for close_stdout, close_stderr, raw in [(True, False, valid), (False, True, b"{"), (True, True, valid)]:
+                with self.subTest(stdout=close_stdout, stderr=close_stderr):
+                    child = subprocess.Popen([sys.executable, "-B", str(CORE / "repository_import.py")],
+                                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    try:
+                        if close_stdout:
+                            child.stdout.close()
+                        if close_stderr:
+                            child.stderr.close()
+                        child.stdin.write(raw)
+                        child.stdin.close()
+                        child.wait(timeout=30)
+                        output = b"" if close_stdout else child.stdout.read()
+                        error = b"" if close_stderr else child.stderr.read()
+                        self.assertEqual(child.returncode, 1)
+                        self.assertEqual(output, b"")
+                        self.assertEqual(error, b"" if close_stderr else diagnostic)
+                    finally:
+                        if child.poll() is None:
+                            child.kill()
+                            child.wait()
+                        for stream in [child.stdin, child.stdout, child.stderr]:
+                            stream.close()
+
+    def test_cli_short_writes_and_flush_failures_are_bounded(self):
+        class Output:
+            def __init__(self, failure=None):
+                self.data, self.closed, self.flushes, self.failure = bytearray(), False, 0, failure
+            def write(self, value):
+                if self.failure == "write":
+                    raise OSError("OWNED_SENTINEL")
+                if self.failure == "zero":
+                    return 0
+                count = min(3, len(value))
+                self.data.extend(value[:count])
+                return count
+            def flush(self):
+                self.flushes += 1
+                if self.failure == "flush":
+                    raise OSError("OWNED_SENTINEL")
+            def close(self):
+                self.closed = True
+                if self.failure:
+                    raise OSError("OWNED_SENTINEL")
+        request = repository_import_request(run_id="owned", repository_root=str(FIXTURE), external_id="owned", locator="source.txt")
+        valid = json.dumps({"operation": "validate-request", "input": request}).encode()
+        diagnostic = b'{"error":{"code":"REPOSITORY_IMPORT_INPUT_INVALID","path":"/"}}\n'
+        for output_failure, error_failure, raw in [(None, None, valid), ("write", None, valid),
+                                                  ("zero", None, valid), ("flush", None, valid),
+                                                  (None, "write", b"{"), (None, "flush", b"{")]:
+            with self.subTest(output=output_failure, diagnostic=error_failure):
+                output, error = Output(output_failure), Output(error_failure)
+                streams = SimpleNamespace(argv=["repository_import.py"], stdin=SimpleNamespace(buffer=io.BytesIO(raw)),
+                                          stdout=SimpleNamespace(buffer=output), stderr=SimpleNamespace(buffer=error))
+                with patch.object(repository_import, "sys", streams):
+                    status = repository_import.main()
+                if raw == valid and output_failure is None:
+                    self.assertEqual(status, 0)
+                    self.assertEqual(bytes(output.data), b'{"valid":true}\n')
+                    self.assertEqual(output.flushes, 1)
+                    self.assertFalse(output.closed)
+                    self.assertEqual(bytes(error.data), b"")
+                else:
+                    self.assertEqual(status, 1)
+                    self.assertEqual(output.closed, output_failure is not None)
+                    self.assertEqual(error.closed, error_failure is not None)
+                    self.assertEqual(bytes(error.data), b"" if error_failure == "write" else diagnostic)
+                    self.assertNotIn(b"OWNED_SENTINEL", bytes(output.data) + bytes(error.data))
 
 
 if __name__ == "__main__":

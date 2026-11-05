@@ -300,6 +300,7 @@ def assess_repository_reimport(value=None):
 
 
 def main():
+    from plugin_stdio import _close, _write
     if sys.argv[1:] == ["--stdio"]:
         from plugin_stdio import serve_plugin_stdio
         result = asyncio.run(serve_plugin_stdio({"handleRequest": import_repository_file,
@@ -329,9 +330,16 @@ def main():
         raw = (json.dumps(output, ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n").encode("utf-8")
         if len(raw) > LIMIT:
             raise ValueError("output")
-        sys.stdout.buffer.write(raw)
+        try:
+            _write(sys.stdout.buffer, raw)
+        except Exception:
+            _close(sys.stdout.buffer)
+            raise ValueError("output") from None
     except (ValueError, TypeError, KeyError, OSError, RecursionError, OverflowError):
-        print('{"error":{"code":"REPOSITORY_IMPORT_INPUT_INVALID","path":"/"}}', file=sys.stderr)
+        try:
+            _write(sys.stderr.buffer, b'{"error":{"code":"REPOSITORY_IMPORT_INPUT_INVALID","path":"/"}}\n')
+        except Exception:
+            _close(sys.stderr.buffer)
         return 1
     return 0
 
