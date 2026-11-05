@@ -172,6 +172,8 @@ async def run_case(entry, vectors):
             return copy.deepcopy(spec["listResponse"]) if "listResponse" in spec else {"code": 0, "stdout": vectors["receipt"]["isolation"]["containerId"] if state["info"] else ""}
         if args[1] == "start":
             state["finished"] = True
+            if spec.get("removeStagingBeforeCleanup"):
+                shutil.rmtree(os.path.dirname(state["staged"]))
             if spec.get("throwPhase") == "start":
                 error = HostError("owned transport failure")
                 error.code = spec.get("throwCode", "OWNED_FAILURE")
@@ -320,6 +322,15 @@ class ContainerTests(unittest.TestCase):
     def test_limits_are_immutable(self):
         with self.assertRaises(TypeError):
             PLUGIN_CONTAINER_LIMITS["pids"] = 0
+
+    def test_absent_staging_does_not_replace_a_completed_result(self):
+        vectors = fixture()
+        entry = {"id": "regression/staging-already-removed", "inputText": json.dumps({"removeStagingBeforeCleanup": True})}
+        outcome = asyncio.run(run_case(entry, vectors))
+        self.assertEqual(outcome["kind"], "return")
+        self.assertEqual(outcome["value"], vectors["receipt"])
+        self.assertEqual(outcome["after"], {})
+        self.assertTrue(outcome["removed"])
 
 
 if __name__ == "__main__":

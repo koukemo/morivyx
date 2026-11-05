@@ -124,6 +124,7 @@ export async function nodeContainerCase(entry, fixture) {
       code: 0, stdout: info ? fixture.receipt.isolation.containerId : "" };
     if (args[1] === "start") {
       state.finished = true;
+      if (spec.removeStagingBeforeCleanup) await rm(dirname(staged), { recursive: true, force: true });
       if (spec.throwPhase === "start") { state.finished = true; const error = new Error("owned transport failure"); error.code = spec.throwCode ?? "OWNED_FAILURE"; throw error; }
       if (controller.signal.aborted) state.finished = true;
       return Object.hasOwn(spec, "startResponse") ? structuredClone(spec.startResponse) : { code: 0, stdout: JSON.stringify(result) };
@@ -234,7 +235,7 @@ if (main && process.argv.includes("--node-replay")) {
     }
   }
   test("Python reproduces every frozen container outcome and filesystem state", async () => {
-    assert.match(runPython(["-m", "unittest", "test_plugin_container"]).stderr, /Ran 3 tests/);
+    assert.match(runPython(["-m", "unittest", "test_plugin_container"]).stderr, /Ran 4 tests/);
     await verifyReplay(runPython(["test_plugin_container.py", "--replay"]).stdout);
   });
   test("46 public production modules reproduce every case without Node or Git", async () => {
@@ -268,7 +269,7 @@ if (main && process.argv.includes("--node-replay")) {
     const expected = [];
     for (const entry of entries) expected.push({ id: entry.id, outcome: (await nodeContainerCase(entry, fixture)).output });
     const actual = JSON.parse(runPython(["test_plugin_container.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
-    assert.equal(entries.length, 20);
+    assert.equal(entries.length, 21);
     for (let index = 0; index < entries.length; index++) assert.deepEqual(actual[index], expected[index], entries[index].id);
   });
 }
@@ -285,5 +286,6 @@ export function configurationProbes() {
       ["mount-null", ["Mounts", 0], null], ["add-number", ["HostConfig", "CapAdd"], 0],
       ["add-false-length-record", ["HostConfig", "CapAdd"], { length: false }]];
     return [...shapes.map(([name, path, value]) => ({ id: `additional/${name}`, inputText: JSON.stringify({ infoEdits: [{ path, value }] }) })),
-      ...[0, 0o077].map(umask => ({ id: `additional/nested-umask-${umask}`, inputText: JSON.stringify({ umask, filePaths: ["a/b/c/source.txt"] }) }))];
+      ...[0, 0o077].map(umask => ({ id: `additional/nested-umask-${umask}`, inputText: JSON.stringify({ umask, filePaths: ["a/b/c/source.txt"] }) })),
+      { id: "additional/staging-already-removed", inputText: JSON.stringify({ removeStagingBeforeCleanup: true }) }];
 }
