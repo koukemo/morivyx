@@ -146,12 +146,12 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
         assert.match(runPython(["-m", "unittest", "test_github_import"]).stderr, /Ran 6 tests/);
         verifyReplay(runPython(["test_github_import.py", "--replay"]).stdout);
       });
-      test("only 40 public production modules and driver replay every case without Node or Git", async () => {
+      test("only 42 public production modules and driver replay every case without Node or Git", async () => {
         const directory = await mkdtemp(join(tmpdir(), "morivyx-github-isolated-"));
         try {
           const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
           const modules = (await readdir(core)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-          assert.equal(modules.length, 40);
+          assert.equal(modules.length, 42);
           for (const name of [...modules, "test_github_import.py"]) await cp(join(core, name), join(directory, name));
           await mkdir(join(directory, "fixtures"));
           await cp(join(core, "fixtures/github-import-vectors.json"), join(directory, "fixtures/github-import-vectors.json"));
