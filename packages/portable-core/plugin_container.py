@@ -363,7 +363,10 @@ async def _run(prepared, docker_path, injected, signal):
                        _optional(_optional(_optional(found, "Config"), "Labels"), "morivyx.run") == state["nonce"], "CLEANUP_FAILED")
                 removed = await control(["container", "rm", "--force", "--volumes", state["id"]], True)
                 _check(_zero(_get(removed, "code")), "CLEANUP_FAILED")
-            shutil.rmtree(root)
+            try:
+                shutil.rmtree(root)
+            except FileNotFoundError:
+                pass  # The reference force-removes its owned staging root.
         except Exception:
             cleanup_error = PluginIsolationError("CLEANUP_FAILED")
             cleanup_error.details = {"containerId": state["id"], "containerName": name, "stagingPath": root}
