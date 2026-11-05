@@ -108,6 +108,8 @@ PY
 既定は30秒、応答ごと2MiB、合計8MiB、ファイル1MiBと19要求です。
 `limits`の`timeoutMs`、`maxResponseBytes`、`maxTotalResponseBytes`、`maxFileBytes`と`maxRequests`で上限を小さくできます。
 時刻を固定する場合は同期関数の`now`を渡します。
+`fetchImpl`と`now`に`null`に相当する`None`を渡した場合も、元のNodeと同じく既定の処理を使います。
+認証情報、許可と上限への`None`は、有効な設定として扱いません。
 OSの処理とDNSを強制終了する保証はなく、通信環境の確認は別に必要です。
 
 再取込の比較は`current`、`stale`、`missing`、`unavailable`又は`invalid`を返します。

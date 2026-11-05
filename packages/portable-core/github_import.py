@@ -390,7 +390,12 @@ async def import_github_file(input_value, options=_UNSET):
         _check(_keys(permission, ("apiOrigin", "owner", "repository", "repositoryId")) and permission["apiOrigin"] == API_ORIGIN and
                all(permission[key] == value[key] for key in ("owner", "repository")) and _equal(permission["repositoryId"], value["repositoryId"]), "PERMISSION_DENIED")
         limits = _limits(options.get("limits", {}))
-        fetch, now = options.get("fetchImpl", _standard_fetch), options.get("now", lambda: datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"))
+        fetch = options.get("fetchImpl")
+        if fetch is None:
+            fetch = _standard_fetch
+        now = options.get("now")
+        if now is None:
+            now = lambda: datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
         token = options.get("token", _UNSET)
         _check(callable(fetch) and callable(now) and (token is _UNSET or type(token) is str and
                0 < len(token.encode("utf-16-le", errors="surrogatepass")) // 2 <= 8192 and _TOKEN_SPACE.search(token) is None), "OPTIONS_INVALID")

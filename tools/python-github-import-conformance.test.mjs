@@ -143,7 +143,7 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
         }
       }
       test("Python reproduces all frozen raw outputs and acquisition cleanup events", () => {
-        assert.match(runPython(["-m", "unittest", "test_github_import"]).stderr, /Ran 5 tests/);
+        assert.match(runPython(["-m", "unittest", "test_github_import"]).stderr, /Ran 6 tests/);
         verifyReplay(runPython(["test_github_import.py", "--replay"]).stdout);
       });
       test("only 40 public production modules and driver replay every case without Node or Git", async () => {
@@ -206,6 +206,28 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
           expected.push(result.failure.code);
         }
         assert.deepEqual(JSON.parse(runPython(["test_github_import.py", "--trusted-probes"]).stdout), expected);
+      });
+      test("null transport and clock select defaults while other null options remain invalid", async () => {
+        const previous = globalThis.fetch, expected = [];
+        try {
+          for (const field of ["fetchImpl", "now"]) {
+            const acquisition = scriptedAcquisition(fixture);
+            globalThis.fetch = acquisition.options.fetchImpl;
+            const result = await importGitHubFile(fixture.request, { ...acquisition.options, [field]: null });
+            await acquisition.settle();
+            assert.equal(result.status, "success");
+            const timestampValid = validateGitHubImportResult(result, fixture.request) === result;
+            if (field === "now") result.output.retrievedAt = "<runtime-clock>";
+            expected.push({ field, timestampValid, result, events: acquisition.events });
+          }
+        } finally { globalThis.fetch = previous; }
+        assert.deepEqual(JSON.parse(runPython(["test_github_import.py", "--default-probes"]).stdout), expected);
+        for (const field of ["token", "limits", "permission"]) {
+          const acquisition = scriptedAcquisition(fixture);
+          const result = await importGitHubFile(fixture.request, { ...acquisition.options, [field]: null });
+          assert.equal(result.status, "failure");
+          assert.equal(result.failure.code, { token: "GITHUB_IMPORT_OPTIONS_INVALID", limits: "GITHUB_IMPORT_LIMITS_INVALID", permission: "GITHUB_IMPORT_PERMISSION_DENIED" }[field]);
+        }
       });
     }
   }

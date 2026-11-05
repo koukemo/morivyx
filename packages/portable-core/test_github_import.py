@@ -316,6 +316,19 @@ class GitHubImportTests(unittest.TestCase):
             self.assertEqual(result["failure"]["code"], "GITHUB_IMPORT_SOURCE_UNAVAILABLE" if error in trusted else "GITHUB_IMPORT_FAILED")
             self.assertNotIn("OWNED_PRIVATE_FAILURE", _json_text(result))
 
+    def test_null_transport_and_clock_select_source_defaults(self):
+        data = fixture()
+        rows = asyncio.run(default_probes())
+        self.assertEqual(len(rows), 2)
+        for row in rows:
+            self.assertTrue(row["timestampValid"])
+            expected = copy.deepcopy(data["result"])
+            if row["field"] == "now":
+                expected["output"]["retrievedAt"] = "<runtime-clock>"
+            self.assertEqual(row["result"], expected)
+            self.assertEqual(len(row["events"]["calls"]), 4)
+            self.assertEqual(row["events"]["clocks"], 0 if row["field"] == "now" else 1)
+
 
 async def stdio_worker(spec):
     options, _events, _settle = scripted_acquisition(spec)
@@ -346,6 +359,20 @@ async def trusted_probes():
     return result
 
 
+async def default_probes():
+    data, rows = fixture(), []
+    for field in ("fetchImpl", "now"):
+        options, events, settle = scripted_acquisition(data)
+        with patch("github_import._standard_fetch", options["fetchImpl"]):
+            result = await import_github_file(data["request"], {**options, field: None})
+            await settle()
+        timestamp_valid = result["status"] == "success" and validate_github_import_result(result, data["request"]) is result
+        if timestamp_valid and field == "now":
+            result["output"]["retrievedAt"] = "<runtime-clock>"
+        rows.append({"field": field, "timestampValid": timestamp_valid, "result": result, "events": events})
+    return rows
+
+
 if __name__ == "__main__":
     if "--replay" in sys.argv:
         if "--isolated" in sys.argv:
@@ -360,5 +387,7 @@ if __name__ == "__main__":
         sys.exit(result["exitCode"])
     elif "--trusted-probes" in sys.argv:
         print(_json_text(asyncio.run(trusted_probes())))
+    elif "--default-probes" in sys.argv:
+        print(_json_text(asyncio.run(default_probes())))
     else:
         unittest.main()
