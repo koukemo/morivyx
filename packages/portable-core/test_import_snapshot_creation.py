@@ -80,6 +80,19 @@ def edit(value, changes=()):
     return output
 
 
+def operation_path(root, value):
+    if type(value) is not str or not value:
+        return
+    if os.path.isabs(value) or os.path.commonpath((root, os.path.abspath(os.path.join(root, value)))) != root:
+        raise ValueError("probe path escapes owned root")
+
+
+def operation_input(root, value):
+    if type(value) is dict:
+        for key in ("basePath", "outputPath"):
+            operation_path(root, value.get(key))
+
+
 def normalized(value, root):
     if type(value) is str:
         return re.sub(r"\.[^/]+-[0-9]+-[0-9a-f-]{36}\.tmp", ".OUTPUT-TEMP.tmp", value.replace(root, "ROOT"))
@@ -99,11 +112,23 @@ def run_case(entry, vectors):
             create_base(root, vectors["baseSets"][spec["baseSet"]] if spec.get("baseSet") else vectors["baseFiles"])
             base = read_ledger_package(os.path.join(root, "base"))
             for setup in spec.get("setup", []):
+                if type(setup.get("path")) is not str or any(part == ".." for part in re.split(r"[\\/]", setup["path"])):
+                    raise ValueError("probe layout must use an owned path")
+                operation_path(root, setup["path"])
+                if not setup["path"] or os.path.abspath(os.path.join(root, setup["path"])) == root:
+                    raise ValueError("probe layout must name a child of the owned root")
                 path = Path(root) / setup["path"]
                 path.parent.mkdir(parents=True, exist_ok=True)
-                if setup.get("kind") == "directory":
+                if setup.get("kind") in ("directory", "replace-directory"):
+                    if setup["kind"] == "replace-directory":
+                        if path.is_dir() and not path.is_symlink():
+                            shutil.rmtree(path)
+                        else:
+                            path.unlink(missing_ok=True)
                     path.mkdir()
                 elif setup.get("kind") == "link":
+                    if os.path.isabs(setup["target"]) or os.path.commonpath((root, os.path.abspath(path.parent / setup["target"]))) != root:
+                        raise ValueError("probe link escapes owned root")
                     path.symlink_to(setup["target"])
                 else:
                     path.write_text(setup.get("text", "owned fixture\n"), encoding="utf-8")
@@ -123,6 +148,7 @@ def run_case(entry, vectors):
                     base_path, output_path = spec.get("basePath", "base"), spec.get("outputPath", "output")
                     if entry["operation"] == "write-import":
                         input_value = spec["input"] if "input" in spec else {"basePath": base_path, "outputPath": output_path, "request": request}
+                        operation_input(root, input_value)
                         pending = write_imported_snapshot_package(input_value)
                         if spec.get("mutateAfterCall") and type(input_value) is dict and input_value.get("request"):
                             input_value["request"]["artifactId"] = input_value["request"]["actor"]
@@ -135,7 +161,14 @@ def run_case(entry, vectors):
                             input_value = {"basePath": base_path, "outputPath": output_path, "changeSet": prepared["changeSet"],
                                            "candidateElements": [prepared["candidateElement"]], "resultingRevision": prepared["resultingRevision"]}
                         input_value = spec["input"] if "input" in spec else edit(input_value, spec.get("writerEdits", []))
-                        value = asyncio.run(write_applied_package(input_value))
+                        operation_input(root, input_value)
+                        pending = write_applied_package(input_value)
+                        if spec.get("mutateWriterRoot") == "replace":
+                            input_value.update(basePath="missing", outputPath="replaced", changeSet=None,
+                                               candidateElements=[], resultingRevision=None, appliedChangeSetIds=False)
+                        if spec.get("mutateWriterRoot") == "nested":
+                            input_value["candidateElements"].clear()
+                        value = asyncio.run(pending)
                     outcome = {"kind": "return", "value": value}
             except (ValueError, TypeError, OSError, KeyError, AttributeError) as error:
                 name = getattr(error, "native_name", "PackageError" if isinstance(error, ValidationError) else "TypeError" if isinstance(error, TypeError) else "Error")
@@ -184,6 +217,13 @@ class ImportSnapshotCreationTests(unittest.TestCase):
             with self.subTest(kind=type(value)), self.assertRaises(ValidationError) as caught:
                 validate_import_snapshot_creation_request(value)
             self.assertEqual(caught.exception.code, "IMPORT_SNAPSHOT_REQUEST_INVALID")
+
+    def test_probe_layout_rejects_escape_paths(self):
+        vectors = fixture()
+        for setup in ({"path": "../escaped.txt"}, {"path": "/escaped.txt"},
+                      {"path": "link", "kind": "link", "target": "../../escaped"}):
+            with self.subTest(setup=setup), self.assertRaises(ValueError):
+                run_case({"operation": "write-applied", "inputText": json.dumps({"setup": [setup]})}, vectors)
 
     def test_clone_happens_before_await(self):
         vectors = fixture()
