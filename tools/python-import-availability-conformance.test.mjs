@@ -132,12 +132,12 @@ if (main && process.argv.includes("--node-replay")) {
     assert.match(runPython(["-m", "unittest", "test_import_availability"]).stderr, /Ran 10 tests/);
     await verifyReplay(runPython(["test_import_availability.py", "--replay"]).stdout);
   });
-  test("45 public production modules reproduce every case without Node or Git", async () => {
+  test("46 public production modules reproduce every case without Node or Git", async () => {
     const root = await mkdtemp(join(tmpdir(), "morivyx-availability-isolated-"));
     try {
       const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
       const modules = (await readdir(core)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-      assert.equal(modules.length, 45);
+      assert.equal(modules.length, 46);
       for (const name of [...modules, "test_import_availability.py"]) await cp(join(core, name), join(root, name));
       await mkdir(join(root, "fixtures"));
       await cp(join(core, "fixtures/import-availability-vectors.json"), join(root, "fixtures/import-availability-vectors.json"));
