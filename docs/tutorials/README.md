@@ -32,6 +32,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | 既存の台帳へ承認、変更一覧と移行記録を加える | [Pythonだけで追記する](python-ledger-store.md)。本人性と採用権限は別に確認する |
 | 取込済みの結果を資料として新しい正本へ保存する | [Pythonだけで取込保存と汎用の変更適用を行う](python-import-snapshot-creation.md)。元の正本を保持して再検証後に確定する |
 | 以前の取込履歴を照合し、資料を改訂して保存する | [Pythonだけで再取込を改訂保存する](python-import-snapshot-revision.md)。ローカル変更と時刻の逆転を拒否し、元の正本を保持する |
+| 資料を保持して取得成功の観測を保存する | [Pythonだけで観測と関係を追加する](python-import-presence.md)。ローカル変更と外部の変化を記録し、資料の版を保持する |
 
 Node.jsの最低要件は`26.13.0`です。
 Pythonは`3.14`と`3.15`で確認しています。
