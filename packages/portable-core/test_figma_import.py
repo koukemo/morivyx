@@ -4,6 +4,7 @@ import asyncio
 import copy
 import hashlib
 import io
+from http.client import HTTPMessage
 import json
 import shutil
 from pathlib import Path
@@ -195,6 +196,20 @@ async def trusted_error_probes():
 
 
 class FigmaImportTests(unittest.TestCase):
+    def test_declared_length_leading_zeroes_preserve_the_numeric_boundary(self):
+        vectors = fixture()
+        for value, failure in [("", True), ("0" * 6000, False), ("0" * 6000 + "1", False),
+                               ("0" * 6000 + "2097152", False), ("0" * 6000 + "2097153", True),
+                               ("9" * 6000, True), ("0" * 6000 + "x", True), ("-1", True), ("1\n", True)]:
+            with self.subTest(length=len(value), tail=value[-8:]):
+                spec = {"request": vectors["request"], "options": vectors["options"], "retrievedAt": vectors["retrievedAt"],
+                        "body": json.dumps(vectors["response"]), "plan": {"contentLength": value}}
+                outcome = asyncio.run(run_case({"operation": "acquire", "inputText": json.dumps(spec)}))
+                result = json.loads(outcome["outputText"])
+                self.assertEqual(result["status"], "failure" if failure else "success")
+                if failure:
+                    self.assertEqual(result["failure"]["code"], "FIGMA_IMPORT_RESPONSE_LIMIT")
+
     def test_trusted_error_inheritance_reads_only_builtin_own_storage(self):
         self.assertEqual(asyncio.run(trusted_error_probes()), ["FIGMA_IMPORT_SOURCE_UNAVAILABLE"] * 4 + ["FIGMA_IMPORT_FAILED"] * 3)
 
@@ -205,8 +220,18 @@ class FigmaImportTests(unittest.TestCase):
 
     def test_default_standard_library_transport_pins_request_and_closes_response(self):
         vectors = fixture()
-        response = io.BytesIO(json.dumps(vectors["response"], ensure_ascii=False, separators=(",", ":")).encode())
-        response.status, response.headers = 200, {"content-type": "application/json"}
+        data = json.dumps(vectors["response"], ensure_ascii=False, separators=(",", ":")).encode()
+        class FramedResponse(io.BytesIO):
+            def read(self, size=-1):
+                # An unframed persistent connection cannot promise an EOF or
+                # the requested surplus bytes. Do not wait beyond the length.
+                if size > len(data) - self.tell():
+                    raise TimeoutError("read exceeded declared body")
+                return super().read(size)
+        response = FramedResponse(data)
+        response.status, response.headers = 200, HTTPMessage()
+        response.headers.add_header("Content-Type", " application/json\t")
+        response.headers.add_header("Content-Length", "0" * 6000 + str(len(data)))
         url = "https://api.figma.com/v1/files/fixtureFile/nodes?ids=1%3A2&version=1001"
         response.geturl = lambda: url
         calls = []
@@ -219,6 +244,13 @@ class FigmaImportTests(unittest.TestCase):
         self.assertEqual(calls, [(url, "GET", "Bearer owned-synthetic-test-token", 30)])
         self.assertIsInstance(build.call_args.args[0], figma_import._NoRedirect)
         self.assertIsNone(build.call_args.args[0].redirect_request(None, None, 302, "", {}, "https://invalid.example.test"))
+        self.assertTrue(response.closed)
+        response = io.BytesIO(data[:-1])
+        response.status, response.headers = 200, {"content-type": "application/json", "content-length": str(len(data))}
+        response.geturl = lambda: url
+        with patch.object(figma_import.urllib.request, "build_opener", return_value=SimpleNamespace(open=opened)):
+            result = asyncio.run(import_figma_node(vectors["request"], {**vectors["options"], "now": lambda: vectors["retrievedAt"]}))
+        self.assertEqual(result["failure"]["code"], "FIGMA_IMPORT_FAILED")
         self.assertTrue(response.closed)
 
     def test_host_objects_are_not_inspected_and_exception_details_do_not_escape(self):
