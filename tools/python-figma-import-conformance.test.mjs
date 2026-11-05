@@ -138,7 +138,7 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
       try {
         const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
         const modules = (await readdir(core)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-        assert.equal(modules.length, 46);
+        assert.equal(modules.length, 47);
         for (const name of [...modules, "test_figma_import.py"]) await cp(join(core, name), join(directory, name));
         await mkdir(join(directory, "fixtures")); await cp(join(core, "fixtures/figma-import-vectors.json"), join(directory, "fixtures/figma-import-vectors.json"));
         const executable = runPython(["-c", "import sys; print(sys.executable)"]).stdout.trim();

@@ -24,6 +24,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | 自分のNode.jsアプリへ組み込む | [Node.jsとnpm](installed-node.md)を使う。Pythonの導入は不要 |
 | 実行情報を生成し、信頼する子を明示して起動する | [Pythonだけでも実行可能](python-plugin-runtime.md)。時間と出力の上限は扱うが、OSの権限の隔離は行わない |
 | 入力を複写し、コンテナ実行の条件と後片付けを照合する | [Pythonで実行へ接続する](python-plugin-container.md)。模擬接続で確認し、実際のOS隔離と実基盤の真正性は別に確認する |
+| 取得した生の応答を別の許可の変換へ渡す | [Pythonで取得と隔離変換を接続する](python-network-import-container.md)。結果を再計算して照合し、実認証と実際のOS隔離は別に確認する |
 | 取得済みの配布物のバイト列を照合する | [Pythonだけで固定値へ比較](python-plugin-supply-chain.md)。署名の有効性と配布元の真正性は未検証 |
 | 要求を受けて結果を返す応答側を作る | [Pythonだけでも実装可能](python-plugin-stdio.md)。許可と時間の管理は起動側へ接続する |
 | ローカルファイルを取得し再取込の衝突を調べる | [Pythonだけで取込と判定が可能](python-repository-import.md)。取得元の真正性と読取中の差替えの競合は未実証 |
