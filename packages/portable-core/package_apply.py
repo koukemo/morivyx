@@ -30,6 +30,7 @@ def _inside(parent, path):
     return os.path.commonpath((parent, path)) == parent
 
 
+@_diagnostics
 def _output_root(base_path, output_path):
     if type(output_path) is not str or not output_path:
         _fail("PACKAGE_OUTPUT_INVALID", "/outputPath")
@@ -48,16 +49,29 @@ def _output_root(base_path, output_path):
 
 def _registry(base):
     path = os.path.join(base["directory"], "schemas")
+    locked = {entry["schemaId"] + "@" + entry["version"] + ".yaml" for entry in base["schemaLock"]["schemas"]}
     try:
         with os.scandir(path) as entries:
-            sources = {}
-            for entry in entries:
-                if entry.is_file() and entry.name.endswith(".yaml"):
-                    with open(entry.path, "rb") as stream:
-                        sources[entry.name] = stream.read()
+            unlocked = sorted(entry.name for entry in entries if entry.is_file() and entry.name.endswith(".yaml") and entry.name not in locked)
     except FileNotFoundError:
-        sources = {}
-    return resolve_schema_registry(base["schemaLock"], sources)
+        unlocked = []
+    sources = {}
+    for name in locked:
+        if any(character in name for character in "/\\\x00\r\n"):
+            continue
+        try:
+            with open(os.path.join(path, name), "rb") as stream:
+                sources[name] = stream.read()
+        except FileNotFoundError:
+            pass
+        except OSError:
+            # A present but unreadable/directory source is a conflict rather
+            # than a missing locked definition, as in the reference reader.
+            sources[name] = b""
+    registry = resolve_schema_registry(base["schemaLock"], sources)
+    registry["issues"] = [{"code": "SCHEMA_LOCK_CONFLICT", "phase": 2, "elementId": "", "path": "/schemas/" + name.replace("~", "~0"), "relatedId": ""}
+                          for name in unlocked] + registry["issues"]
+    return registry
 
 
 def _graph_result(base, *, elements=None, revision=None, previous=None, registry=None):
@@ -140,13 +154,12 @@ def _verified(verified, applied, change_set):
 
 
 @_diagnostics
-def _write_applied(input_value):
+def _write_applied(input_value, output):
     value = input_value if type(input_value) is dict else {}
-    base_path, output_path = value.get("basePath"), value.get("outputPath")
+    base_path = value.get("basePath")
     change_set, candidates = value.get("changeSet"), value.get("candidateElements", [])
     resulting_revision = value.get("resultingRevision")
     applied_ids = value.get("appliedChangeSetIds", [])
-    output = _output_root(base_path, output_path)
     base = read_ledger_package(base_path)
     if type(candidates) is list:
         for index, candidate in enumerate(candidates):
@@ -231,7 +244,22 @@ def _write_applied(input_value):
             "elementCount": len(applied["elements"]), "changeSetId": change_set["id"]}
 
 
-async def write_applied_package(input_value=None):
-    """Apply and verify a ChangeSet, then exclusively publish a new package root."""
-    await asyncio.sleep(0)
-    return _write_applied(input_value)
+def write_applied_package(input_value=None):
+    """Capture root fields now and return an awaitable apply-and-publish operation.
+
+    Nested records retain their references until validation, matching the
+    reference writer. Unlike the import wrapper, this is not a deep snapshot.
+    """
+    try:
+        value = {key: input_value[key] for key in ("basePath", "outputPath", "changeSet", "candidateElements", "resultingRevision", "appliedChangeSetIds")
+                 if key in input_value} if type(input_value) is dict else {}
+        output = _output_root(value.get("basePath"), value.get("outputPath"))
+    except Exception as error:
+        async def rejected(failure=error):
+            raise failure
+        return rejected()
+
+    async def apply():
+        await asyncio.sleep(0)
+        return _write_applied(value, output)
+    return apply()
