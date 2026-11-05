@@ -120,8 +120,8 @@ if (main && process.argv.includes("--node-replay")) {
     }
   });
   const python = process.env.MORIVYX_REFERENCE_PYTHON ?? "python3.14";
-  function runPython(args, { cwd = core, env = process.env, executable = python } = {}) {
-    const child = spawnSync(executable, ["-B", ...args], { cwd, env, encoding: "utf8", timeout: 60000, maxBuffer: 16 * 1024 * 1024 });
+  function runPython(args, { cwd = core, env = process.env, executable = python, input } = {}) {
+    const child = spawnSync(executable, ["-B", ...args], { cwd, env, input, encoding: "utf8", timeout: 60000, maxBuffer: 16 * 1024 * 1024 });
     assert.equal(child.error, undefined); assert.equal(child.status, 0, child.stderr); return child;
   }
   async function verifyReplay(text) {
@@ -133,7 +133,7 @@ if (main && process.argv.includes("--node-replay")) {
     }
   }
   test("Python reproduces every frozen reimport, rejection and filesystem outcome", async () => {
-    assert.match(runPython(["-m", "unittest", "test_import_snapshot_revision"]).stderr, /Ran 7 tests/);
+    assert.match(runPython(["-m", "unittest", "test_import_snapshot_revision"]).stderr, /Ran 8 tests/);
     await verifyReplay(runPython(["test_import_snapshot_revision.py", "--replay"]).stdout);
   });
   test("43 public production modules reproduce every case without Node or Git", async () => {
@@ -160,5 +160,18 @@ if (main && process.argv.includes("--node-replay")) {
     });
     assert.equal(child.error, undefined); assert.equal(child.status, 0, child.stderr);
     assert.deepEqual(JSON.parse(child.stdout), { valid: true, count: 575 });
+  });
+  if (hasNodeSource) test("incomplete history records preserve native refusal and missing-field distinctions", async () => {
+    const fixture = JSON.parse(await readFile(join(core, "fixtures/import-snapshot-revision-vectors.json"), "utf8"));
+    const shapes = [["null-history", ["changeSets", 1], null],
+      ["empty-record", ["changeSets", 0, "provenance", "importSnapshot"], {}],
+      ["missing-op", ["changeSets", 0, "operations"], [{}]], ["null-op", ["changeSets", 0, "operations"], [null]]];
+    const entries = Object.keys(fixture.initialRequests).flatMap(adapter => shapes.flatMap(([name, path, value]) =>
+      ["prepare", "baseline", "observations"].map(operation => ({ id: `${adapter}/${operation}/${name}`, operation,
+        inputText: JSON.stringify({ adapter, baseEdits: [{ path, value }] }) }))));
+    const expected = [];
+    for (const entry of entries) expected.push({ id: entry.id, outcome: await nodeRevisionCase(entry, fixture) });
+    const actual = JSON.parse(runPython(["test_import_snapshot_revision.py", "--probes"], { input: JSON.stringify(entries) }).stdout);
+    assert.equal(entries.length, 48); assert.deepEqual(actual, expected);
   });
 }

@@ -52,13 +52,39 @@ def _baseline_check(condition, suffix="INVALID"):
         raise ValidationError("IMPORT_BASELINE_" + suffix, "/baseline")
 
 
+def _member(value, key):
+    if value is None:
+        raise TypeError("null record member access")
+    return _get(value, key)
+
+
+def _truthy(value):
+    if value is None or value is False:
+        return False
+    if type(value) in (int, float):
+        return value != 0 and value == value
+    return bool(value) if type(value) is str else True
+
+
+def _has_recorded_run(base, result):
+    for entry in base["changeSets"]:
+        provenance = _member(entry, "provenance")
+        for key in ("importSnapshot", "importAvailability", "importPresence"):
+            recorded = _get(provenance, key)
+            if (_get(recorded, "plugin", "id") == result["plugin"]["id"] and
+                    _get(recorded, "plugin", "version") == result["plugin"]["version"] and
+                    _get(recorded, "runId") == result["runId"]):
+                return True
+    return False
+
+
 def restore_import_baseline(base, request):
     """Reconstruct previous result metadata from exactly one recorded operation."""
     matches = []
     for entry in base["changeSets"]:
-        if _get(entry, "provenance", "importSnapshot") and type(entry.get("operations")) is list:
-            if any(operation["op"] in ("create", "revise") and operation.get("targetId") == request["artifactId"] and
-                   operation.get("afterRevision") == request["baselineArtifactRevision"] for operation in entry["operations"]):
+        if _truthy(_get(_member(entry, "provenance"), "importSnapshot")) and type(_get(entry, "operations")) is list:
+            if any(_member(operation, "op") in ("create", "revise") and _get(operation, "targetId") == request["artifactId"] and
+                   _get(operation, "afterRevision") == request["baselineArtifactRevision"] for operation in entry["operations"]):
                 matches.append(entry)
     _baseline_check(len(matches) == 1, "UNRECORDED")
     ledger = matches[0]
@@ -110,8 +136,9 @@ def restore_import_baseline(base, request):
 def import_follows_observations(base, artifact_id, observed_at, recorded_at):
     """Reject a reimport older than a recorded presence or availability observation."""
     for entry in base["changeSets"]:
+        provenance = _member(entry, "provenance")
         for key in ("importAvailability", "importPresence"):
-            previous = _get(entry, "provenance", key)
+            previous = _get(provenance, key)
             if _get(previous, "artifactId") == artifact_id:
                 times = (_get(previous, "observedAt"), _get(entry, "provenance", "recordedAt"))
                 if not all(type(value) is str and TIMESTAMP.fullmatch(value) for value in times):
@@ -162,10 +189,7 @@ def prepare_import_snapshot_revision(base, input_value):
     artifact = targets[0]
     _check(artifact.get("revision") == request["baselineArtifactRevision"], "LOCAL_CONFLICT")
     result = request["runResult"]
-    _check(not any(_get(entry, "provenance", key, "plugin", "id") == result["plugin"]["id"] and
-                   _get(entry, "provenance", key, "plugin", "version") == result["plugin"]["version"] and
-                   _get(entry, "provenance", key, "runId") == result["runId"] for entry in base["changeSets"]
-                   for key in ("importSnapshot", "importAvailability", "importPresence")), "RUN_ALREADY_RECORDED")
+    _check(not _has_recorded_run(base, result), "RUN_ALREADY_RECORDED")
     try:
         _check(import_follows_observations(base, artifact["id"], result["output"]["retrievedAt"], request["recordedAt"]), "TIME_REGRESSION")
     except Exception:
