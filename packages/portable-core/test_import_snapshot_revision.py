@@ -170,6 +170,28 @@ def run_case(entry, vectors):
 
 
 class ImportSnapshotRevisionTests(unittest.TestCase):
+    def test_incomplete_history_boundaries(self):
+        vectors = fixture()
+        shapes = [("null-history", ["changeSets", 1], None),
+                  ("empty-record", ["changeSets", 0, "provenance", "importSnapshot"], {}),
+                  ("missing-op", ["changeSets", 0, "operations"], [{}]),
+                  ("null-op", ["changeSets", 0, "operations"], [None])]
+        for adapter in vectors["initialRequests"]:
+            for name, path, value in shapes:
+                for operation in ("prepare", "baseline", "observations"):
+                    entry = {"id": adapter + "/" + operation + "/" + name, "operation": operation,
+                             "inputText": json_text({"adapter": adapter, "baseEdits": [{"path": path, "value": value}]})}
+                    with self.subTest(entry=entry["id"]):
+                        outcome = run_case(entry, vectors)
+                        if operation == "observations" and name != "null-history":
+                            self.assertEqual((outcome["kind"], outcome["value"]), ("return", True))
+                        elif name == "null-history" or (operation == "baseline" and name == "null-op"):
+                            self.assertEqual((outcome["kind"], outcome["name"]), ("throw", "TypeError"))
+                        else:
+                            prefix = "IMPORT_REVISION_BASELINE_" if operation == "prepare" else "IMPORT_BASELINE_"
+                            self.assertEqual(outcome["code"], prefix + ("UNRECORDED" if name == "missing-op" else "INVALID"))
+                        self.assertTrue(outcome["baseUnchanged"] and outcome["requestUnchanged"] and outcome["logicalBaseUnchanged"])
+
     def test_frozen_reference_cases(self):
         vectors = fixture()
         self.assertEqual(vectors["count"], 575)
