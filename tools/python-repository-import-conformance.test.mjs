@@ -41,7 +41,8 @@ sys.path.insert(0,sys.argv[1])
 from canonical import canonical_json
 from repository_import import validate_repository_import_request,validate_repository_import_result,import_repository_file,compare_repository_import_snapshots,assess_repository_reimport
 from schema_validation import ValidationError
-v=json.load(sys.stdin);out=[]
+from stdin_transport import read_bounded_stdin
+v=json.loads(read_bounded_stdin(sys.stdin.buffer,8*1024*1024).decode('utf-8'));out=[]
 for e in v['cases']:
  x=copy.deepcopy(e['input']);op=e['operation']
  if op=='import' and type(x) is dict and type(x.get('input')) is dict and type(x['input'].get('repositoryRoot')) is str and x['input']['repositoryRoot'].startswith('@FIXTURE@'):x['input']['repositoryRoot']=sys.argv[2]+x['input']['repositoryRoot'][9:]
