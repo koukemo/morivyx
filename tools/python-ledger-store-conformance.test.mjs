@@ -148,7 +148,7 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
     try {
       const privateFiles = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
       const modules = (await readdir(core)).filter(name => name.endsWith(".py") && !name.startsWith("test_") && !privateFiles.has(name));
-      assert.equal(modules.length, 38);
+      assert.equal(modules.length, 39);
       for (const name of [...modules, "test_ledger_store.py"]) await cp(join(core, name), join(directory, name));
       await mkdir(join(directory, "fixtures")); await cp(join(core, "fixtures/ledger-store-vectors.json"), join(directory, "fixtures/ledger-store-vectors.json"));
       const executable = pythonRun(["-c", "import sys; print(sys.executable)"]).stdout.trim();
