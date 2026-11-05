@@ -158,6 +158,15 @@ def _limits(overrides):
     return {key: int(value) for key, value in limits.items()}
 
 
+def _declared_length(value, maximum):
+    _check(type(value) is str and re.fullmatch(r"[0-9]+", value) is not None, "RESPONSE_LIMIT")
+    digits = value.lstrip("0") or "0"
+    _check(len(digits) <= 16, "RESPONSE_LIMIT")
+    number = int(digits)
+    _check(number <= maximum, "RESPONSE_LIMIT")
+    return number
+
+
 def _external_document(source):
     """Parse JSON iteratively with binary64 numbers and delayed duplicate errors.
 
@@ -417,9 +426,17 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 class _HttpReader:
     def __init__(self, stream):
         self.stream = stream
+        self.remaining = None
 
     async def read(self):
-        chunk = await asyncio.to_thread(self.stream.read, 65536)
+        if self.remaining == 0:
+            return {"done": True, "value": b""}
+        requested = min(65536, self.remaining) if self.remaining is not None else 65536
+        chunk = await asyncio.to_thread(self.stream.read, requested)
+        if self.remaining is not None:
+            if not chunk:
+                raise OSError("incomplete declared response")
+            self.remaining -= len(chunk)
         return {"done": not chunk, "value": chunk}
 
     async def cancel(self):
@@ -430,14 +447,31 @@ class _HttpReader:
 
 
 class _HttpBody:
-    def __init__(self, stream):
+    def __init__(self, stream, headers):
         self.reader = _HttpReader(stream)
+        self.headers = headers
 
     def get_reader(self):
+        declared = self.headers.get("content-length")
+        self.reader.remaining = None if declared is None else _declared_length(declared, LIMITS["maxResponseBytes"])
         return self.reader
 
     async def cancel(self):
         await self.reader.cancel()
+
+
+class _HttpHeaders:
+    """Expose normalized HTTP field values through the source adapter contract."""
+    def __init__(self, headers):
+        self.headers = headers
+
+    def get(self, name):
+        get_all = getattr(self.headers, "get_all", None)
+        if callable(get_all):
+            values = get_all(name)
+            return None if not values else ", ".join(value.strip(" \t") for value in values)
+        value = self.headers.get(name)
+        return value.strip(" \t") if type(value) is str else value
 
 
 async def _standard_fetch(url, options):
@@ -456,8 +490,9 @@ async def _standard_fetch(url, options):
             response = opener.open(request, timeout=options["timeoutMs"] / 1000)
         except urllib.error.HTTPError as error:
             response = error
-        return SimpleNamespace(status=response.status, redirected=False, url=response.geturl(), headers=response.headers,
-                               body=_HttpBody(response))
+        headers = _HttpHeaders(response.headers)
+        return SimpleNamespace(status=response.status, redirected=False, url=response.geturl(), headers=headers,
+                               body=_HttpBody(response, headers))
     return await asyncio.to_thread(open_response)
 
 
@@ -489,8 +524,7 @@ async def _snapshot(request, *, fetch, credential, now, limits, signal):
         _check(type(content_type) is str and re.match(r"application/(?:[\w.-]+\+)?json(?:;|$)", content_type, re.I | re.ASCII) is not None)
         declared = response.headers.get("content-length")
         if declared is not None:
-            _check(type(declared) is str and re.fullmatch(r"[0-9]+", declared) is not None and
-                   len(declared.lstrip("0")) <= 16 and int(declared) <= limits["maxResponseBytes"], "RESPONSE_LIMIT")
+            _declared_length(declared, limits["maxResponseBytes"])
         _check(response.body is not None)
         reader = response.body.get_reader()
     except Exception:
