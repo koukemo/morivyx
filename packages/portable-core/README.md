@@ -33,6 +33,9 @@ description: 標準機能だけを使う47モジュールと、検査と保存�
 [既存の台帳へ追記する手順](../../docs/tutorials/python-ledger-store.md)では、承認、変更一覧と移行記録をPythonだけで保存します。
 同じ識別子の排他的な処理、上書きしない確定と保存後の照合を行い、本人性と採用権限は別に確認します。
 
+[全面的な移行結果を新しい保存先へ書く手順](../../docs/tutorials/python-package-migration-writer.md)では、`write_migrated_package`で移行と変換先を検証して保存します。
+既存の移行計画とは別の入口で、元の正本を保持し、再読取と所有した配置の後片付けを確認します。
+
 [拡張機能の宣言を検査する手順](../../docs/tutorials/python-plugin-manifest.md)では、宣言構造と機能の取得をPythonだけで行います。
 宣言の検査は、実際の権限の付与と拡張機能の起動から分けます。
 
