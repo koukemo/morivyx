@@ -20,6 +20,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | 判断を作成して保存する、改訂する | [Node.jsで判断を保存](getting-started.md)して[改訂](revise-decision.md)するか、[Pythonの実行例](python-decision.md#自分の正本から作成して更新する)へ自分の正本と要求を渡す |
 | 関係を加える | [Node.jsで関係を追加](trace-relations.md)する |
 | Schemaを変えて別の保存先へ移行する | [Node.jsで準備と保存](schema-migration.md)するか、[Pythonの実行例](python-migration.md)へ自分の正本と明示した要求を渡す |
+| 明示した移行と変換先Schemaから新しい正本を保存する | [Pythonの保存入口](python-package-migration-writer.md)で検証と再読取後に確定する。計画の入口と正式な採用は別に扱う |
 | 正本を出力する、受け取ったJSONを新しい先へ復旧する | [出力と復旧にはPythonだけ](backup-restore.md)を使える。手順のサンプルを最初から作る場合はNode.jsも使う |
 | 自分のNode.jsアプリへ組み込む | [Node.jsとnpm](installed-node.md)を使う。Pythonの導入は不要 |
 | 実行情報を生成し、信頼する子を明示して起動する | [Pythonだけでも実行可能](python-plugin-runtime.md)。時間と出力の上限は扱うが、OSの権限の隔離は行わない |
