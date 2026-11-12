@@ -81,3 +81,28 @@ def verify_graph_index(index, source):
     except (ValueError, TypeError, KeyError, AttributeError, RecursionError):
         valid = False
     return {"valid": valid, "graphRevision": expected["graphRevision"], "rootDigest": expected["rootDigest"]}
+
+
+async def rebuild_package_index(path):
+    """Read a package and return an index projection without persisting it."""
+    from package_records import _read_package_api
+    package = await _read_package_api(path)
+    elements = package["elements"]
+    identities = {unicode_text(element["id"]) for element in elements}
+    by_type, outgoing, incoming = {}, {}, {}
+    for position, element in enumerate(elements):
+        append(by_type, element["type"], element["id"])
+        if element["kind"] != "relation":
+            continue
+        for field in ("source", "target"):
+            endpoint = element["attributes"].get(field)
+            if type(endpoint) is not str or STABLE_ID.fullmatch(endpoint) is None or unicode_text(endpoint) not in identities:
+                fail("/elements/" + str(position) + "/attributes/" + field)
+        append(outgoing, element["attributes"]["source"], element["id"])
+        append(incoming, element["attributes"]["target"], element["id"])
+    return {"valid": True, "index": {
+        "graphRevision": unicode_text(package["revision"]["id"]), "rootDigest": package["calculatedRootDigest"],
+        "elements": [{field: element[field] for field in ("id", "kind", "type", "revision")} for element in elements],
+        "types": [{"type": key, "elementIds": values} for key, values in sorted_lists(by_type).items()],
+        "outgoing": [{"sourceId": key, "relationIds": values} for key, values in sorted_lists(outgoing).items()],
+        "incoming": [{"targetId": key, "relationIds": values} for key, values in sorted_lists(incoming).items()]}}

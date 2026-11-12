@@ -22,6 +22,7 @@ Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorial
 [13形式の文字列変換](docs/tutorials/python-yaml-serialization.md)では、判断の要求とSchema定義を含む記録をPythonだけでYAMLへ変換できます。
 [報告の読取と保存](docs/tutorials/python-report-file-api.md)もPythonだけで実行でき、既存の正本へ上書きせずに追加します。
 [一つの記録ファイルの読取](docs/tutorials/python-yaml-file-api.md)では、任意の欠落と不正な表記を区別し、対応表を返します。
+[パッケージの検査、索引と差分](docs/tutorials/python-package-file-api.md)では、正本をPythonだけで読み、概要、関係の索引と二つの版の差分を得られます。
 
 ## 含める機能
 
