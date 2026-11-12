@@ -6,6 +6,10 @@ description: 標準機能だけを使う47モジュールと、検査と保存�
 
 # Pythonの中核実装
 
+[記録ファイルの読取](../../docs/tutorials/python-yaml-file-api.md)では、`yaml_authoring.read_yaml_record`を使います。
+指定したファイルの対応表を返し、任意指定での欠落は`None`として区別します。
+既存の文字列入口の制限を保持し、報告の検証と保存は別に行います。
+
 [報告ファイルの読取と保存](../../docs/tutorials/python-report-file-api.md)では、`report_records.read_report`と`report_records.write_report`を使います。
 既存の文字列の入口と制限を保持し、報告の読取と既存の正本への上書きしない追加を別の入口で行います。
 固定1041例で診断と保存配置を照合し、Graphの意味、本人性と採用権限は別に確認します。
