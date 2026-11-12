@@ -150,3 +150,23 @@ def create_migration_semantic_diff(value):
             "baseRevision": report["baseRevision"], "targetRevision": report["targetRevision"],
             "sourceSchemaLockDigest": value["sourceSchemaLockDigest"], "targetSchemaLockDigest": value["targetSchemaLockDigest"],
             "evaluatedAt": report["evaluatedAt"], "entries": entries}
+
+
+async def diff_packages(base_path, target_path, options):
+    """Compare two checked packages with the same recorded Schema lock digest."""
+    if options is None:
+        raise TypeError("diff options cannot be null")
+    from package_records import _read_package_api
+    options = options if type(options) is dict else {}
+    base = await _read_package_api(base_path)
+    target = await _read_package_api(target_path)
+    if base["revision"]["schemaLockDigest"] != target["revision"]["schemaLockDigest"]:
+        raise ValidationError("SCHEMA_LOCK_CONFLICT", target_path)
+    value = {"baseRevision": base["revision"]["id"], "targetRevision": target["revision"]["id"],
+             "schemaLockDigest": base["revision"]["schemaLockDigest"], "evaluatedAt": options.get("evaluatedAt"),
+             "baseElements": base["elements"], "targetElements": target["elements"],
+             "traceChanges": options.get("traceChanges", [])}
+    if "id" in options:
+        value["id"] = options["id"]
+    report = create_semantic_diff(value)
+    return {"valid": True, "digest": digest("semantic-diff", report)["digest"], "report": report}
