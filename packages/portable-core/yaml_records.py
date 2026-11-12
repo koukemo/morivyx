@@ -421,6 +421,209 @@ def read_yaml(source, *, max_bytes=MAX_BYTES, max_depth=MAX_DEPTH, allow_merge_k
     return result
 
 
+def serialize_yaml_record(record):
+    """Return the thirteen-format logical writer result without file access.
+
+    This API is separate from the bounded legacy write_yaml reader/writer.
+    It checks representability and layout, not domain schema validity.
+    """
+    from schema_validation import ValidationError
+
+    def fail(path, code="YAML_SERIALIZATION_INVALID"):
+        raise ValidationError(code, path)
+
+    def child(path, key):
+        return path + "/" + str(key).replace("~", "~0").replace("/", "~1")
+
+    def entries(value):
+        # JavaScript logical objects enumerate array-index keys first. The
+        # contract's subsequent Unicode sort does not override that storage rule.
+        keys = list(value)
+        indexed = sorted(k for k in keys if type(k) is str and re.fullmatch(r"0|[1-9][0-9]*", k)
+                         and int(k) < 4294967295)
+        indexed.sort(key=int)
+        selected = set(indexed)
+        return [(k, value[k]) for k in indexed + [k for k in keys if k not in selected]]
+
+    def string(value, path):
+        try:
+            return unicode_text(value)
+        except ValueError:
+            fail(path)
+
+    orders = dict(ORDERS)
+    request = "format decisionId attributes changeSetId resultingRevision actor recordedAt"
+    for name in ("decision-creation-request", "decision-revision-request"):
+        orders["morivyx." + name + "/0.1"] = request
+    orders["morivyx.schema/0.1"] = "format schemaId version stableIdScheme digestAlgorithm reviewStates entityTypes relationTypes authoringOrders"
+
+    try:
+        # Structural errors precede unsupported formats and null-policy errors.
+        active, pending = set(), [(record, "", False)]
+        while pending:
+            value, path, leaving = pending.pop()
+            if leaving == "key":
+                string(value, path)
+                continue
+            if leaving:
+                active.remove(id(value))
+                continue
+            if type(value) is str:
+                string(value, path)
+            elif type(value) in (dict, list):
+                if id(value) in active:
+                    fail(path)
+                active.add(id(value))
+                pending.append((value, path, True))
+                pairs = entries(value) if type(value) is dict else list(enumerate(value))
+                for key, item in reversed(pairs):
+                    if type(value) is dict and type(key) is not str:
+                        fail(path)
+                    pending.append((item, child(path, key), False))
+                    if type(value) is dict:
+                        # Validate each key immediately before its child rather
+                        # than inspecting later keys before an earlier failure.
+                        pending.append((key, path, "key"))
+            elif value is not None and type(value) not in (bool, int, float):
+                fail(path)
+
+        raw_format = record.get("format") if type(record) is dict else None
+        format_id = string(raw_format, "/format") if type(raw_format) is str else None
+        if format_id not in orders:
+            # Ordinary JSON objects may shadow String's toString operation.
+            def cannot_stringify(value):
+                return (type(value) is dict and "toString" in value) or (
+                    type(value) is list and any(cannot_stringify(v) for v in value))
+            if cannot_stringify(raw_format):
+                fail("")
+            fail("/format", "PACKAGE_FORMAT_UNSUPPORTED")
+
+        status = record.get("status")
+        pending = [(record, "")]
+        while pending:
+            value, path = pending.pop()
+            if value is None:
+                allowed = (format_id == "morivyx.graph-revision/0.1" and path == "/parentRevision") or (
+                    format_id == "morivyx.schema/0.1" and re.fullmatch(r"/relationTypes/[0-9]+/maxCount", path)) or (
+                    format_id == "morivyx.git-graph/0.1" and path.startswith("/extensions/"))
+                if format_id == "morivyx.external-artifact-report/0.1" and status == "invalid":
+                    allowed = path in ("/graphRevision", "/retrieval", "/comparedAt", "/artifact/lifecycle") or re.fullmatch(
+                        r"/(artifact|externalSource|relation)/(id|revision)|/retrieval/(status|comparedAt|digest|digestRule|externalVersion|method|reason)", path)
+                if not allowed:
+                    fail(path)
+            elif type(value) in (dict, list):
+                pairs = entries(value) if type(value) is dict else list(enumerate(value))
+                pending.extend((item, child(path, string(key, path) if type(key) is str else key))
+                               for key, item in reversed(pairs))
+
+        schema = "morivyx.schema/0.1"
+        contexts = {(): ("record", orders[format_id])}
+        if format_id in ("morivyx.git-graph/0.1", "morivyx.changeset/0.1", "morivyx.migration/0.1"):
+            contexts[("provenance",)] = ("record", "method actor recordedAt")
+        if format_id == schema:
+            contexts.update({("entityTypes",): ("sequence", "typeId requiredAttributes optionalAttributes lifecycle"),
+                             ("relationTypes",): ("sequence", "predicate sourceTypes targetTypes minCount maxCount cycle"),
+                             ("authoringOrders",): ("record", "root attributes provenance")})
+        for suffix, name, order in (
+            ("schema-lock", "schemas", "schemaId version digest"),
+            ("changeset", "operations", "op targetId beforeRevision afterRevision replacementId"),
+            ("trace-report", "paths", "hops"),
+            ("semantic-diff", "entries", "kind targetId beforeRevision afterRevision replacementId aspect queryId beforeStatus afterStatus"),
+            ("migration-semantic-diff", "entries", "kind targetId beforeRevision afterRevision replacementId aspect queryId beforeStatus afterStatus"),
+        ):
+            if format_id == "morivyx." + suffix + "/0.1":
+                contexts[(name,)] = ("sequence", order)
+        if format_id == "morivyx.trace-report/0.1":
+            contexts[("paths", "*", "hops")] = ("sequence", "fromId predicate toId fromRevision toRevision")
+        if format_id == "morivyx.external-artifact-report/0.1":
+            for key in ("artifact", "externalSource", "relation"):
+                contexts[(key,)] = ("record", "id revision lifecycle")
+            contexts[("retrieval",)] = ("nullable-record", "status comparedAt digest digestRule externalVersion method reason")
+            contexts[("issues",)] = ("sequence", "code")
+
+        def normalize(value, location=(), path="", forced_order=None):
+            mode, order = contexts.get(location, (None, "")) if forced_order is None else ("record", forced_order)
+            if mode == "nullable-record" and value is None:
+                return None
+            if mode == "sequence":
+                if type(value) is not list:
+                    fail(path)
+                return [normalize(v, location + ("*",), child(path, i), order) for i, v in enumerate(value)]
+            if mode in ("record", "nullable-record") and type(value) is not dict:
+                fail(path)
+            if type(value) is dict:
+                normalized = {}
+                for key, item in entries(value):
+                    key = string(key, path)
+                    if key in normalized:
+                        fail(child(path, key))
+                    normalized[key] = item
+                positions = order.split()
+                keys = sorted(normalized, key=lambda k: (positions.index(k), "") if k in positions else (len(positions), k))
+                return {key: normalize(normalized[key], location + (key,), child(path, key)) for key in keys}
+            if type(value) is list:
+                return [normalize(v, location + ("*",), child(path, i)) for i, v in enumerate(value)]
+            try:
+                # The existing independent scalar contract includes Unicode 16,
+                # timestamps, safe integers, and negative-zero rejection.
+                import json
+                return json.loads(canonical_json(value))
+            except ValueError:
+                fail(path)
+
+        def quoted(text):
+            escapes = {0: "0", 7: "a", 8: "b", 9: "t", 10: "n", 11: "v", 12: "f", 13: "r", 27: "e"}
+            output = ['"']
+            for character in text:
+                code = ord(character)
+                if code in escapes:
+                    output.append("\\" + escapes[code])
+                elif character in ('"', "\\"):
+                    output.append("\\" + character)
+                elif code < 32:
+                    output.append(f"\\x{code:02x}")
+                elif 127 <= code <= 159 or code in (65534, 65535):
+                    output.append(f"\\u{code:04x}")
+                else:
+                    output.append(character)
+            return "".join(output) + '"'
+
+        def inline(value):
+            return quoted(value) if type(value) is str else canonical_json(value)
+
+        def render(value, indent):
+            prefix = " " * indent
+            if type(value) is dict and value:
+                lines = []
+                for key, item in entries(value):
+                    spelling = key if plain_key(key) and not re.search(r"[\x7f-\x9f]", key) else quoted(key)
+                    if len(spelling.encode("utf-16-le")) // 2 > 1024:
+                        lines.append(prefix + "? " + spelling)
+                        label = prefix + ":"
+                    else:
+                        label = prefix + spelling + ":"
+                    if type(item) in (dict, list) and item:
+                        lines.append(label)
+                        lines.extend(render(item, indent + 2))
+                    else:
+                        lines.append(label + " " + inline(item))
+                return lines
+            if type(value) is list and value:
+                lines = []
+                for item in value:
+                    nested = render(item, indent + 2)
+                    lines.append(prefix + "- " + nested[0][indent + 2:])
+                    lines.extend(nested[1:])
+                return lines
+            return [prefix + inline(value)]
+
+        return "\n".join(render(normalize(record), 0)) + "\n"
+    except ValidationError:
+        raise
+    except (ValueError, TypeError, RecursionError, OverflowError):
+        fail("")
+
+
 def field_order(format_id, path):
     if not path:
         return ORDERS[format_id].split()
