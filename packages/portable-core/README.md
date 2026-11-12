@@ -6,6 +6,10 @@ description: 標準機能だけを使う47モジュールと、検査と保存�
 
 # Pythonの中核実装
 
+[報告ファイルの読取と保存](../../docs/tutorials/python-report-file-api.md)では、`report_records.read_report`と`report_records.write_report`を使います。
+既存の文字列の入口と制限を保持し、報告の読取と既存の正本への上書きしない追加を別の入口で行います。
+固定1041例で診断と保存配置を照合し、Graphの意味、本人性と採用権限は別に確認します。
+
 [取得結果を隔離変換へ渡す手順](../../docs/tutorials/python-network-import-container.md)では、取得と変換の許可を分け、生の応答から結果を再計算して照合します。
 認証情報は取得側だけで使い、所有する接続と配置を終了します。
 

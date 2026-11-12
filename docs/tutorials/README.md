@@ -15,6 +15,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 
 | 行いたい操作 | この公開版で使う環境 |
 |---|---|
+| 報告ファイルを読み、既存の正本へ追加する | [Pythonの報告保存](python-report-file-api.md)を使う。構造と重複を確認し、採用権限は別に扱う |
 | 判断の要求とSchema定義を含む13形式を文字列へ変換する | [Pythonの文字列変換](python-yaml-serialization.md)を使う。保存と意味の検証は別に行う |
 | YAMLを読む、既存の正本を検証する | [Pythonだけで実行可能](python-only.md)。Node.jsのCLIからも読取と検証を実行できる |
 | 既存の正本から索引を作って調べる | [Node.jsとPythonの両方の入口](graph-index.md)がある。手順の最初のサンプル作成にはNode.jsを使う |
