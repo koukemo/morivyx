@@ -19,6 +19,7 @@ Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorial
 [Pythonによる移行](docs/tutorials/python-migration.md)でも、自分の正本と明示した要求を検証し、本文と報告名を保持して新しい先へ保存できます。
 [Pythonの全面的な移行保存](docs/tutorials/python-package-migration-writer.md)では、移行と変換先Schemaを照合し、再読取と再検証の後に新しい保存先へ確定します。
 使い方を探す場合は、[利用手順の入口](docs/tutorials/README.md)から選べます。
+[13形式の文字列変換](docs/tutorials/python-yaml-serialization.md)では、判断の要求とSchema定義を含む記録をPythonだけでYAMLへ変換できます。
 
 ## 含める機能
 

@@ -107,3 +107,22 @@ python3 tools/check-portable-vectors.py
 試作の提案確認、採用と証拠保存の4モジュールは同梱しません。
 
 [仕様の入口](../../docs/README.md)と[外部依存の表示](../../THIRD_PARTY_NOTICES.md)を参照してください。
+
+## 13形式の記録を文字列へ変換する
+
+`yaml_records.serialize_yaml_record`は、判断の作成要求と改訂要求、Schema定義を含む13形式をYAML文字列へ変換します。
+ファイルへの書込と意味の検証は行いません。
+既存の`write_yaml`は10形式と既存の制限を保持します。
+
+```python
+from yaml_records import serialize_yaml_record
+
+source = serialize_yaml_record({"format": "morivyx.schema/0.1"})
+assert source == 'format: "morivyx.schema/0.1"\n'
+```
+
+必須項目の意味を検証する入口ではないため、この最小例も変換できます。
+実際の採用と保存の前には、用途に対応する検証を呼び出します。
+表現できない入力は`ValidationError`の`code`と`path`で確認できます。
+固定695例で元の出力文字列、拒否の種類と位置及び入力の保持を照合します。
+これは全入力の適合証明ではありません。
