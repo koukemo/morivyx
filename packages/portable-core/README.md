@@ -6,6 +6,9 @@ description: 標準機能だけを使う47モジュールと、検査と保存�
 
 # Pythonの中核実装
 
+[パッケージの検査、索引と差分](../../docs/tutorials/python-package-file-api.md)では、ファイルから直接呼べる三つの入口を使います。
+既存の容量を制限した読取を保持し、固定1063例で結果、診断、読取順序と入力及び配置の保持を照合します。
+
 [記録ファイルの読取](../../docs/tutorials/python-yaml-file-api.md)では、`yaml_authoring.read_yaml_record`を使います。
 指定したファイルの対応表を返し、任意指定での欠落は`None`として区別します。
 既存の文字列入口の制限を保持し、報告の検証と保存は別に行います。
