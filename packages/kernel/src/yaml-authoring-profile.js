@@ -197,11 +197,20 @@ export function validateYamlDocument(document, path) {
 export function normalizeYamlLogicalValue(value) {
   const result = {};
   const pending = [{ value, target: result, key: "value" }];
+  const active = new Set();
   while (pending.length > 0) {
-    const { value: current, target, key } = pending.pop();
+    const frame = pending.pop();
+    if (frame.leave) {
+      active.delete(frame.value);
+      continue;
+    }
+    const { value: current, target, key } = frame;
     let normalized = current;
     if (typeof current === "string") normalized = normalizeNfc(current);
     else if (current && typeof current === "object") {
+      if (active.has(current)) throw new RangeError("循環参照を含む値は正規化できません。");
+      active.add(current);
+      pending.push({ value: current, leave: true });
       const array = Array.isArray(current);
       normalized = array ? new Array(current.length) : {};
       const keys = new Set();

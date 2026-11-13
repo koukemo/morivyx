@@ -41,6 +41,27 @@ test("the exported normalizer preserves sparse array behavior and literal mappin
   assert.equal(value.__proto__.é, "é");
 });
 
+test("direct normalization rejects cycles and preserves noncyclic sharing in a bounded process", () => {
+  const module = new URL("../src/yaml-authoring-profile.js", import.meta.url).href;
+  const source = `import assert from "node:assert/strict";
+    import { normalizeYamlLogicalValue } from ${JSON.stringify(module)};
+    const mapping = {}; mapping.self = mapping;
+    const array = []; array.push(array);
+    for (const value of [mapping, array]) assert.throws(() => normalizeYamlLogicalValue(value), { name: "RangeError" });
+    const shared = { text: "e\\u0301" };
+    const result = normalizeYamlLogicalValue([shared, shared]);
+    assert.deepEqual(result, [{ text: "é" }, { text: "é" }]);
+    assert.notEqual(result[0], result[1]);
+    assert.equal(shared.text, "e\\u0301");
+    console.log("cycles rejected; sharing preserved");`;
+  const result = spawnSync(process.execPath, ["--input-type=module", "-e", source], {
+    encoding: "utf8", timeout: 5000, maxBuffer: 4096,
+  });
+  assert.equal(result.error, undefined);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), "cycles rejected; sharing preserved");
+});
+
 test("deep authoring errors keep their code and exact logical path", async () => {
   const directory = await mkdtemp(join(tmpdir(), "morivyx-yaml-depth-invalid-"));
   const path = join(directory, "record.yaml");
