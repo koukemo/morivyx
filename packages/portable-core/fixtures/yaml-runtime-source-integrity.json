@@ -21,11 +21,11 @@
   "repairedSources": {
     "packages/kernel/src/yaml-reader.js": "364ac1dad9d6e0af3ba13b9271edcfac99346fdaf7d0fd776be0c93740d3b333",
     "packages/kernel/src/yaml-writer.js": "831b49d7ba0ed0e12f930d1a59943ed2447c647a2535763df9b1f502fcfbcecf",
-    "packages/kernel/src/yaml-authoring-profile.js": "c01f1c20d4a5d6b1ea1d390744024c489ba3adb3517ef116d241462086f37c7b",
+    "packages/kernel/src/yaml-authoring-profile.js": "84be27350d319a949c46b13236863f8ff613d4e55d793098a70f9b9cd51ff5a3",
     "packages/kernel/src/yaml-authoring-order.js": "0f9a30b61f7f23fbfa22376a65c6762891d7699df245121644e8473570f66049",
     "packages/kernel/src/yaml-null-policy.js": "e0f5e7ffd096f53819f8ca68e10a43958ad6d37416a73b405b3cf5e8aa8cb6dc",
     "packages/kernel/src/yaml-set-policy.js": "ba59202bb849785e618fc1b3c1e070dc4e177fefb1e1d837fba66202e7dcea62",
-    "packages/kernel/test/yaml-depth-runtime.test.js": "d9205c3e079032a8053bf16ab3171b5cb80d8a94b98e713c43fe664f2ce7877b",
+    "packages/kernel/test/yaml-depth-runtime.test.js": "a4a45c8b17214d9918f7db36e8123c02d0f6106188b16bf988c0ee463668ba84",
     "packages/kernel/test/yaml-writer.test.js": "e5c40f6926bf55f663ba292a3205a64147e3643d575c1dd2ab64ea986c4c38cb",
     "packages/kernel/test/fixtures/yaml-depth-runtime-runner.mjs": "40c12569fe2a3ef64b48d6d0eb9e265df22fb6ccc3445999e73b0a9cc45354b9",
     "packages/kernel/test/fixtures/yaml-depth-runtime-vectors.json": "27cba64be1b266c219599d54e76831c02726344cc0bad58e5932b7875ac3311d",
