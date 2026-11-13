@@ -104,6 +104,15 @@ function validateScalar(node, path, key = false) {
 }
 
 function validateNode(node, path) {
+  const pending = [validateNodeChildren(node, path)];
+  while (pending.length > 0) {
+    const child = pending.at(-1).next();
+    if (child.done) pending.pop();
+    else pending.push(validateNodeChildren(child.value.node, child.value.path));
+  }
+}
+
+function* validateNodeChildren(node, path) {
   validateComments(node, path);
   if (!node) {
     invalid(path, "YAML の値を省略できません。");
@@ -122,9 +131,9 @@ function validateNode(node, path) {
     if (node.flow && node.items.length > 0) {
       invalid(path, "YAML の flow style を使えません。");
     }
-    node.items.forEach((item, index) =>
-      validateNode(item, pointerChild(path, index)),
-    );
+    for (let index = 0; index < node.items.length; index++) {
+      yield { node: node.items[index], path: pointerChild(path, index) };
+    }
     return;
   }
   if (isMap(node)) {
@@ -153,7 +162,7 @@ function validateNode(node, path) {
       }
       normalizedKeys.add(key);
       validateComments(pair, pointerChild(path, key));
-      validateNode(pair.value, pointerChild(path, key));
+      yield { node: pair.value, path: pointerChild(path, key) };
     }
     return;
   }
@@ -186,30 +195,38 @@ export function validateYamlDocument(document, path) {
 }
 
 export function normalizeYamlLogicalValue(value) {
-  if (typeof value === "string") {
-    return normalizeNfc(value);
-  }
-  if (Array.isArray(value)) {
-    return value.map(normalizeYamlLogicalValue);
-  }
-  if (!value || typeof value !== "object") {
-    return value;
-  }
-
-  const normalized = {};
-  const keys = new Set();
-  for (const [rawKey, entry] of Object.entries(value)) {
-    const key = normalizeNfc(rawKey);
-    if (keys.has(key)) {
-      throw new TypeError(`NFC 正規化後に重複する項目です: ${key}`);
+  const result = {};
+  const pending = [{ value, target: result, key: "value" }];
+  while (pending.length > 0) {
+    const { value: current, target, key } = pending.pop();
+    let normalized = current;
+    if (typeof current === "string") normalized = normalizeNfc(current);
+    else if (current && typeof current === "object") {
+      const array = Array.isArray(current);
+      normalized = array ? new Array(current.length) : {};
+      const keys = new Set();
+      // Preserve Array.map's holes and omission of extra array properties for
+      // direct callers of this exported normalizer, as before the traversal fix.
+      const sourceEntries = array ? [] : Object.entries(current);
+      if (array) {
+        for (let index = 0; index < current.length; index++) {
+          if (index in current) sourceEntries.push([String(index), current[index]]);
+        }
+      }
+      const entries = sourceEntries.map(([rawKey, entry]) => {
+        const childKey = array ? rawKey : normalizeNfc(rawKey);
+        if (keys.has(childKey)) throw new TypeError(`NFC 正規化後に重複する項目です: ${childKey}`);
+        keys.add(childKey);
+        Object.defineProperty(normalized, childKey, {
+          value: undefined, enumerable: true, configurable: true, writable: true,
+        });
+        return [childKey, entry];
+      });
+      for (let index = entries.length - 1; index >= 0; index--) {
+        pending.push({ value: entries[index][1], target: normalized, key: entries[index][0] });
+      }
     }
-    keys.add(key);
-    Object.defineProperty(normalized, key, {
-      value: normalizeYamlLogicalValue(entry),
-      enumerable: true,
-      configurable: true,
-      writable: true,
-    });
+    Object.defineProperty(target, key, { value: normalized, enumerable: true, configurable: true, writable: true });
   }
-  return normalized;
+  return result.value;
 }

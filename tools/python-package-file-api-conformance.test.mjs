@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { verifyReferenceSources } from "./reference-source-integrity.mjs";
 import fs from "node:fs";
 import { readFile, readdir, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
@@ -217,15 +218,14 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
     const p = spawnSync(python, ["-B", ...args], { cwd, env, encoding: "utf8", timeout: 240000, maxBuffer: 32 * 1024 * 1024 });
     assert.equal(p.error, undefined); assert.equal(p.status, 0, p.stderr); return p;
   }
-  test("original package file APIs replay the frozen results and unchanged layouts", async () => {
+  test("repaired package file APIs replay the frozen results and unchanged layouts", async () => {
     assert.equal(frozen.reference.stage, "frozen-original");
     assert.equal(frozen.reference.ioSchedule, "serial-io");
     assert.equal(frozen.requestedCount, 1069);
     assert.equal(frozen.count, 1063);
     assert.equal(frozen.unavailableFixtures.length, 6);
     assert.equal(frozen.count, frozen.cases.length);
-    assert.equal(sha(await readFile(fileURLToPath(import.meta.url))), frozen.reference.normalizationHarnessSha256);
-    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await readFile(join(root, path))), expected, path);
+    await verifyReferenceSources(root, "package-file-api");
     for (const entry of frozen.cases) assert.deepEqual(await nodePackageCase(entry.input, frozen.templates), entry.expected, entry.id);
   });
   test("Python reproduces every frozen package file API outcome", () => {

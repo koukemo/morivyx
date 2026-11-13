@@ -1,5 +1,5 @@
 import { normalizeNfc } from "./unicode-nfc.js";
-import { Document, visit } from "yaml";
+import { Document, YAMLMap, YAMLSeq, Pair } from "yaml";
 import { canonicalJson, compareUnicode } from "./canonical.js";
 import { PackageError } from "./errors.js";
 import {
@@ -56,99 +56,150 @@ function assertUnicodeString(value, path) {
 }
 
 function validateLogicalStructure(value, path = "", activeValues = new Set()) {
-  if (typeof value === "string") {
-    assertUnicodeString(value, path);
-    return;
-  }
-  if (value === null || typeof value !== "object") {
-    return;
-  }
-  if (activeValues.has(value)) {
-    invalid(path, "循環参照を含む値はYAMLへ変換できません。");
-  }
-  activeValues.add(value);
-  try {
-    if (Array.isArray(value)) {
-      if (Reflect.ownKeys(value).length !== value.length + 1) {
-        invalid(path, "疎配列または追加propertyはYAMLへ変換できません。");
+  const pending = [{ value, path }];
+  while (pending.length > 0) {
+    const frame = pending.at(-1);
+    if (frame.children) {
+      const child = frame.children.next();
+      if (!child.done) pending.push(child.value);
+      else {
+        activeValues.delete(frame.value);
+        pending.pop();
       }
-      for (let index = 0; index < value.length; index += 1) {
-        const itemPath = pointerChild(path, index);
-        const descriptor = Object.getOwnPropertyDescriptor(
-          value,
-          String(index),
-        );
-        if (
-          descriptor === undefined ||
-          descriptor.enumerable !== true ||
-          !Object.hasOwn(descriptor, "value")
-        ) {
-          invalid(
-            itemPath,
-            "列挙可能なdata property以外の配列要素はYAMLへ変換できません。",
-          );
-        }
-        validateLogicalStructure(descriptor.value, itemPath, activeValues);
-      }
-      return;
+      continue;
     }
+    const { value: current, path: currentPath } = pending.pop();
+    if (typeof current === "string") assertUnicodeString(current, currentPath);
+    if (current === null || typeof current !== "object") continue;
+    if (activeValues.has(current)) invalid(currentPath, "循環参照を含む値はYAMLへ変換できません。");
+    activeValues.add(current);
+    pending.push({ value: current, children: logicalChildren(current, currentPath) });
+  }
+}
 
-    const prototype = Object.getPrototypeOf(value);
-    if (prototype !== Object.prototype && prototype !== null) {
-      invalid(path, "論理値の対応表ではないobjectはYAMLへ変換できません。");
+function* logicalChildren(value, path) {
+  if (Array.isArray(value)) {
+    if (Reflect.ownKeys(value).length !== value.length + 1) {
+      invalid(path, "疎配列または追加propertyはYAMLへ変換できません。");
     }
-    for (const key of Reflect.ownKeys(value)) {
-      const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    for (let index = 0; index < value.length; index += 1) {
+      const itemPath = pointerChild(path, index);
+      const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
       if (
-        typeof key !== "string" ||
         descriptor === undefined ||
         descriptor.enumerable !== true ||
         !Object.hasOwn(descriptor, "value")
       ) {
-        invalid(
-          path,
-          "列挙可能な文字列data property以外はYAMLへ変換できません。",
-        );
+        invalid(itemPath, "列挙可能なdata property以外の配列要素はYAMLへ変換できません。");
       }
-      assertUnicodeString(key, path);
-      const childPath = pointerChild(path, key);
-      validateLogicalStructure(descriptor.value, childPath, activeValues);
+      yield { value: descriptor.value, path: itemPath };
     }
-  } finally {
-    activeValues.delete(value);
+    return;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype !== Object.prototype && prototype !== null) {
+    invalid(path, "論理値の対応表ではないobjectはYAMLへ変換できません。");
+  }
+  for (const key of Reflect.ownKeys(value)) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    if (typeof key !== "string" || descriptor === undefined ||
+        descriptor.enumerable !== true || !Object.hasOwn(descriptor, "value")) {
+      invalid(path, "列挙可能な文字列data property以外はYAMLへ変換できません。");
+    }
+    assertUnicodeString(key, path);
+    yield { value: descriptor.value, path: pointerChild(path, key) };
   }
 }
 
 function validateLogicalNullPolicy(value, format, rootStatus, path = "") {
-  if (value === null) {
-    if (!isYamlNullAllowed(format, path, rootStatus)) {
-      invalid(path, "Schema が許可しない位置に null があります。");
+  const pending = [{ value, path }];
+  while (pending.length > 0) {
+    const { value: current, path: currentPath } = pending.pop();
+    if (current === null) {
+      if (!isYamlNullAllowed(format, currentPath, rootStatus)) {
+        invalid(currentPath, "Schema が許可しない位置に null があります。");
+      }
+      continue;
     }
-    return;
+    if (typeof current !== "object") continue;
+    const entries = Array.isArray(current) ? current.map((item, index) => [index, item]) : Object.entries(current);
+    for (let index = entries.length - 1; index >= 0; index--) {
+      const [key, item] = entries[index];
+      pending.push({ value: item, path: pointerChild(currentPath, typeof key === "string" ? normalizeNfc(key) : key) });
+    }
   }
-  if (Array.isArray(value)) {
-    value.forEach((item, index) =>
-      validateLogicalNullPolicy(
-        item,
-        format,
-        rootStatus,
-        pointerChild(path, index),
-      ),
-    );
-    return;
+}
+
+/*
+ * Collection traversal stays on the heap. Scalar quoting and collection layout
+ * remain the yaml library's operations, with the actual parent context. Each
+ * collection is visited once to discover child contexts and once to render it.
+ * Only these newly created nodes have local toString methods; no prototype or
+ * dependency cache is modified.
+ */
+function stringifyLogicalRecord(value, options) {
+  // Logical records cannot contain YAML tags or document directives. Suppress
+  // the library's otherwise redundant recursive tag-discovery visit as well.
+  const renderOptions = { ...options, directives: false };
+  const document = new Document(undefined, null, options);
+  const collections = [];
+  const pending = [{ value, target: document, key: "contents" }];
+  while (pending.length > 0) {
+    const { value: current, target, key } = pending.pop();
+    if (current === null || typeof current !== "object") {
+      const node = document.createNode(current);
+      if (typeof current === "string" && /[\t\r\x7f-\x9f\ufffe\uffff]/u.test(current)) node.type = "QUOTE_DOUBLE";
+      target[key] = node;
+      continue;
+    }
+    const node = Array.isArray(current) ? new YAMLSeq(document.schema) : new YAMLMap(document.schema);
+    target[key] = node;
+    collections.push(node);
+    if (Array.isArray(current)) {
+      node.items.length = current.length;
+      for (let index = current.length - 1; index >= 0; index--) {
+        pending.push({ value: current[index], target: node.items, key: index });
+      }
+    } else {
+      const entries = Object.entries(current);
+      node.items = entries.map(() => new Pair(null, null));
+      for (let index = entries.length - 1; index >= 0; index--) {
+        pending.push({ value: entries[index][1], target: node.items[index], key: "value" });
+        pending.push({ value: entries[index][0], target: node.items[index], key: "key" });
+      }
+    }
   }
-  if (typeof value !== "object") {
-    return;
+  const frames = [];
+  let discovering = true;
+  let parent = null;
+  for (const node of collections) {
+    const state = { node, nativeStringify: node.toString, context: null, text: "", children: [] };
+    node.toString = (context) => {
+      if (discovering && !state.context) {
+        state.context = { ...context };
+        frames.push(state);
+        if (parent) parent.children.push(state);
+      }
+      return state.text;
+    };
   }
-  for (const [rawKey, entryValue] of Object.entries(value)) {
-    const key = normalizeNfc(rawKey);
-    validateLogicalNullPolicy(
-      entryValue,
-      format,
-      rootStatus,
-      pointerChild(path, key),
-    );
+  document.toString(renderOptions);
+  for (let index = 0; index < frames.length; index++) {
+    const state = frames[index];
+    parent = state;
+    state.nativeStringify.call(state.node, { ...state.context });
   }
+  parent = null;
+  discovering = false;
+  for (let index = frames.length - 1; index >= 0; index--) {
+    const state = frames[index];
+    state.text = state.nativeStringify.call(state.node, { ...state.context });
+    // Each freshly built collection has one parent. Its cached text can be
+    // released after that parent is rendered, rather than retaining every
+    // complete subtree string until the document is returned.
+    for (const child of state.children) child.text = "";
+  }
+  return document.toString(renderOptions);
 }
 
 function normalizedEntries(value, path) {
@@ -169,26 +220,31 @@ function normalizedEntries(value, path) {
 }
 
 function normalizeValue(value, path) {
-  if (Array.isArray(value)) {
-    return value.map((entry, index) =>
-      normalizeValue(entry, pointerChild(path, index)),
-    );
+  const result = {};
+  const pending = [{ value, path, target: result, key: "value" }];
+  while (pending.length > 0) {
+    const { value: current, path: currentPath, target, key } = pending.pop();
+    let normalized;
+    if (current !== null && typeof current === "object") {
+      const array = Array.isArray(current);
+      normalized = array ? [] : {};
+      const entries = array ? current.map((item, index) => [index, item]) :
+        normalizedEntries(current, currentPath).sort(([left], [right]) => compareUnicode(left, right));
+      // Create in sorted order before filling children in depth-first order.
+      for (const [childKey] of entries) Object.defineProperty(normalized, childKey, {
+        value: undefined, enumerable: true, configurable: true, writable: true,
+      });
+      for (let index = entries.length - 1; index >= 0; index--) {
+        const [childKey, entry] = entries[index];
+        pending.push({ value: entry, path: pointerChild(currentPath, childKey), target: normalized, key: childKey });
+      }
+    } else {
+      try { normalized = JSON.parse(canonicalJson(current)); }
+      catch (error) { invalid(currentPath, `YAMLへ変換できない値です: ${error.message}`); }
+    }
+    Object.defineProperty(target, key, { value: normalized, enumerable: true, configurable: true, writable: true });
   }
-  if (value !== null && typeof value === "object") {
-    return Object.fromEntries(
-      normalizedEntries(value, path)
-        .sort(([left], [right]) => compareUnicode(left, right))
-        .map(([key, entryValue]) => [
-          key,
-          normalizeValue(entryValue, pointerChild(path, key)),
-        ]),
-    );
-  }
-  try {
-    return JSON.parse(canonicalJson(value));
-  } catch (error) {
-    invalid(path, `YAMLへ変換できない値です: ${error.message}`);
-  }
+  return result.value;
 }
 
 function orderedRecord(record, order, path = "", transforms = {}) {
@@ -360,15 +416,7 @@ export function serializeYamlRecord(record) {
       defaultKeyType: "PLAIN",
       lineWidth: 0,
     };
-    const document = new Document(writer(record), null, options);
-    visit(document, {
-      Scalar(_key, node) {
-        if (typeof node.value === "string" && /[\t\r\x7f-\x9f\ufffe\uffff]/u.test(node.value)) {
-          node.type = "QUOTE_DOUBLE";
-        }
-      },
-    });
-    return document.toString(options).replace(/[\t\r\x7f-\x9f\ufffe\uffff]/gu, (character) =>
+    return stringifyLogicalRecord(writer(record), options).replace(/[\t\r\x7f-\x9f\ufffe\uffff]/gu, (character) =>
       `\\u${character.codePointAt(0).toString(16).padStart(4, "0")}`,
     );
   } catch (error) {

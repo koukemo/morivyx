@@ -1,0 +1,39 @@
+{
+  "format": "morivyx.yaml-runtime-source-integrity/1",
+  "frozenFixtures": {
+    "yaml-serialization": {
+      "count": 695,
+      "sha256": "3a568836d5df6db6e38ffb59d32e8b012bdcb1e107fdd1212e10cb1204752178"
+    },
+    "report-file-api": {
+      "count": 1041,
+      "sha256": "cab3373891f15513869a24955ef042f85a27d1d183769867c5f77f8e171b5793"
+    },
+    "yaml-file-api": {
+      "count": 5045,
+      "sha256": "a66814ba144c3ca7d6bcda9b7570baf1c847430af36af4b6bb2bf3215cadd275"
+    },
+    "package-file-api": {
+      "count": 1063,
+      "sha256": "9557f51fd314eeb510526211ab4fa478c3afe05ff7e0cdde51e8fc79f2e57ddd"
+    }
+  },
+  "repairedSources": {
+    "packages/kernel/src/yaml-reader.js": "364ac1dad9d6e0af3ba13b9271edcfac99346fdaf7d0fd776be0c93740d3b333",
+    "packages/kernel/src/yaml-writer.js": "831b49d7ba0ed0e12f930d1a59943ed2447c647a2535763df9b1f502fcfbcecf",
+    "packages/kernel/src/yaml-authoring-profile.js": "c01f1c20d4a5d6b1ea1d390744024c489ba3adb3517ef116d241462086f37c7b",
+    "packages/kernel/src/yaml-authoring-order.js": "0f9a30b61f7f23fbfa22376a65c6762891d7699df245121644e8473570f66049",
+    "packages/kernel/src/yaml-null-policy.js": "e0f5e7ffd096f53819f8ca68e10a43958ad6d37416a73b405b3cf5e8aa8cb6dc",
+    "packages/kernel/src/yaml-set-policy.js": "ba59202bb849785e618fc1b3c1e070dc4e177fefb1e1d837fba66202e7dcea62",
+    "packages/kernel/test/yaml-depth-runtime.test.js": "d9205c3e079032a8053bf16ab3171b5cb80d8a94b98e713c43fe664f2ce7877b",
+    "packages/kernel/test/yaml-writer.test.js": "e5c40f6926bf55f663ba292a3205a64147e3643d575c1dd2ab64ea986c4c38cb",
+    "packages/kernel/test/fixtures/yaml-depth-runtime-runner.mjs": "86aabe631ec361b8bd5714747f405e1c94e39a1563ef96bf206192a6256dc22b",
+    "packages/kernel/test/fixtures/yaml-depth-runtime-vectors.json": "27cba64be1b266c219599d54e76831c02726344cc0bad58e5932b7875ac3311d",
+    "tools/reference-source-integrity.mjs": "b1e86c420cc7e76259060ae6ec4d43d21b2118a8ed9e507a98aa9a1a44f9bc24",
+    "tools/reference-source-integrity.test.mjs": "aecf5c132c9f918bb73179b639a36273c17b2d3887075ade265fbc4e1ab87ff1",
+    "tools/python-yaml-serialization-conformance.test.mjs": "8c23cbf5281ded9977162fc042ff0c30a44a3b158684d49a5deea2671639f6ab",
+    "tools/python-report-file-api-conformance.test.mjs": "98aa4de725d785aabd74f07c300cb1fec943cf0f296f472a0c2c24ca26920b3c",
+    "tools/python-yaml-file-api-conformance.test.mjs": "667e22488b864369cf4d8aa4ec451c7c6337c2752669a988c515e21cdbaac71c",
+    "tools/python-package-file-api-conformance.test.mjs": "4e8a69ea36b6d43399939a0cb9710b4d4e5ab6bc845b08b51d4640b3468d472e"
+  }
+}

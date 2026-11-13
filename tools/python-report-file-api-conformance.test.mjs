@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { verifyReferenceSources } from "./reference-source-integrity.mjs";
 import fs from "node:fs";
 import { readFile, readdir, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
@@ -205,9 +206,9 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
     const out = spawnSync(python, ["-B", ...args], { cwd, env, encoding: "utf8", timeout: 120000, maxBuffer: 24 * 1024 * 1024 });
     assert.equal(out.error, undefined); assert.equal(out.status, 0, out.stderr); return out;
   }
-  test("the original file APIs reproduce the frozen results and owned file layouts", async () => {
+  test("the repaired file APIs reproduce the frozen results and owned file layouts", async () => {
     assert.equal(frozen.count, frozen.cases.length);
-    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await readFile(join(root, path))), expected, path);
+    await verifyReferenceSources(root, "report-file-api");
     for (const entry of frozen.cases) assert.deepEqual(await nodeReportCase(entry.input, frozen.templates), entry.expected, entry.id);
   });
   test("independent Python replays report input, output, faults and call-time changes", () => {
