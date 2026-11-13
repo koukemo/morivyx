@@ -23,6 +23,7 @@ Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorial
 [報告の読取と保存](docs/tutorials/python-report-file-api.md)もPythonだけで実行でき、既存の正本へ上書きせずに追加します。
 [一つの記録ファイルの読取](docs/tutorials/python-yaml-file-api.md)では、任意の欠落と不正な表記を区別し、対応表を返します。
 [パッケージの検査、索引と差分](docs/tutorials/python-package-file-api.md)では、正本をPythonだけで読み、概要、関係の索引と二つの版の差分を得られます。
+[深いYAMLの読取と書出し](docs/tutorials/yaml-runtime-repair.md)では、通常設定のNode.jsで深い拡張値を保存し、旧資料との比較も実行できます。
 
 ## 含める機能
 

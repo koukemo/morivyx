@@ -7,6 +7,7 @@ import { join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
 import { serializeYamlRecord } from "../packages/kernel/src/yaml-writer.js";
+import { verifyReferenceSources } from "./reference-source-integrity.mjs";
 
 export const sha = value => createHash("sha256").update(value).digest("hex");
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -61,9 +62,9 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
     const out = spawnSync(python, ["-B", ...args], { cwd, env, input, encoding: "utf8", timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
     assert.equal(out.error, undefined); assert.equal(out.status, 0, out.stderr); return out;
   }
-  test("the original writer retains all pre-implementation bytes, rejection paths and inputs", async () => {
+  test("the repaired writer retains all frozen bytes, rejection paths and inputs", async () => {
     assert.equal(frozen.count, frozen.cases.length);
-    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await readFile(join(root, path))), expected, path);
+    await verifyReferenceSources(root, "yaml-serialization");
     for (const entry of frozen.cases) assert.deepEqual(nodeYamlCase(entry.input, frozen.templates), entry.expected, entry.id);
     assert.equal(new Set(frozen.formats).size, 13);
   });

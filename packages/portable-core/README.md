@@ -121,6 +121,10 @@ python3 tools/check-portable-vectors.py
 
 ## 13形式の記録を文字列へ変換する
 
+Node.js側の深い記録の処理を修正した後も、Python製品と既存の関数の制限は保持します。
+旧695例、1041例、5045例と1063例は上書きせず、修正版のソースを追加の照合資料で確認します。
+[通常設定で深い記録を試す手順](../../docs/tutorials/yaml-runtime-repair.md)に、版の区別と再検証方法を示します。
+
 `yaml_records.serialize_yaml_record`は、判断の作成要求と改訂要求、Schema定義を含む13形式をYAML文字列へ変換します。
 ファイルへの書込と意味の検証は行いません。
 既存の`write_yaml`は10形式と既存の制限を保持します。

@@ -1,0 +1,12 @@
+{
+  "format": "morivyx.yaml-depth-runtime-vectors/1",
+  "cases": [
+    { "id": "map-32", "shape": "map", "depth": 32 },
+    { "id": "map-256", "shape": "map", "depth": 256 },
+    { "id": "map-1024", "shape": "map", "depth": 1024 },
+    { "id": "map-1536", "shape": "map", "depth": 1536 },
+    { "id": "sequence-1024", "shape": "sequence", "depth": 1024 },
+    { "id": "sequence-5000", "shape": "sequence", "depth": 5000, "leaf": "leaf", "extensionKey": "deep" },
+    { "id": "mixed-1024", "shape": "mixed", "depth": 1024 }
+  ]
+}

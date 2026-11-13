@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { verifyReferenceSources } from "./reference-source-integrity.mjs";
 import fs from "node:fs";
 import { readFile, readdir, mkdtemp, mkdir, writeFile, rm } from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
@@ -157,10 +158,9 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
     const result = spawnSync(python, ["-B", ...args], { cwd, env, encoding: "utf8", timeout: 240000, maxBuffer: 32 * 1024 * 1024 });
     assert.equal(result.error, undefined); assert.equal(result.status, 0, result.stderr); return result;
   }
-  test("original YAML file reads reproduce frozen logical values, diagnostics and untouched layouts", async () => {
+  test("repaired YAML file reads reproduce frozen logical values, diagnostics and untouched layouts", async () => {
     assert.equal(frozen.count, frozen.cases.length);
-    assert.equal(sha(await readFile(fileURLToPath(import.meta.url))), frozen.reference.normalizationHarnessSha256);
-    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await readFile(join(root, path))), expected, path);
+    await verifyReferenceSources(root, "yaml-file-api");
     for (const entry of frozen.cases) assert.deepEqual(await nodeYamlFileCase(entry.input, frozen.templates), entry.expected, entry.id);
   });
   test("independent Python reproduces every frozen generic YAML file outcome", () => {

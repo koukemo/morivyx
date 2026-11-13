@@ -3,6 +3,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { canonicalJson } from "../src/canonical.js";
 import { serializeReportYaml } from "../src/report.js";
@@ -392,21 +393,21 @@ test("rejects unsupported formats and values without a canonical form", () => {
   );
 });
 
-test("codes stack exhaustion for a deeply nested logical value", () => {
-  let value = "leaf";
-  for (let depth = 0; depth < 5_000; depth += 1) {
-    value = [value];
+test("writes the same depth-5000 logical value in a fresh default-stack process", () => {
+  const runner = fileURLToPath(new URL("./fixtures/yaml-depth-runtime-runner.mjs", import.meta.url));
+  // The runner retains the original value: 5000 arrays around "leaf", under
+  // extensions.deep. Each execution starts cold and checks exact YAML bytes.
+  for (let repeat = 0; repeat < 2; repeat++) {
+    const result = spawnSync(process.execPath, [runner, "sequence-5000", "write"], {
+      encoding: "utf8", timeout: 60_000, maxBuffer: 1024 * 1024,
+    });
+    assert.equal(result.error, undefined);
+    assert.equal(result.status, 0, result.stderr);
+    const observation = JSON.parse(result.stdout.trim());
+    assert.equal(observation.depth, 5000);
+    assert.equal(observation.accepted, true);
+    assert.deepEqual(observation.execArgv, []);
   }
-
-  assert.throws(
-    () =>
-      serializeYamlRecord({
-        format: "morivyx.git-graph/0.1",
-        extensions: { deep: value },
-      }),
-    (error) =>
-      error.code === "YAML_SERIALIZATION_INVALID" && error.path === "",
-  );
 });
 
 test("rejects non-logical structures without executing accessors", () => {

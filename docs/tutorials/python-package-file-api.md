@@ -95,6 +95,9 @@ except Exception as error:
 
 ## 検証範囲を確認する
 
+Node.js側の深い記録の修正後も、旧1063例、構成不能だった六例と比較処理の本文は保持します。
+[深いYAMLの比較手順](yaml-runtime-repair.md#元の期待結果との比較を実行する)では、修正版を元のソースと区別して照合します。
+
 返された`valid`は、上記の記録検査と投影の範囲を示します。
 実SchemaとGraph全体の意味、真正性、署名、本人性と採用権限の検証完了を示しません。
 既存の`read_package`、`read_package_files`と`read_package_file_sources`は、同期する入口と従来の容量、ファイル数及び深さの制限を保持します。
