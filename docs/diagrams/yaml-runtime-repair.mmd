@@ -1,0 +1,13 @@
+flowchart TD
+    A["通常設定の深い記録\n事前実行と容量変更は不要"] --> B["明示した作業一覧で処理\n既存の解釈と引用符を保持"]
+    B --> C["深さ五千の元入力も保持\n別プロセスで出力を照合"]
+    C --> D["旧資料の本文は変更しない\n修正版のソースは別に照合"]
+    D --> E["旧比較の本文を保持\n全期待結果と入力を比較"]
+    E --> F{"すべて成功したか"}
+    F -->|失敗| G["入力と生の結果を保存\n原因を修正して再確認"]
+    G --> B
+    F -->|成功| H["今回の確認範囲を記録\n全入力の適合とは区別"]
+    classDef action fill:#e5f2ef,stroke:#35645c,color:#153c35
+    classDef gate fill:#fff2dc,stroke:#96703f,color:#513d24
+    class A,B,C,D,E action
+    class F,G,H gate

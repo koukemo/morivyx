@@ -58,6 +58,9 @@ except ValidationError as error:
 
 ## 照合の範囲を確認する
 
+Node.js側の深い記録の修正後も、旧695例と比較処理の本文は保持します。
+[深いYAMLの比較手順](yaml-runtime-repair.md#元の期待結果との比較を実行する)では、修正版を元のソースと区別して照合します。
+
 リポジトリ直下で次を実行します。
 
 ```sh

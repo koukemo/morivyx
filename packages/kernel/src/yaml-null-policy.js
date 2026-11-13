@@ -70,28 +70,22 @@ export function isYamlNullAllowed(format, path, rootStatus) {
 }
 
 function validateNodeNulls(node, format, path, root) {
-  if (isScalar(node) && node.value === null) {
-    if (!isYamlNullAllowed(format, path, rootValue(root, "status"))) {
-      throw new PackageError(
-        "PACKAGE_NULL_INVALID",
-        path,
-        "Schema が許可しない位置に null があります。",
-      );
+  const pending = [{ node, path }];
+  while (pending.length > 0) {
+    const { node: current, path: currentPath } = pending.pop();
+    if (isScalar(current) && current.value === null) {
+      if (!isYamlNullAllowed(format, currentPath, rootValue(root, "status"))) {
+        throw new PackageError("PACKAGE_NULL_INVALID", currentPath, "Schema が許可しない位置に null があります。");
+      }
+      continue;
     }
-    return;
-  }
-  if (isSeq(node)) {
-    node.items.forEach((item, index) =>
-      validateNodeNulls(item, format, pointerChild(path, index), root),
-    );
-    return;
-  }
-  if (!isMap(node)) {
-    return;
-  }
-  for (const pair of node.items) {
-    const key = normalizeNfc(pair.key.value);
-    validateNodeNulls(pair.value, format, pointerChild(path, key), root);
+    let entries;
+    if (isSeq(current)) entries = current.items.map((item, index) => [index, item]);
+    else if (isMap(current)) entries = current.items.map((pair) => [normalizeNfc(pair.key.value), pair.value]);
+    else continue;
+    for (let index = entries.length - 1; index >= 0; index--) {
+      pending.push({ node: entries[index][1], path: pointerChild(currentPath, entries[index][0]) });
+    }
   }
 }
 

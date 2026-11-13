@@ -133,19 +133,18 @@ function validateSortedMap(node, path) {
 }
 
 function validateUnknownMapOrder(node, path) {
-  if (isSeq(node)) {
-    node.items.forEach((item, index) =>
-      validateUnknownMapOrder(item, pointerChild(path, index)),
-    );
-    return;
-  }
-  if (!isMap(node)) {
-    return;
-  }
-  validateSortedMap(node, path);
-  for (const pair of node.items) {
-    const key = normalizeNfc(pair.key.value);
-    validateUnknownMapOrder(pair.value, pointerChild(path, key));
+  const pending = [{ node, path }];
+  while (pending.length > 0) {
+    const { node: current, path: currentPath } = pending.pop();
+    let entries;
+    if (isSeq(current)) entries = current.items.map((item, index) => [index, item]);
+    else if (isMap(current)) {
+      validateSortedMap(current, currentPath);
+      entries = current.items.map((pair) => [normalizeNfc(pair.key.value), pair.value]);
+    } else continue;
+    for (let index = entries.length - 1; index >= 0; index--) {
+      pending.push({ node: entries[index][1], path: pointerChild(currentPath, entries[index][0]) });
+    }
   }
 }
 
