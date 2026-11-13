@@ -27,7 +27,7 @@
     "packages/kernel/src/yaml-set-policy.js": "ba59202bb849785e618fc1b3c1e070dc4e177fefb1e1d837fba66202e7dcea62",
     "packages/kernel/test/yaml-depth-runtime.test.js": "d9205c3e079032a8053bf16ab3171b5cb80d8a94b98e713c43fe664f2ce7877b",
     "packages/kernel/test/yaml-writer.test.js": "e5c40f6926bf55f663ba292a3205a64147e3643d575c1dd2ab64ea986c4c38cb",
-    "packages/kernel/test/fixtures/yaml-depth-runtime-runner.mjs": "86aabe631ec361b8bd5714747f405e1c94e39a1563ef96bf206192a6256dc22b",
+    "packages/kernel/test/fixtures/yaml-depth-runtime-runner.mjs": "40c12569fe2a3ef64b48d6d0eb9e265df22fb6ccc3445999e73b0a9cc45354b9",
     "packages/kernel/test/fixtures/yaml-depth-runtime-vectors.json": "27cba64be1b266c219599d54e76831c02726344cc0bad58e5932b7875ac3311d",
     "tools/reference-source-integrity.mjs": "b1e86c420cc7e76259060ae6ec4d43d21b2118a8ed9e507a98aa9a1a44f9bc24",
     "tools/reference-source-integrity.test.mjs": "aecf5c132c9f918bb73179b639a36273c17b2d3887075ade265fbc4e1ab87ff1",
