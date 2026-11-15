@@ -41,6 +41,22 @@ test("the exported normalizer preserves sparse array behavior and literal mappin
   assert.equal(value.__proto__.é, "é");
 });
 
+test("direct normalization keeps depth-first collisions and sequential array reads", () => {
+  const value = { a: { "e\u0301": 1, "é": 2 }, "a\u030a": 1, "å": 2 };
+  const before = JSON.stringify(value);
+  assert.throws(() => normalizeYamlLogicalValue(value), {
+    name: "TypeError", message: "NFC 正規化後に重複する項目です: é",
+  });
+  assert.equal(JSON.stringify(value), before);
+  let laterReads = 0;
+  const array = [value.a];
+  Object.defineProperty(array, "1", { get() { laterReads++; return "later"; }, enumerable: true });
+  assert.throws(() => normalizeYamlLogicalValue(array), {
+    name: "TypeError", message: "NFC 正規化後に重複する項目です: é",
+  });
+  assert.equal(laterReads, 0);
+});
+
 test("direct normalization rejects cycles and preserves noncyclic sharing in a bounded process", () => {
   const module = new URL("../src/yaml-authoring-profile.js", import.meta.url).href;
   const source = `import assert from "node:assert/strict";
