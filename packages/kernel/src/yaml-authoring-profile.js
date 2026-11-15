@@ -199,43 +199,49 @@ export function normalizeYamlLogicalValue(value) {
   const pending = [{ value, target: result, key: "value" }];
   const active = new Set();
   while (pending.length > 0) {
-    const frame = pending.pop();
-    if (frame.leave) {
-      active.delete(frame.value);
+    const frame = pending.at(-1);
+    if (frame.children) {
+      const child = frame.children.next();
+      if (!child.done) pending.push(child.value);
+      else {
+        active.delete(frame.value);
+        pending.pop();
+      }
       continue;
     }
+    pending.pop();
     const { value: current, target, key } = frame;
     let normalized = current;
     if (typeof current === "string") normalized = normalizeNfc(current);
     else if (current && typeof current === "object") {
       if (active.has(current)) throw new RangeError("循環参照を含む値は正規化できません。");
       active.add(current);
-      pending.push({ value: current, leave: true });
       const array = Array.isArray(current);
       normalized = array ? new Array(current.length) : {};
-      const keys = new Set();
-      // Preserve Array.map's holes and omission of extra array properties for
-      // direct callers of this exported normalizer, as before the traversal fix.
-      const sourceEntries = array ? [] : Object.entries(current);
-      if (array) {
-        for (let index = 0; index < current.length; index++) {
-          if (index in current) sourceEntries.push([String(index), current[index]]);
-        }
-      }
-      const entries = sourceEntries.map(([rawKey, entry]) => {
-        const childKey = array ? rawKey : normalizeNfc(rawKey);
-        if (keys.has(childKey)) throw new TypeError(`NFC 正規化後に重複する項目です: ${childKey}`);
-        keys.add(childKey);
-        Object.defineProperty(normalized, childKey, {
-          value: undefined, enumerable: true, configurable: true, writable: true,
-        });
-        return [childKey, entry];
-      });
-      for (let index = entries.length - 1; index >= 0; index--) {
-        pending.push({ value: entries[index][1], target: normalized, key: entries[index][0] });
-      }
+      pending.push({ value: current, children: normalizedLogicalChildren(current, normalized) });
     }
     Object.defineProperty(target, key, { value: normalized, enumerable: true, configurable: true, writable: true });
   }
   return result.value;
+}
+
+function* normalizedLogicalChildren(value, target) {
+  if (Array.isArray(value)) {
+    // Match Array.map's captured length, holes, sequential reads and omission
+    // of extra properties. A later getter must not run before an earlier child.
+    const length = target.length;
+    for (let index = 0; index < length; index++) {
+      if (index in value) yield { value: value[index], target, key: String(index) };
+    }
+    return;
+  }
+  // Object.entries reads values eagerly, as before, but each key is checked
+  // only after the preceding child's normalization has completed.
+  const keys = new Set();
+  for (const [rawKey, entry] of Object.entries(value)) {
+    const key = normalizeNfc(rawKey);
+    if (keys.has(key)) throw new TypeError(`NFC 正規化後に重複する項目です: ${key}`);
+    keys.add(key);
+    yield { value: entry, target, key };
+  }
 }
