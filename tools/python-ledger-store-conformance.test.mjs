@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
+import { verifyReferenceSources } from "./reference-source-integrity.mjs";
 import { canonicalJson, compareUnicode } from "../packages/kernel/src/canonical.js";
 import { writeApproval, writeChangeSet, writeMigration } from "../packages/kernel/src/ledger-store.js";
 import { readGraphPackage } from "../packages/kernel/src/package-reader.js";
@@ -122,9 +123,9 @@ export async function nodeLedgerCase(spec, baseFiles) {
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
   const bytes = await readFile(join(core, "fixtures/ledger-store-vectors.json"));
   const fixture = JSON.parse(bytes);
-  test("the pinned Node ledger operations reproduce every frozen filesystem result", async () => {
+  test("the repaired Node ledger operations reproduce every frozen filesystem result", async () => {
     assert.equal(digest(bytes), "0e7374160de9d9b90f2f9497f9c87b469cd89b56b61cd75b81a4cca4e77f5637");
-    for (const [path, expected] of Object.entries(fixture.sources)) assert.equal(digest(await readFile(new URL("../" + path, import.meta.url))), expected);
+    await verifyReferenceSources(fileURLToPath(new URL("../", import.meta.url)), "ledger-store");
     for (const entry of fixture.cases) assert.deepEqual(await nodeLedgerCase(entry.input, fixture.baseFiles), entry.expected, entry.id);
   });
   const python = process.env.MORIVYX_REFERENCE_PYTHON ?? "python3.14";
