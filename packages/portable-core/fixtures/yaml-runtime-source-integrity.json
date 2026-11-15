@@ -16,6 +16,14 @@
     "package-file-api": {
       "count": 1063,
       "sha256": "9557f51fd314eeb510526211ab4fa478c3afe05ff7e0cdde51e8fc79f2e57ddd"
+    },
+    "ledger-store": {
+      "count": 156,
+      "sha256": "0e7374160de9d9b90f2f9497f9c87b469cd89b56b61cd75b81a4cca4e77f5637"
+    },
+    "package-migration-writer": {
+      "count": 194,
+      "sha256": "90e1ffd76d284176de463446ade3a3785ccee12639164d30c653424158069887"
     }
   },
   "repairedSources": {
@@ -29,11 +37,13 @@
     "packages/kernel/test/yaml-writer.test.js": "e5c40f6926bf55f663ba292a3205a64147e3643d575c1dd2ab64ea986c4c38cb",
     "packages/kernel/test/fixtures/yaml-depth-runtime-runner.mjs": "40c12569fe2a3ef64b48d6d0eb9e265df22fb6ccc3445999e73b0a9cc45354b9",
     "packages/kernel/test/fixtures/yaml-depth-runtime-vectors.json": "27cba64be1b266c219599d54e76831c02726344cc0bad58e5932b7875ac3311d",
-    "tools/reference-source-integrity.mjs": "b1e86c420cc7e76259060ae6ec4d43d21b2118a8ed9e507a98aa9a1a44f9bc24",
-    "tools/reference-source-integrity.test.mjs": "aecf5c132c9f918bb73179b639a36273c17b2d3887075ade265fbc4e1ab87ff1",
+    "tools/reference-source-integrity.mjs": "ddb529e57b3d51297394dabb05824ab5f88f74b16a80be0c6f0f7228d34a579a",
+    "tools/reference-source-integrity.test.mjs": "447807a105aa65b779a073df00d4c16ff282c1ed085ca453ed0ebc316d1f4969",
     "tools/python-yaml-serialization-conformance.test.mjs": "8c23cbf5281ded9977162fc042ff0c30a44a3b158684d49a5deea2671639f6ab",
     "tools/python-report-file-api-conformance.test.mjs": "98aa4de725d785aabd74f07c300cb1fec943cf0f296f472a0c2c24ca26920b3c",
     "tools/python-yaml-file-api-conformance.test.mjs": "667e22488b864369cf4d8aa4ec451c7c6337c2752669a988c515e21cdbaac71c",
-    "tools/python-package-file-api-conformance.test.mjs": "4e8a69ea36b6d43399939a0cb9710b4d4e5ab6bc845b08b51d4640b3468d472e"
+    "tools/python-package-file-api-conformance.test.mjs": "4e8a69ea36b6d43399939a0cb9710b4d4e5ab6bc845b08b51d4640b3468d472e",
+    "tools/python-ledger-store-conformance.test.mjs": "14514e7633dfc8f8aed710fa7b959355a3fdf0ccb595a74e3024d5973ac6c0d7",
+    "tools/python-package-migration-writer-conformance.test.mjs": "49bcc5bb5bc5084f46dfffbf2ee10d3318d64bdbf5118cfa0a16b2c715c0c121"
   }
 }
