@@ -62,8 +62,8 @@ Pythonの製品は47本のままで、既存の関数の容量と深さの制限
 
 ## 元の期待結果との比較を実行する
 
-旧資料の695件、1041件、5045件と1063件は、本文と期待結果を変更しません。
-修正版の十六ファイルの検査値は、`packages/portable-core/fixtures/yaml-runtime-source-integrity.json`へ別に記録します。
+旧資料の695件、1041件、5045件、1063件、台帳156件と移行保存194件は、本文と期待結果を変更しません。
+修正版の十八ファイルの検査値は、`packages/portable-core/fixtures/yaml-runtime-source-integrity.json`へ別に記録します。
 元のソースと同じ版であるとは説明しません。
 比較用の処理では、取り込み、試験の説明と起動時のソース照合だけを変更し、それらを戻した全本文が旧版と一致することも検査します。
 入力構成、正規化、呼出し観測、再実行と等値判定の変更は拒否します。
@@ -74,6 +74,8 @@ node --test tools/reference-source-integrity.test.mjs
 MORIVYX_REFERENCE_PYTHON=python3.14 node tools/python-yaml-serialization-conformance.test.mjs
 MORIVYX_REFERENCE_PYTHON=python3.15 node tools/python-yaml-file-api-conformance.test.mjs
 MORIVYX_REFERENCE_PYTHON=python3.15 node tools/python-package-file-api-conformance.test.mjs
+MORIVYX_REFERENCE_PYTHON=python3.15 node tools/python-ledger-store-conformance.test.mjs
+MORIVYX_REFERENCE_PYTHON=python3.15 node tools/python-package-migration-writer-conformance.test.mjs
 ```
 
 各比較は、旧全期待値の再現と、公開47本だけを複写してNodeとGitを利用不能にしたPythonの実行も含みます。

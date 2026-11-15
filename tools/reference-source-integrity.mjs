@@ -21,6 +21,14 @@ export const FROZEN_REFERENCES = Object.freeze({
     harness: "7518eacbf5251ec87fdc0aca709445715eb3d5194cfd4d7f5cf78f54e0813bfe",
     oldLabel: "original package file APIs replay the frozen results and unchanged layouts",
     label: "repaired package file APIs replay the frozen results and unchanged layouts" },
+  "ledger-store": { count: 156, sha256: "0e7374160de9d9b90f2f9497f9c87b469cd89b56b61cd75b81a4cca4e77f5637",
+    harness: "c01215925b4ec6061c315802bf4c6b6d71ee15d108aedd0fc0d100a220c03afa",
+    oldLabel: "the pinned Node ledger operations reproduce every frozen filesystem result",
+    label: "the repaired Node ledger operations reproduce every frozen filesystem result" },
+  "package-migration-writer": { count: 194, sha256: "90e1ffd76d284176de463446ade3a3785ccee12639164d30c653424158069887",
+    harness: "811440ae94d89dcf4937e4e0f91f15e37743867d60a866815178265e4e6486e6",
+    oldLabel: "the original migration writer reproduces every pre-implementation result",
+    label: "the repaired migration writer reproduces every pre-implementation result" },
 });
 export const REPAIRED_SOURCE_PATHS = Object.freeze([
   ...["reader", "writer", "authoring-profile", "authoring-order", "null-policy", "set-policy"].map((name) => `packages/kernel/src/yaml-${name}.js`),
@@ -58,6 +66,7 @@ function replaceOnce(source, from, to, label) {
 }
 
 export function verifyHistoricalHarnessBody(id, current) {
+  assert.ok(Object.hasOwn(FROZEN_REFERENCES, id), "registered reference required");
   const reference = FROZEN_REFERENCES[id];
   assert.ok(reference, "registered reference required");
   let restored = replaceOnce(current,
@@ -65,12 +74,20 @@ export function verifyHistoricalHarnessBody(id, current) {
   restored = replaceOnce(restored, `test("${reference.label}",`, `test("${reference.oldLabel}",`, "test label");
   const selfGuard = ["yaml-file-api", "package-file-api"].includes(id) ?
     "    assert.equal(sha(await readFile(fileURLToPath(import.meta.url))), frozen.reference.normalizationHarnessSha256);\n" : "";
-  const sourceGuard = "    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await readFile(join(root, path))), expected, path);";
-  restored = replaceOnce(restored, `    await verifyReferenceSources(root, "${id}");`, selfGuard + sourceGuard, "source bootstrap");
+  const sourceGuard = id === "ledger-store" ?
+    '    for (const [path, expected] of Object.entries(fixture.sources)) assert.equal(digest(await readFile(new URL("../" + path, import.meta.url))), expected);' :
+    id === "package-migration-writer" ?
+    '    for (const [path, expected] of Object.entries(frozen.sources)) assert.equal(hash(await readFile(new URL("../" + path, import.meta.url))), expected, path);' :
+    "    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await readFile(join(root, path))), expected, path);";
+  const currentGuard = ["ledger-store", "package-migration-writer"].includes(id) ?
+    `    await verifyReferenceSources(fileURLToPath(new URL("../", import.meta.url)), "${id}");` :
+    `    await verifyReferenceSources(root, "${id}");`;
+  restored = replaceOnce(restored, currentGuard, selfGuard + sourceGuard, "source bootstrap");
   assert.equal(digest(restored), reference.harness, `historical normalization, input, observation and replay bodies: ${id}`);
 }
 
 export async function verifyReferenceSources(root, id) {
+  assert.ok(Object.hasOwn(FROZEN_REFERENCES, id), "registered reference required");
   const reference = FROZEN_REFERENCES[id];
   assert.ok(reference, "registered reference required");
   const manifestBytes = await readFile(join(root, SOURCE_INTEGRITY_PATH));
@@ -79,7 +96,7 @@ export async function verifyReferenceSources(root, id) {
   assert.equal(manifestBytes.toString("utf8"), JSON.stringify(manifest, null, 2) + "\n", "canonical source-integrity manifest");
   validateSourceIntegrityManifest(manifest);
   // The oldest serialization corpus predates a lock-file pin. Require the
-  // same unchanged dependency lock already bound by the other three corpora.
+  // same unchanged dependency lock already bound by later corpora.
   assert.equal(digest(await readFile(join(root, "packages/kernel/package-lock.json"))),
     "f7a7d765873730e4fbc69ce85d6464c8c62d46e2dc29f7801491bf7f8e68d37d", "lock-pinned yaml dependency");
   const fixturePath = `packages/portable-core/fixtures/${id}-vectors.json`;
@@ -88,8 +105,9 @@ export async function verifyReferenceSources(root, id) {
   const frozen = JSON.parse(fixtureBytes);
   assert.equal(frozen.count, reference.count);
   assert.equal(frozen.cases.length, reference.count);
-  if (frozen.reference.normalizationHarnessSha256 !== undefined) {
-    assert.equal(frozen.reference.normalizationHarnessSha256, reference.harness);
+  const metadata = ["ledger-store", "package-migration-writer"].includes(id) ? frozen : frozen.reference;
+  if (metadata.normalizationHarnessSha256 !== undefined) {
+    assert.equal(metadata.normalizationHarnessSha256, reference.harness);
   }
   for (const [path, expected] of Object.entries(manifest.repairedSources)) {
     assert.equal(digest(await readFile(join(root, path))), expected, `registered repaired source: ${path}`);
@@ -97,7 +115,7 @@ export async function verifyReferenceSources(root, id) {
   for (const name of Object.keys(FROZEN_REFERENCES)) {
     verifyHistoricalHarnessBody(name, await readFile(join(root, `tools/python-${name}-conformance.test.mjs`), "utf8"));
   }
-  for (const [path, historicalHash] of Object.entries(frozen.reference.sources)) {
+  for (const [path, historicalHash] of Object.entries(metadata.sources)) {
     const expected = manifest.repairedSources[path] ?? historicalHash;
     assert.equal(digest(await readFile(join(root, path))), expected, `frozen or explicitly repaired source: ${path}`);
   }

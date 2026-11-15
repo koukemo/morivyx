@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
+import { verifyReferenceSources } from "./reference-source-integrity.mjs";
 import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, readdir, readlink, realpath, rm, symlink, writeFile, lstat } from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
@@ -158,9 +159,9 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
     const results = JSON.parse(output); assert.equal(results.length, frozen.count);
     results.forEach((value, index) => { const { id, ...actual } = value; assert.equal(id, frozen.cases[index].id); assert.deepEqual(actual, frozen.cases[index].expected, id); });
   }
-  test("the original migration writer reproduces every pre-implementation result", async () => {
+  test("the repaired migration writer reproduces every pre-implementation result", async () => {
     assert.equal(hash(bytes), "90e1ffd76d284176de463446ade3a3785ccee12639164d30c653424158069887");
-    for (const [path, expected] of Object.entries(frozen.sources)) assert.equal(hash(await readFile(new URL("../" + path, import.meta.url))), expected, path);
+    await verifyReferenceSources(fileURLToPath(new URL("../", import.meta.url)), "package-migration-writer");
     for (const entry of frozen.cases) assert.deepEqual(await nodeMigrationWriterCase(entry.input, frozen.baseFiles), entry.expected, entry.id);
   });
   test("independent Python matches all saved bytes, refusals and cleanup results", () => {

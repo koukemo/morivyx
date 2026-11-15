@@ -13,11 +13,12 @@ const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const manifest = JSON.parse(await readFile(join(root, SOURCE_INTEGRITY_PATH)));
 const clone = () => structuredClone(manifest);
 
-test("exact repaired source identities bind four unchanged historical corpora", async () => {
+test("exact repaired source identities bind six unchanged historical corpora", async () => {
+  assert.equal(Object.keys(FROZEN_REFERENCES).length, 6);
   for (const [id, reference] of Object.entries(FROZEN_REFERENCES)) {
     const verified = await verifyReferenceSources(root, id);
     assert.equal(verified.frozenCases, reference.count);
-    assert.equal(verified.repairedSourceCount, 16);
+    assert.equal(verified.repairedSourceCount, 18);
     assert.equal(verified.historicalHarnessBodyMatched, true);
   }
 });
@@ -54,7 +55,8 @@ test("tampered files, corpus replacements and recomputed normalization hashes fa
       const path = `packages/portable-core/fixtures/${id}-vectors.json`;
       files.add(path);
       const frozen = JSON.parse(await readFile(join(root, path)));
-      for (const source of Object.keys(frozen.reference.sources)) files.add(source);
+      const metadata = ["ledger-store", "package-migration-writer"].includes(id) ? frozen : frozen.reference;
+      for (const source of Object.keys(metadata.sources)) files.add(source);
     }
     for (const path of files) {
       await mkdir(dirname(join(directory, path)), { recursive: true });
@@ -82,13 +84,22 @@ test("tampered files, corpus replacements and recomputed normalization hashes fa
     await assert.rejects(verifyReferenceSources(directory, "yaml-serialization"), /frozen or explicitly repaired/);
     await writeFile(canonicalPath, canonicalBytes);
 
-    const harness = "tools/python-yaml-file-api-conformance.test.mjs";
-    const harnessBytes = await readFile(join(directory, harness));
-    const changed = Buffer.concat([harnessBytes, Buffer.from("\n")]);
-    await writeFile(join(directory, harness), changed);
-    const replacement = clone(); replacement.repairedSources[harness] = sha(changed); await save(replacement);
-    await assert.rejects(verifyReferenceSources(directory, "yaml-file-api"), /historical normalization/);
-    await writeFile(join(directory, harness), harnessBytes); await save(manifest);
+    for (const id of ["yaml-file-api", "ledger-store", "package-migration-writer"]) {
+      const harness = `tools/python-${id}-conformance.test.mjs`;
+      const harnessBytes = await readFile(join(directory, harness));
+      const changed = Buffer.concat([harnessBytes, Buffer.from("\n")]);
+      await writeFile(join(directory, harness), changed);
+      const replacement = clone(); replacement.repairedSources[harness] = sha(changed); await save(replacement);
+      await assert.rejects(verifyReferenceSources(directory, id), /historical normalization/);
+      await writeFile(join(directory, harness), harnessBytes); await save(manifest);
+    }
+    for (const id of ["ledger-store", "package-migration-writer"]) {
+      const path = join(directory, `packages/portable-core/fixtures/${id}-vectors.json`);
+      const bytes = await readFile(path);
+      await writeFile(path, Buffer.concat([bytes, Buffer.from("\n")]));
+      await assert.rejects(verifyReferenceSources(directory, id), /immutable frozen fixture/);
+      await writeFile(path, bytes);
+    }
 
     const duplicate = JSON.stringify(manifest, null, 2).replace('  "format":', '  "format": "ignored",\n  "format":') + "\n";
     await writeFile(manifestPath, duplicate);
@@ -101,6 +112,7 @@ test("tampered files, corpus replacements and recomputed normalization hashes fa
     await writeFile(missing, originalLock);
     await verifyReferenceSources(directory, "yaml-serialization");
     await assert.rejects(verifyReferenceSources(directory, "../unknown"), /registered reference required/);
+    await assert.rejects(verifyReferenceSources(directory, "constructor"), /registered reference required/);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
