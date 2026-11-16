@@ -66,7 +66,7 @@ def checked(validator, value, path):
         raise ValidationError(error.code, path + error.path) from None
 
 
-def prepare(contents, request, operation):
+def prepare(contents, request, operation, *, _clone=copy.deepcopy):
     validate_request(request, operation)
     prefix = "DECISION_" + operation + "_"
     require(type(contents) is dict and type(contents.get("elements")) is list, prefix + "PACKAGE_INVALID", "/package")
@@ -90,10 +90,10 @@ def prepare(contents, request, operation):
         candidate = {"format": "morivyx.git-graph/0.1", "kind": "entity", "id": request["decisionId"], "type": "core.decision",
                      "typeVersion": schema["version"], "lifecycle": "draft", "reviewState": "unreviewed"}
     else:
-        candidate = copy.deepcopy(decision)
-    candidate["attributes"] = copy.deepcopy(request["attributes"])
+        candidate = _clone(decision)
+    candidate["attributes"] = _clone(request["attributes"])
     candidate["reviewState"] = "unreviewed"
-    candidate["provenance"] = copy.deepcopy(provenance)
+    candidate["provenance"] = _clone(provenance)
     candidate["revision"] = digest("revision", candidate)["digest"]
     checked(validate_graph_element, candidate, "/candidateElement")
     resulting_elements = elements + [candidate] if operation == "CREATION" else [candidate if entry["id"] == candidate["id"] else entry for entry in elements]
@@ -118,6 +118,98 @@ def prepare_decision_creation(contents, request):
 
 def prepare_decision_revision(contents, request):
     return prepare(contents, request, "REVISION")
+
+
+def _decision_clone(value):
+    """Copy JSON-visible values with heap frames, retaining spelling and order.
+
+    This helper belongs to the separate file API. Legacy preparation retains
+    its deepcopy behavior and the bounded CLI retains its transport limits.
+    """
+    if type(value) not in (dict, list):
+        return value
+    result = {} if type(value) is dict else []
+    pending = [(value, result)]
+    while pending:
+        source, target = pending.pop()
+        entries = source.items() if type(source) is dict else enumerate(source)
+        for key, item in entries:
+            copied = ({} if type(item) is dict else []) if type(item) in (dict, list) else item
+            if type(target) is dict:
+                target[key] = copied
+            else:
+                target.append(copied)
+            if type(item) in (dict, list):
+                pending.append((item, copied))
+    return result
+
+
+def _decision_truth(value):
+    return value is not None and value is not False and value != "" and not (type(value) in (int, float) and value == 0)
+
+
+def _decision_text(value):
+    """Diagnostic String coercion for JSON-visible requestPath values."""
+    if value is None:
+        return "null"
+    if type(value) is bool:
+        return "true" if value else "false"
+    if type(value) is dict:
+        if "toString" in value:
+            raise TypeError("Cannot convert object to primitive value")
+        return "[object Object]"
+    if type(value) is list:
+        return ",".join("" if item is None else _decision_text(item) for item in value)
+    return str(value)
+
+
+def _decision_validate(request, operation, request_path):
+    try:
+        validate_request(request, operation)
+    except ValidationError as error:
+        location = (_decision_text(request_path) + "#" + error.path if error.path else request_path) if _decision_truth(request_path) else error.path
+        raise ValidationError(error.code, location) from None
+
+
+def _write_decision_package(input_value, operation):
+    # Capture root fields at invocation. Nested request values intentionally
+    # retain their references until the second validation after reading base.
+    value = input_value if type(input_value) is dict else {}
+    base, output = value.get("basePath"), value.get("outputPath")
+    request, request_path = value.get("request"), value.get("requestPath", "")
+    try:
+        _decision_validate(request, operation, request_path)
+    except Exception as error:
+        async def rejected(failure=error):
+            raise failure
+        return rejected()
+
+    async def write():
+        from package_records import _read_package_api
+        from package_apply import _write_decision_applied
+        contents = await _read_package_api(base)
+        _decision_validate(request, operation, request_path)
+        try:
+            prepared = prepare(contents, request, operation, _clone=_decision_clone)
+        except ValidationError as error:
+            located = {"ID_EXISTS", "TARGET_MISSING", "TARGET_INVALID", "LIFECYCLE_INVALID", "CHANGESET_ID_EXISTS", "RESULT_INVALID"}
+            if error.code.removeprefix("DECISION_" + operation + "_") in located and _decision_truth(request_path):
+                raise ValidationError(error.code, _decision_text(request_path) + "#" + error.path) from None
+            raise
+        result = await _write_decision_applied(base, output, prepared)
+        return {**result, "decisionId": request["decisionId"],
+                "decisionRevision": prepared["candidateElement"]["revision"], "changeSetId": request["changeSetId"]}
+    return write()
+
+
+def write_created_decision_package(input_value=None):
+    """Return an awaitable that creates a Decision in a new package root."""
+    return _write_decision_package(input_value, "CREATION")
+
+
+def write_revised_decision_package(input_value=None):
+    """Return an awaitable that revises a Decision in a new package root."""
+    return _write_decision_package(input_value, "REVISION")
 
 
 def main():

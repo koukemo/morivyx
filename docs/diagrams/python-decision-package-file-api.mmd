@@ -1,0 +1,18 @@
+flowchart TD
+    A["既存の正本と判断の要求を用意"] --> B["Pythonの作成又は改訂を呼ぶ"]
+    B --> C["要求と元の正本を検査"]
+    C --> D{"保存先と変更後の内容は妥当か"}
+    D -- "いいえ" --> R["例外の種類と位置を確認"]
+    D -- "はい" --> E["一時領域へ保存して同期"]
+    E --> F["正本を読み直して再検査"]
+    F --> G{"内容と検査値は一致するか"}
+    G -- "はい" --> H["新しい保存先へ確定"]
+    G -- "いいえ" --> I["所有した配置の削除を試みる"]
+    E -- "保存失敗" --> I
+    I --> R
+    H --> J["元の版を保持して結果を取得"]
+    R --> K["再実行前に保存先と一時領域を確認"]
+    classDef success fill:#e7f2ed,stroke:#39765a,color:#102e20
+    classDef refusal fill:#fff0df,stroke:#9c6331,color:#3d270f
+    class H,J success
+    class R,I,K refusal
