@@ -332,6 +332,19 @@ def replay(value):
 
 
 class DecisionPackageFileApiTests(unittest.TestCase):
+    def test_root_request_diagnostic_preserves_json_path_value(self):
+        for method, code in (("create", "DECISION_CREATION_REQUEST_INVALID"),
+                             ("revise", "DECISION_REVISION_REQUEST_INVALID")):
+            for request_path in (True, 42, [], {}, ["request.json"], {"label": "request.json"}):
+                with self.subTest(method=method, request_path=request_path):
+                    spec = {"method": method, "schedule": "serial-io",
+                            "args": [{"request": None, "requestPath": request_path}]}
+                    actual = asyncio.run(owned_case(spec, {}))
+                    self.assertEqual(actual["result"], {"ok": False, "code": code, "path": request_path})
+                    self.assertEqual(actual["trace"], [])
+                    self.assertEqual(actual["before"], actual["after"])
+                    self.assertEqual(actual["argsBefore"], actual["argsAfter"])
+
     def test_numeric_diagnostic_path_uses_json_number_spelling(self):
         for method in (decision_preparation.write_created_decision_package,
                        decision_preparation.write_revised_decision_package):
