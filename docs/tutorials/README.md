@@ -9,7 +9,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 ## 実行環境を選ぶ
 
 既存の正本を読む場合は、Pythonだけでも始められます。
-判断の作成と更新は、Node.jsの統合した入口と、Pythonで準備と検証と復旧を組み合わせる手順から選べます。
+判断の作成と更新は、Node.js又はPythonのファイルから直接保存する入口を選べます。
 移行先の保存にも、Node.jsの統合した入口とPythonの実行例から選べます。
 関係の追加にはNode.jsの手順を使います。
 
@@ -22,7 +22,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | 判断の要求とSchema定義を含む13形式を文字列へ変換する | [Pythonの文字列変換](python-yaml-serialization.md)を使う。保存と意味の検証は別に行う |
 | YAMLを読む、既存の正本を検証する | [Pythonだけで実行可能](python-only.md)。Node.jsのCLIからも読取と検証を実行できる |
 | 既存の正本から索引を作って調べる | [Node.jsとPythonの両方の入口](graph-index.md)がある。手順の最初のサンプル作成にはNode.jsを使う |
-| 判断を作成して保存する、改訂する | [Node.jsで判断を保存](getting-started.md)して[改訂](revise-decision.md)するか、[Pythonの実行例](python-decision.md#自分の正本から作成して更新する)へ自分の正本と要求を渡す |
+| 判断を作成して保存する、改訂する | [Node.jsで判断を保存](getting-started.md)して[改訂](revise-decision.md)するか、[Pythonの二つの保存入口](python-decision-package-file-api.md)へ自分の正本と要求を渡す |
 | 関係を加える | [Node.jsで関係を追加](trace-relations.md)する |
 | Schemaを変えて別の保存先へ移行する | [Node.jsで準備と保存](schema-migration.md)するか、[Pythonの実行例](python-migration.md)へ自分の正本と明示した要求を渡す |
 | 明示した移行と変換先Schemaから新しい正本を保存する | [Pythonの保存入口](python-package-migration-writer.md)で検証と再読取後に確定する。計画の入口と正式な採用は別に扱う |
