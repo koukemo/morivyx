@@ -145,7 +145,8 @@ def _decision_clone(value):
 
 
 def _decision_truth(value):
-    return value is not None and value is not False and value != "" and not (type(value) in (int, float) and value == 0)
+    from record_validation import _revision_truthy
+    return _revision_truthy(value)
 
 
 def _decision_text(value):
@@ -154,6 +155,9 @@ def _decision_text(value):
         return "null"
     if type(value) is bool:
         return "true" if value else "false"
+    if type(value) in (int, float):
+        from record_validation import _revision_number_text
+        return _revision_number_text(value)
     if type(value) is dict:
         if "toString" in value:
             raise TypeError("Cannot convert object to primitive value")
@@ -164,8 +168,10 @@ def _decision_text(value):
 
 
 def _decision_validate(request, operation, request_path):
+    from record_validation import _revision_keys
     try:
-        validate_request(request, operation)
+        ordered = {key: request[key] for key in _revision_keys(request)} if type(request) is dict else request
+        validate_request(ordered, operation)
     except ValidationError as error:
         location = (_decision_text(request_path) + "#" + error.path if error.path else request_path) if _decision_truth(request_path) else error.path
         raise ValidationError(error.code, location) from None
