@@ -174,7 +174,9 @@ def _decision_validate(request, operation, request_path):
         validate_request(ordered, operation)
     except ValidationError as error:
         location = (_decision_text(request_path) + "#" + error.path if error.path else request_path) if _decision_truth(request_path) else error.path
-        raise ValidationError(error.code, location) from None
+        located = ValidationError(error.code, location if type(location) is str else "")
+        located.path = location
+        raise located from None
 
 
 def _write_decision_package(input_value, operation):
