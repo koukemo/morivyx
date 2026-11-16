@@ -332,6 +332,20 @@ def replay(value):
 
 
 class DecisionPackageFileApiTests(unittest.TestCase):
+    def test_numeric_diagnostic_path_uses_json_number_spelling(self):
+        for method in (decision_preparation.write_created_decision_package,
+                       decision_preparation.write_revised_decision_package):
+            with self.assertRaises(ValueError) as failure:
+                asyncio.run(method({"request": {"format": "unknown"}, "requestPath": 1.0}))
+            self.assertEqual(failure.exception.path, "1#/format")
+
+    def test_numeric_unknown_root_keys_follow_object_enumeration_order(self):
+        for method in (decision_preparation.write_created_decision_package,
+                       decision_preparation.write_revised_decision_package):
+            with self.assertRaises(ValueError) as failure:
+                asyncio.run(method({"request": {"2": 0, "1": 0}}))
+            self.assertEqual(failure.exception.path, "/1")
+
     def test_request_path_is_attached_to_existing_id_diagnostic(self):
         value = fixture()
         case = next(case for case in value["cases"] if case["expected"]["result"].get("code") == "DECISION_CREATION_ID_EXISTS")
