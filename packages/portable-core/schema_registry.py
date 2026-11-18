@@ -1,8 +1,13 @@
 """Bind explicitly supplied Schema sources to a lock; never use a fallback."""
 
-from canonical import digest
+from canonical import UNDEFINED, _helper_string, digest
 from schema_validation import SCHEMA_ID, VERSION, validate_schema_definition
 from yaml_authoring import read_authoring_yaml
+
+
+def schema_key(schema_id=UNDEFINED, version=UNDEFINED, *_ignored):
+    """Join logical string conversions with @; this does not validate a Schema."""
+    return _helper_string(schema_id) + "@" + _helper_string(version)
 
 
 def registry_issue(code, path):

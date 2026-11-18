@@ -4,14 +4,36 @@ Element revisions are caller declarations, not recomputed from element contents.
 Trace quality changes are supplied by the caller; this module runs no queries.
 """
 
-from canonical import canonical_json, digest, entry_key, unicode_text
+from canonical import (ENTRY_FIELDS, KINDS, UNDEFINED, _helper_property,
+                       _helper_string, _helper_text, canonical_json,
+                       compare_unicode, digest, entry_key, unicode_text)
 from record_validation import GRAPH_ID, text, timestamp
 from report_validation import TRACE_QUERIES, TRACE_STATUSES
-from schema_validation import DIGEST, STABLE_ID, ValidationError
+from schema_validation import DIGEST, STABLE_ID, PackageError, ValidationError
 
 
 UNSET = object()
 INPUT = "SEMANTIC_DIFF_INPUT_INVALID"
+
+
+def compare_semantic_diff_entries(left=UNDEFINED, right=UNDEFINED, *_ignored):
+    """Compare kind order, then NFC text fields, retaining exact differences."""
+    kinds = []
+    for value in (left, right):
+        kind = _helper_property(value, "kind")
+        if type(kind) is not str or kind not in KINDS:
+            raise PackageError("SEMANTIC_DIFF_KIND_UNKNOWN", "/entries/kind",
+                               "未知の semantic diff 種別です: " + _helper_string(kind))
+        kinds.append(kind)
+    comparison = KINDS.index(kinds[0]) - KINDS.index(kinds[1])
+    if comparison:
+        return comparison
+    for field in ENTRY_FIELDS:
+        comparison = compare_unicode(_helper_text(_helper_property(left, field)),
+                                     _helper_text(_helper_property(right, field)))
+        if comparison != 0:
+            return comparison
+    return 0
 
 
 def fail(code, path):

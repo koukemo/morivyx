@@ -2,7 +2,9 @@
 
 from collections import defaultdict
 
-from canonical import digest, unicode_text
+from canonical import (UNDEFINED, _helper_number, _helper_property,
+                       _helper_strict_equal, _helper_text, compare_unicode,
+                       digest, unicode_text)
 from schema_validation import ELEMENT_FIELDS, pointer, validate_graph_element, validate_schema_definition
 
 
@@ -14,6 +16,19 @@ TRANSITIONS = {
     "core.criterion": {"draft:active", "draft:retracted", "active:deprecated", "active:superseded", "active:retracted"},
     "core.learning": {"draft:active", "draft:retracted", "active:superseded", "active:retracted"},
 }
+
+
+def compare_issues(left=UNDEFINED, right=UNDEFINED, *_ignored):
+    """Compare phase first, then NFC text diagnostic fields, without mutation."""
+    left_phase, right_phase = _helper_property(left, "phase"), _helper_property(right, "phase")
+    if not _helper_strict_equal(left_phase, right_phase):
+        return _helper_number(left_phase) - _helper_number(right_phase)
+    for field in ("elementId", "code", "path", "relatedId"):
+        comparison = compare_unicode(_helper_text(_helper_property(left, field)),
+                                     _helper_text(_helper_property(right, field)))
+        if comparison != 0:
+            return comparison
+    return 0
 
 
 def text(value):

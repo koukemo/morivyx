@@ -6,6 +6,9 @@ description: 標準機能だけを使う47モジュールと、検査と保存�
 
 # Pythonの中核実装
 
+[比較と診断の補助5入口](../../docs/tutorials/python-core-helper-api.md)では、文字列と差分の比較、Schemaのキーと例外を既存モジュールから直接使います。
+固定した1,945例で戻り値、例外と呼出前後の共通項目を照合します。
+
 [判断を新しい正本へ保存する手順](../../docs/tutorials/python-decision-package-file-api.md)では、作成と改訂をファイルから直接実行します。
 元の正本を保持し、一時保存、保存後の再検査と新しい保存先への確定をPythonの標準機能だけで行います。
 
