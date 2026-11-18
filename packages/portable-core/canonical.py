@@ -203,6 +203,156 @@ def load_json(source):
     return json.loads(source, object_pairs_hook=pairs, parse_int=integer, parse_constant=constant)
 
 
+class _Undefined:
+    """An omitted JavaScript logical value, distinct from JSON null."""
+
+    def __repr__(self):
+        return "<logical:undefined>"
+
+    def __bool__(self):
+        return False
+
+
+UNDEFINED = _Undefined()
+
+
+def _helper_scalar_text(value):
+    # Python callers can supply either a scalar or explicit UTF-16 surrogate
+    # pairs. Combine pairs while retaining lone surrogates, as ECMAScript does.
+    return value.encode("utf-16-le", "surrogatepass").decode("utf-16-le", "surrogatepass")
+
+
+def _helper_string(value, active=None):
+    """String conversion for the supported logical values, without JSON encoding."""
+    if value is UNDEFINED:
+        return "undefined"
+    if value is None:
+        return "null"
+    if type(value) is str:
+        return value
+    if type(value) is bool:
+        return "true" if value else "false"
+    if type(value) in (int, float):
+        from record_validation import _revision_number_text
+        return _revision_number_text(value)
+    if type(value) is list:
+        active = set() if active is None else active
+        identity = id(value)
+        if identity in active:
+            return ""
+        active.add(identity)
+        try:
+            return ",".join("" if child is None or child is UNDEFINED else _helper_string(child, active)
+                            for child in value)
+        finally:
+            active.remove(identity)
+    if type(value) is dict:
+        if "toString" in value:
+            raise TypeError("Cannot convert object to primitive value")
+        return "[object Object]"
+    if type(value) in (bytes, bytearray):
+        return bytes(value).decode("utf-8", "replace")
+    raise TypeError("unsupported logical value")
+
+
+def _helper_property(value, key):
+    if value is None or value is UNDEFINED:
+        source = "null" if value is None else "undefined"
+        raise TypeError(f"Cannot read properties of {source} (reading '{key}')")
+    if type(value) is dict:
+        return value.get(key, UNDEFINED)
+    return UNDEFINED
+
+
+def _helper_strict_equal(left, right):
+    if type(left) in (int, float) and type(right) in (int, float):
+        return left == right
+    if type(left) is not type(right):
+        return False
+    if type(left) is str:
+        return _helper_scalar_text(left) == _helper_scalar_text(right)
+    if left is None or left is UNDEFINED or type(left) is bool:
+        return left == right
+    return left is right
+
+
+def _helper_number(value):
+    if value is UNDEFINED:
+        return math.nan
+    if value is None:
+        return 0.0
+    if type(value) is bool:
+        return float(value)
+    if type(value) in (int, float):
+        try:
+            return float(value)
+        except OverflowError:
+            return math.inf if value > 0 else -math.inf
+    source = _helper_string(value)
+    # This is the ECMAScript whitespace set, not Python's broader str.strip.
+    source = source.strip("\u0009\u000a\u000b\u000c\u000d\u0020\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000\ufeff")
+    if not source:
+        return 0.0
+    if source in ("Infinity", "+Infinity", "-Infinity"):
+        return -math.inf if source[0] == "-" else math.inf
+    for pattern, radix in [(r"0[xX][0-9a-fA-F]+", 16), (r"0[oO][0-7]+", 8), (r"0[bB][01]+", 2)]:
+        if re.fullmatch(pattern, source):
+            try:
+                return float(int(source[2:], radix))
+            except OverflowError:
+                return math.inf
+    if re.fullmatch(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?", source):
+        return float(source)
+    return math.nan
+
+
+def _helper_text(value):
+    return normalize_nfc(_helper_scalar_text(value)) if type(value) is str else ""
+
+
+def _helper_points(value):
+    if value is None or value is UNDEFINED:
+        source = "object null" if value is None else "undefined"
+        raise TypeError(f"{source} is not iterable (cannot read property Symbol(Symbol.iterator))")
+    if type(value) is str:
+        items = _helper_scalar_text(value)
+    elif type(value) in (list, bytes, bytearray):
+        items = value
+    elif type(value) is dict:
+        length = _helper_number(value.get("length", UNDEFINED))
+        length = 0 if math.isnan(length) or length <= 0 else min(math.floor(length), 9007199254740991)
+        if length > 1000000:
+            raise ValueError("logical array-like value exceeds supported bound")
+        items = [value.get(str(index), UNDEFINED) for index in range(length)]
+    elif type(value) in (int, float, bool):
+        items = []
+    else:
+        raise TypeError("unsupported logical iterable")
+    result = []
+    for item in items:
+        if item is None or item is UNDEFINED:
+            source = "null" if item is None else "undefined"
+            raise TypeError(f"Cannot read properties of {source} (reading 'codePointAt')")
+        if type(item) is not str:
+            raise TypeError("value.codePointAt is not a function")
+        scalar = _helper_scalar_text(item)
+        result.append(ord(scalar[0]) if scalar else UNDEFINED)
+    return result
+
+
+def compare_unicode(left=UNDEFINED, right=UNDEFINED, *_ignored):
+    """Compare raw Unicode code points; return the exact difference, without NFC.
+
+    The supported logical array-like inputs follow the original comparison's
+    eager point extraction. This is not scalar-string or schema validation.
+    """
+    left_points, right_points = _helper_points(left), _helper_points(right)
+    for a, b in zip(left_points, right_points):
+        if not _helper_strict_equal(a, b):
+            return _helper_number(a) - _helper_number(b)
+    return len(left_points) - len(right_points)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("contract", choices=CONTRACTS)
