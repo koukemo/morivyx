@@ -79,11 +79,13 @@ Schemaの存在、名前と版の妥当性を検査する入口ではありま�
 
 ```sh
 python3.14 -B -m unittest discover -s packages/portable-core -p test_core_helpers.py
+npm ci --prefix packages/kernel --ignore-scripts
 node tools/python-core-helper-conformance.test.mjs \
   --python "$(command -v python3.14)" --check
 ```
 
-二つ目のコマンドはNode.js 26.13.0以上を使う開発用の比較です。
+開発用の比較には、Node.js 26.13.0以上と固定依存の導入が必要です。
+上記の`npm ci`で、`packages/kernel`の固定した依存を準備します。
 `--python`には実行可能なPythonの絶対パスを指定します。
 Python 3.15を確認するときは、上記二箇所の`python3.14`を`python3.15`へ置き換えます。
 
