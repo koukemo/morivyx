@@ -15,6 +15,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 
 | 行いたい操作 | この公開版で使う環境 |
 |---|---|
+| 文字列、差分と診断を比較し、Schemaのキーと例外を扱う | [Pythonの補助5入口](python-core-helper-api.md)を直接呼ぶ。固定1,945例と未確認の範囲も確認する |
 | 深い拡張値を通常設定で保存して読み直す | [Node.jsで深いYAMLを扱う](yaml-runtime-repair.md)。旧資料と修正版のソースを分けて全件比較する |
 | 正本を直接読み、概要、索引と二つの版の差分を得る | [Pythonの三つのファイル入口](python-package-file-api.md)を使う。元の正本は変更しない |
 | 一つの記録ファイルを読み、任意の欠落を区別する | [Pythonの記録読取](python-yaml-file-api.md)で対応表を得る。意味と採用権限は別に検証する |

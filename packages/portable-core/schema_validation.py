@@ -8,7 +8,7 @@ import math
 from pathlib import Path
 import re
 
-from canonical import TIMESTAMP, canonical_json, digest, unicode_text
+from canonical import TIMESTAMP, UNDEFINED, _helper_string, canonical_json, digest, unicode_text
 from yaml_records import read_yaml
 
 
@@ -30,6 +30,26 @@ class ValidationError(ValueError):
     def __init__(self, code, path):
         self.code, self.path = code, path
         super().__init__(code + ": " + path)
+
+
+class PackageError(Exception):
+    """A package diagnostic with public attributes and an issue projection.
+
+    This exception does not replace the existing ValidationError contract.
+    Omitted code/path remain UNDEFINED; an omitted message becomes empty text.
+    """
+
+    def __init__(self, code=UNDEFINED, path=UNDEFINED, message=UNDEFINED, *_ignored):
+        self.message = "" if message is UNDEFINED else _helper_string(message)
+        self.name = "PackageError"
+        self.code, self.path = code, path
+        super().__init__(self.message)
+
+    def to_issue(self):
+        return {"code": self.code, "path": self.path, "message": self.message}
+
+    def toIssue(self):
+        return self.to_issue()
 
 
 def pointer(path, field):
