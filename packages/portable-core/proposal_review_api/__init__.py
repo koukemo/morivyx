@@ -6,13 +6,12 @@ Only the standard library and the published portable modules are used.
 """
 
 import asyncio
-from copy import deepcopy
 import os
 import re
 import stat
 
 from canonical import UNDEFINED, canonical_json, digest, _helper_string
-from changeset_apply import apply_change_set
+from changeset_apply import revision_record as _revision_record, stable_ids as _stable_ids
 from graph_validation import validate_graph
 import package_records as _records
 from record_validation import OPERATION_RULES
@@ -38,6 +37,31 @@ def _fail(suffix, path, message):
     raise PackageError("PROPOSAL_REVIEW_" + suffix, path, message)
 
 
+def _clone(value):
+    """Copy logical containers on the heap and retain shared references."""
+    if type(value) not in (dict, list):
+        return value
+    result = {} if type(value) is dict else []
+    memo, pending = {id(value): result}, [(value, result)]
+    while pending:
+        source, target = pending.pop()
+        entries = source.items() if type(source) is dict else enumerate(source)
+        for key, item in entries:
+            if type(item) in (dict, list):
+                copied = memo.get(id(item))
+                if copied is None:
+                    copied = {} if type(item) is dict else []
+                    memo[id(item)] = copied
+                    pending.append((item, copied))
+            else:
+                copied = item
+            if type(target) is dict:
+                target[key] = copied
+            else:
+                target.append(copied)
+    return result
+
+
 def _own(value):
     # Reject host objects before attribute access, iteration hooks or deepcopy.
     pending, active = [(value, False)], set()
@@ -60,7 +84,106 @@ def _own(value):
         elif item is not None and type(item) not in (str, int, float, bool):
             raise ValueError("non-JSON value")
     canonical_json(value)
-    return deepcopy(value)
+    return _clone(value)
+
+
+def _element_map(values, name, candidates=False):
+    """The separate file API does not inherit legacy recursive copy limits."""
+    if type(values) is not list:
+        raise ValidationError("CHANGESET_APPLY_INVALID", "/" + name)
+    result = {}
+    for index, element in enumerate(values):
+        path = f"/{name}/{index}"
+        if type(element) is not dict or any(type(element.get(key)) is not str for key in ("id", "revision")):
+            raise ValidationError("CHANGESET_APPLY_INVALID", path)
+        try:
+            validate_graph_element(element)
+        except ValidationError as error:
+            raise ValidationError("CHANGESET_APPLY_INVALID", path + error.path) from None
+        if digest("revision", element)["digest"] != element["revision"]:
+            raise ValidationError("CHANGESET_CANDIDATE_REVISION_MISMATCH" if candidates else "CHANGESET_APPLY_INVALID", path + "/revision")
+        key = (element["id"], element["revision"]) if candidates else element["id"]
+        if key in result:
+            raise ValidationError("CHANGESET_APPLY_INVALID", path if candidates else path + "/id")
+        result[key] = (_clone(element), index) if candidates else _clone(element)
+    return result
+
+
+def _apply_file_change_set(value):
+    """Apply the same operations using heap copies; keep the legacy API intact."""
+    change = value.get("changeSet")
+    validate_change_set(change)
+    elements = _element_map(value.get("currentElements"), "currentElements")
+    current = value.get("currentRevision")
+    if type(current) not in (dict, list):
+        raise ValidationError("CHANGESET_APPLY_INVALID", "/currentRevision")
+    _revision_record(current, "/currentRevision", "CHANGESET_APPLY_INVALID")
+    if current["id"] != change["baseRevision"]:
+        raise ValidationError("CHANGESET_BASE_REVISION_MISMATCH", "/baseRevision")
+    lock = value.get("schemaLockDigest", UNDEFINED)
+    if current["schemaLockDigest"] != lock or change["schemaLockDigest"] != lock:
+        raise ValidationError("CHANGESET_SCHEMA_LOCK_MISMATCH", "/schemaLockDigest")
+    if digest("root", list(elements.values()))["digest"] != current["rootDigest"]:
+        raise ValidationError("CHANGESET_APPLY_INVALID", "/currentRevision/rootDigest")
+    candidates = _element_map(value.get("candidateElements", []), "candidateElements", True)
+    consumed = set()
+
+    def take(identity, revision, path):
+        candidate = candidates.get((identity, revision))
+        if candidate is None:
+            raise ValidationError("CHANGESET_PRECONDITION_FAILED", path + "/afterRevision")
+        element, index = candidate
+        consumed.add(index)
+        return _clone(element)
+
+    operations = change["operations"]
+    if operations[0]["op"] == "revoke":
+        known = _stable_ids(value.get("knownChangeSetIds", []), "/knownChangeSetIds")
+        applied = _stable_ids(value.get("appliedChangeSetIds", []), "/appliedChangeSetIds")
+        target = operations[0]["targetId"]
+        if target == change["id"] or target not in known or target in applied:
+            raise ValidationError("CHANGESET_REVOKE_INVALID", "/operations/0/targetId")
+    else:
+        for index, operation in enumerate(operations):
+            path = f"/operations/{index}"
+            identity, name = operation["targetId"], operation["op"]
+            if name == "create":
+                if identity in elements:
+                    raise ValidationError("CHANGESET_PRECONDITION_FAILED", path + "/targetId")
+                elements[identity] = take(identity, operation["afterRevision"], path)
+                continue
+            if identity not in elements:
+                raise ValidationError("CHANGESET_PRECONDITION_FAILED", path + "/targetId")
+            if elements[identity]["revision"] != operation["beforeRevision"]:
+                raise ValidationError("CHANGESET_PRECONDITION_FAILED", path + "/beforeRevision")
+            if name == "revise":
+                elements[identity] = take(identity, operation["afterRevision"], path)
+            elif name == "retire":
+                del elements[identity]
+            elif name == "replace":
+                replacement = operation["replacementId"]
+                if replacement in elements:
+                    raise ValidationError("CHANGESET_PRECONDITION_FAILED", path + "/replacementId")
+                candidate = take(replacement, operation["afterRevision"], path)
+                del elements[identity]
+                elements[replacement] = candidate
+    for _element, index in candidates.values():
+        if index not in consumed:
+            raise ValidationError("CHANGESET_PRECONDITION_FAILED", f"/candidateElements/{index}")
+    resulting_elements = sorted(elements.values(), key=lambda e: e["id"])
+    root_digest = digest("root", resulting_elements)["digest"]
+    if root_digest != change["resultingRootDigest"]:
+        raise ValidationError("CHANGESET_RESULT_MISMATCH", "/resultingRootDigest")
+    resulting = value.get("resultingRevision")
+    if type(resulting) not in (dict, list):
+        raise ValidationError("CHANGESET_RESULT_MISMATCH", "/resultingRevisionRecord")
+    expected = {"format": "morivyx.graph-revision/0.1", "id": change["resultingRevision"],
+                "parentRevision": change["baseRevision"], "rootDigest": root_digest, "schemaLockDigest": lock}
+    for field, entry in expected.items():
+        if type(resulting) is not dict or resulting.get(field, UNDEFINED) != entry:
+            raise ValidationError("CHANGESET_RESULT_MISMATCH", "/resultingRevisionRecord/" + field)
+    _revision_record(resulting, "/resultingRevisionRecord", "CHANGESET_RESULT_MISMATCH")
+    return {"elements": _clone(resulting_elements), "revision": _clone(resulting), "rootDigest": root_digest}
 
 
 def _change_message(value, path):
@@ -558,7 +681,7 @@ async def _prepare(owned):
                    "knownChangeSetIds": [r["id"] for r in base["changeSets"]],
                    "appliedChangeSetIds": [r["id"] for r in base["changeSets"] if all(r[a] == base["revision"][b] for a, b in (("baseRevision", "parentRevision"), ("resultingRevision", "id"), ("resultingRootDigest", "rootDigest"), ("schemaLockDigest", "schemaLockDigest")))]}
     try:
-        applied = apply_change_set(apply_input)
+        applied = _apply_file_change_set(apply_input)
     except ValidationError as error:
         raise PackageError(error.code, error.path, _apply_message(error, apply_input)) from None
     if not validate_graph(**validation, graph_revision=applied["revision"]["id"], elements=applied["elements"], previous_elements=base["elements"])["valid"]:
@@ -582,7 +705,7 @@ async def _prepare(owned):
             if after is not None:
                 current[after["id"]] = after
         comparison.append({"index": index, "operation": operation, "before": before, "after": after})
-    return deepcopy({"valid": True, "baseRevision": base["revision"]["id"], "baseRootDigest": base["calculatedRootDigest"],
+    return _clone({"valid": True, "baseRevision": base["revision"]["id"], "baseRootDigest": base["calculatedRootDigest"],
                      "schemaLockDigest": base["calculatedSchemaLockDigest"], "changeSetId": change["id"], "changeSetDigest": digest("changeset", change)["digest"],
                      "resultingRevision": applied["revision"], "changeSet": change, "comparison": comparison, "semanticDiff": report,
                      "semanticDiffDigest": digest("semantic-diff", report)["digest"], "authorization": "not-assessed", "persisted": False})
