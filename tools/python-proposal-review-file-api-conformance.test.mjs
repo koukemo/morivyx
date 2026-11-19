@@ -137,3 +137,23 @@ test("supplementary differential cases retain complete diagnostics and filesyste
   if (differences.length) console.error(JSON.stringify({ supplementaryDifferences: differences }));
   assert.deepEqual(differences, []);
 });
+
+test("resulting revision diagnostics distinguish boundary conflicts from record structure", async t => {
+  const cases = [];
+  for (const field of ["extra", "a/b", "0"]) {
+    const row = structuredClone(vectors.cases[0]);
+    row.name = "resulting-revision-unknown-" + field;
+    row.input.resultingRevision[field] = true;
+    cases.push(row);
+  }
+  const row = structuredClone(vectors.cases[0]);
+  row.name = "resulting-revision-self-parent";
+  row.input.changeSet.resultingRevision = row.input.changeSet.baseRevision;
+  row.input.resultingRevision.id = row.input.changeSet.baseRevision;
+  row.input.resultingRevision.parentRevision = row.input.changeSet.baseRevision;
+  cases.push(row);
+  const input = { format: vectors.format, provenance: "Post-implementation revision diagnostics; original frozen oracle remains unchanged", cases };
+  const reference = await observe(input), actual = await pythonObservations(input);
+  t.diagnostic("4 additional post-implementation revision-record cases");
+  assert.deepEqual(actual, reference);
+});
