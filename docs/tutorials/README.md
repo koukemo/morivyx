@@ -20,6 +20,7 @@ description: 判断の保存、Schemaの移行、正本の出力と復元及びP
 | 正本を直接読み、概要、索引と二つの版の差分を得る | [Pythonの三つのファイル入口](python-package-file-api.md)を使う。元の正本は変更しない |
 | 一つの記録ファイルを読み、任意の欠落を区別する | [Pythonの記録読取](python-yaml-file-api.md)で対応表を得る。意味と採用権限は別に検証する |
 | 報告ファイルを読み、既存の正本へ追加する | [Pythonの報告保存](python-report-file-api.md)を使う。構造と重複を確認し、採用権限は別に扱う |
+| 保存する前の提案を比較する | [Pythonの提案比較](python-proposal-review-file-api.md)を使う。操作ごとの前後と意味差分を確認し、承認と保存は別に判断する |
 | 判断の要求とSchema定義を含む13形式を文字列へ変換する | [Pythonの文字列変換](python-yaml-serialization.md)を使う。保存と意味の検証は別に行う |
 | YAMLを読む、既存の正本を検証する | [Pythonだけで実行可能](python-only.md)。Node.jsのCLIからも読取と検証を実行できる |
 | 既存の正本から索引を作って調べる | [Node.jsとPythonの両方の入口](graph-index.md)がある。手順の最初のサンプル作成にはNode.jsを使う |
