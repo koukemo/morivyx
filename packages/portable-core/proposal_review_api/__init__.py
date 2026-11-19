@@ -144,7 +144,15 @@ def _apply_message(error, value):
             return "適用結果のroot digestがChangeSetと一致しません。"
         if path == "/resultingRevisionRecord":
             return "適用後のGraphRevision記録が必要です。"
-        return "適用後のGraphRevisionがChangeSetと一致しません: " + path.rsplit("/", 1)[-1]
+        record = value.get("resultingRevision")
+        field = path.rsplit("/", 1)[-1]
+        expected = {"format": "morivyx.graph-revision/0.1", "id": change["resultingRevision"],
+                    "parentRevision": change["baseRevision"], "rootDigest": change["resultingRootDigest"],
+                    "schemaLockDigest": value["schemaLockDigest"]}
+        if field in expected and (type(record) is not dict or record.get(field, UNDEFINED) != expected[field]):
+            return "適用後のGraphRevisionがChangeSetと一致しません: " + field
+        pointer = path.removeprefix("/resultingRevisionRecord")
+        return _record_message(ValidationError("GRAPH_REVISION_INVALID", pointer), record)
     if code == "CHANGESET_REVOKE_INVALID":
         target = change["operations"][0]["targetId"]
         if target == change["id"]:
