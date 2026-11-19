@@ -14,6 +14,8 @@ Node.jsのKernel、Pythonの独立した中核、Coreの仕様と適合検査を
 
 [Pythonの比較と診断の補助5入口](docs/tutorials/python-core-helper-api.md)では、既存モジュールから呼び出す実行例と、固定資料を使う確認方法を説明します。
 
+[Pythonで保存前の提案を比較する手順](docs/tutorials/python-proposal-review-file-api.md)では、正本のパスと提案から、操作ごとの前後と意味差分を保存せずに確認します。
+
 [判断を保存して差分を確認するチュートリアル](docs/tutorials/getting-started.md)で、サンプルの準備から、別の保存先への判断の追加、差分とNode.js及びPythonでの読取まで試せます。
 [自分のNode.jsアプリへ導入する手順](docs/tutorials/installed-node.md)で、配布アーカイブからの導入、公開APIとCLIの利用、固定した依存の再導入まで試せます。
 Node.jsを導入せずに試す場合は、[Python単独の手順](docs/tutorials/python-only.md)を使えます。
