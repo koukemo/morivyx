@@ -1,10 +1,13 @@
 ---
 type: Independent Implementation Guide
 title: Pythonの中核実装
-description: 標準機能だけを使う47モジュールと、検査と保存、配布物の照合、取込、子の起動と応答、コンテナ実行及び取得と隔離変換の接続の範囲を示す。
+description: 標準機能だけを使う47個の単一ファイルと1パッケージで、検査と保存、提案比較、取込と実行の接続を扱う範囲を示す。
 ---
 
 # Pythonの中核実装
+
+[保存前の提案を比較する手順](../../docs/tutorials/python-proposal-review-file-api.md)では、`proposal_review_api.prepare_proposal_review`を使います。
+正本のパスと提案から、操作ごとの前後と意味差分を読み取り専用で計算します。
 
 [比較と診断の補助5入口](../../docs/tutorials/python-core-helper-api.md)では、文字列と差分の比較、Schemaのキーと例外を既存モジュールから直接使います。
 固定した1,945例で戻り値、例外と呼出前後の共通項目を照合します。
