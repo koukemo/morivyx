@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { observe } from "./python-proposal-review-file-api-vectors.mjs";
 import { serializeYamlRecord } from "../packages/kernel/src/yaml-writer.js";
+import { revisionId, graphRootDigest } from "../packages/kernel/src/canonical.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const fixture = join(root, "packages/portable-core/fixtures");
@@ -155,5 +156,26 @@ test("resulting revision diagnostics distinguish boundary conflicts from record 
   const input = { format: vectors.format, provenance: "Post-implementation revision diagnostics; original frozen oracle remains unchanged", cases };
   const reference = await observe(input), actual = await pythonObservations(input);
   t.diagnostic("4 additional post-implementation revision-record cases");
+  assert.deepEqual(actual, reference);
+});
+
+test("deep proposal extensions preserve complete results without recursive copy limits", async t => {
+  const cases = [];
+  for (const depth of [300, 600, 900]) {
+    const row = structuredClone(vectors.cases[0]); row.name = "nested-extension-" + depth;
+    let nested = "leaf";
+    for (let index = 0; index < depth; index++) nested = { child: nested };
+    const element = row.input.candidateElements[0]; element.extensions = { "demo/nested": nested };
+    element.revision = revisionId(element);
+    row.input.changeSet.operations[0].afterRevision = element.revision;
+    row.input.changeSet.resultingRootDigest = graphRootDigest([element]);
+    row.input.resultingRevision.rootDigest = row.input.changeSet.resultingRootDigest;
+    cases.push(row);
+  }
+  const input = { format: vectors.format, provenance: "Post-implementation depth cases; initial oracle remains immutable", cases };
+  const reference = await observe(input);
+  assert(reference.observations.every(row => row.returned?.valid === true));
+  const actual = await pythonObservations(input);
+  t.diagnostic("3 additional post-implementation depth cases: 300, 600 and 900");
   assert.deepEqual(actual, reference);
 });
