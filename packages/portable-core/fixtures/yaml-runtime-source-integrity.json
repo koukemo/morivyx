@@ -37,7 +37,7 @@
     "packages/kernel/test/yaml-writer.test.js": "e5c40f6926bf55f663ba292a3205a64147e3643d575c1dd2ab64ea986c4c38cb",
     "packages/kernel/test/fixtures/yaml-depth-runtime-runner.mjs": "40c12569fe2a3ef64b48d6d0eb9e265df22fb6ccc3445999e73b0a9cc45354b9",
     "packages/kernel/test/fixtures/yaml-depth-runtime-vectors.json": "27cba64be1b266c219599d54e76831c02726344cc0bad58e5932b7875ac3311d",
-    "tools/reference-source-integrity.mjs": "ddb529e57b3d51297394dabb05824ab5f88f74b16a80be0c6f0f7228d34a579a",
+    "tools/reference-source-integrity.mjs": "d7a405cb6d52292a898f55f05cc075c7164086cb0e9e8a32a6745473cc39e0b9",
     "tools/reference-source-integrity.test.mjs": "447807a105aa65b779a073df00d4c16ff282c1ed085ca453ed0ebc316d1f4969",
     "tools/python-yaml-serialization-conformance.test.mjs": "8c23cbf5281ded9977162fc042ff0c30a44a3b158684d49a5deea2671639f6ab",
     "tools/python-report-file-api-conformance.test.mjs": "98aa4de725d785aabd74f07c300cb1fec943cf0f296f472a0c2c24ca26920b3c",

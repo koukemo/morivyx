@@ -105,6 +105,17 @@ export function validateGraphElement(element, filePath = "") {
     invalid(filePath, "/reviewState", "定義済みのreview stateが必要です。");
   }
   assertMap(element.attributes, filePath, "/attributes", "attributes");
+  if (
+    element.kind === "entity" &&
+    element.type === "core.decision" &&
+    element.typeVersion === "0.2" &&
+    Object.hasOwn(element.attributes, "statement")
+  ) {
+    const { statement } = element.attributes;
+    if (typeof statement !== "string" || !statement.trim()) {
+      invalid(filePath, "/attributes/statement", "決めたことは空白以外を含む文字列で指定します。");
+    }
+  }
   assertMap(element.provenance, filePath, "/provenance", "ProvenanceRecord");
   assertText(element.provenance.method, filePath, "/provenance/method");
   assertStableId(element.provenance.actor, filePath, "/provenance/actor");

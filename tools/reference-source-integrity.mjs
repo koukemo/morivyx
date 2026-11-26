@@ -4,6 +4,10 @@ import { createHash } from "node:crypto";
 import { join } from "node:path";
 
 export const SOURCE_INTEGRITY_PATH = "packages/portable-core/fixtures/yaml-runtime-source-integrity.json";
+export const DECISION_STATEMENT_SOURCES = Object.freeze({
+  "packages/kernel/src/decision-markdown.js": "cd2d70c0ff449d803a3820691cf3c60b8461be342fd61aed1c527c3cfe8c820e",
+  "packages/kernel/src/graph-element.js": "e61faf2f28c11873d9e49b9fa0dc34ad01d41a6d84ad0b05fe4579b412e3407f",
+});
 export const FROZEN_REFERENCES = Object.freeze({
   "yaml-serialization": { count: 695, sha256: "3a568836d5df6db6e38ffb59d32e8b012bdcb1e107fdd1212e10cb1204752178",
     harness: "2fa5d45b715b3de46e46a1832828557745fc493c829422503c995b7011ba8e8d",
@@ -65,6 +69,22 @@ function replaceOnce(source, from, to, label) {
   return source.replace(from, to);
 }
 
+export async function verifyDecisionPackageReplaySources(root, bytes, harness) {
+  assert.equal(digest(bytes), "433e67d86746b420f9d18171fb2a880c16039df8122843d3e790c582ca109e19", "immutable decision package fixture");
+  const { reference } = JSON.parse(bytes);
+  let original = replaceOnce(harness,
+    'import { verifyDecisionPackageReplaySources } from "./reference-source-integrity.mjs";\n', "", "decision package integrity import");
+  original = replaceOnce(original,
+    '    await verifyDecisionPackageReplaySources(root, bytes, await fs.promises.readFile(fileURLToPath(import.meta.url), "utf8"));',
+    '    assert.equal(sha(await fs.promises.readFile(fileURLToPath(import.meta.url))), frozen.reference.normalizationHarnessSha256);\n' +
+    '    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await fs.promises.readFile(join(root, path))), expected, path);',
+    "decision package replay guard");
+  assert.equal(digest(original), reference.normalizationHarnessSha256, "historical decision package replay");
+  for (const [path, expected] of Object.entries(reference.sources)) {
+    assert.equal(digest(await readFile(join(root, path))), DECISION_STATEMENT_SOURCES[path] ?? expected, path);
+  }
+}
+
 export function verifyHistoricalHarnessBody(id, current) {
   assert.ok(Object.hasOwn(FROZEN_REFERENCES, id), "registered reference required");
   const reference = FROZEN_REFERENCES[id];
@@ -116,7 +136,7 @@ export async function verifyReferenceSources(root, id) {
     verifyHistoricalHarnessBody(name, await readFile(join(root, `tools/python-${name}-conformance.test.mjs`), "utf8"));
   }
   for (const [path, historicalHash] of Object.entries(metadata.sources)) {
-    const expected = manifest.repairedSources[path] ?? historicalHash;
+    const expected = DECISION_STATEMENT_SOURCES[path] ?? manifest.repairedSources[path] ?? historicalHash;
     assert.equal(digest(await readFile(join(root, path))), expected, `frozen or explicitly repaired source: ${path}`);
   }
   return { fixture: id, frozenCases: reference.count, historicalHarnessBodyMatched: true,

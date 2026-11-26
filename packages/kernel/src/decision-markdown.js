@@ -45,6 +45,12 @@ const RULES = {
     "relations",
   ],
 };
+const STATEMENT_RULES = {
+  ...RULES,
+  format: "morivyx.decision-markdown-rules/0.2",
+  projectorVersion: "0.2",
+  sections: ["state", "question", "statement", ...RULES.sections.slice(2)],
+};
 const CONFIGURATION = {
   escaping: "markdown-backslash-v1",
   headings: "ja-v1",
@@ -53,6 +59,10 @@ const CONFIGURATION = {
 const RULES_DIGEST = digestValue(
   "morivyx:decision-markdown-rules:v1",
   RULES,
+);
+const STATEMENT_RULES_DIGEST = digestValue(
+  "morivyx:decision-markdown-rules:v1",
+  STATEMENT_RULES,
 );
 const CONFIGURATION_DIGEST = digestValue(
   "morivyx:decision-markdown-configuration:v1",
@@ -258,21 +268,14 @@ function renderRelations(decisionId, elements, index) {
   ]);
 }
 
-function renderMarkdown(input, decision, elements, index) {
+function renderMarkdown(metadata, decision, elements, index, statement) {
   const { attributes } = decision;
   const lines = [
     "---",
     "type: Decision Projection",
     'title: "Decisionの派生表現"',
     'description: "Decisionを人が確認するためにGraphから生成したMarkdown。"',
-    `graphRevision: ${JSON.stringify(input.graphRevision)}`,
-    `sourceId: ${JSON.stringify(decision.id)}`,
-    `sourceRevision: ${JSON.stringify(decision.revision)}`,
-    `rulesDigest: ${JSON.stringify(RULES_DIGEST)}`,
-    `projectorId: ${JSON.stringify(RULES.projectorId)}`,
-    `projectorVersion: ${JSON.stringify(RULES.projectorVersion)}`,
-    `projectorPackageDigest: ${JSON.stringify(input.projectorPackageDigest)}`,
-    `configurationDigest: ${JSON.stringify(CONFIGURATION_DIGEST)}`,
+    ...Object.entries(metadata).map(([key, value]) => `${key}: ${JSON.stringify(value)}`),
     "---",
     "",
     "# Decision",
@@ -288,6 +291,7 @@ function renderMarkdown(input, decision, elements, index) {
     "",
     markdownText(attributes.question),
     "",
+    ...(statement === undefined ? [] : ["## 決めたこと", "", markdownText(statement), ""]),
     "## 選択理由",
     "",
     markdownText(attributes.rationale),
@@ -322,24 +326,23 @@ export function projectDecisionMarkdown(input) {
     invalid("/decisionId", "焦点のDecisionがGraphにありません。");
   }
   validateDecision(decision);
-  const graphRevision = normalizeNfc(input.graphRevision);
-  const markdown = renderMarkdown(
-    { ...input, graphRevision },
-    decision,
-    input.elements,
-    index,
-  );
+  const statement = decision.typeVersion === "0.2" ? decision.attributes.statement : undefined;
+  const rules = statement === undefined ? RULES : STATEMENT_RULES;
+  const metadata = {
+    graphRevision: normalizeNfc(input.graphRevision),
+    sourceId: decision.id,
+    sourceRevision: decision.revision,
+    rulesDigest: statement === undefined ? RULES_DIGEST : STATEMENT_RULES_DIGEST,
+    projectorId: rules.projectorId,
+    projectorVersion: rules.projectorVersion,
+    projectorPackageDigest: input.projectorPackageDigest,
+    configurationDigest: CONFIGURATION_DIGEST,
+  };
+  const markdown = renderMarkdown(metadata, decision, input.elements, index, statement);
   const digest = `sha256:${createHash("sha256").update(markdown).digest("hex")}`;
   return {
     format: "morivyx.decision-markdown-projection/0.1",
-    graphRevision,
-    sourceId: decision.id,
-    sourceRevision: decision.revision,
-    rulesDigest: RULES_DIGEST,
-    projectorId: RULES.projectorId,
-    projectorVersion: RULES.projectorVersion,
-    projectorPackageDigest: input.projectorPackageDigest,
-    configurationDigest: CONFIGURATION_DIGEST,
+    ...metadata,
     mediaType: "text/markdown; charset=utf-8",
     digest,
     markdown,

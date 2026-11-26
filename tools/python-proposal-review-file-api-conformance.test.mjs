@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { spawnSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { copyFile, cp, mkdtemp, readFile, readdir, rm, mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -20,10 +20,14 @@ const vectorsBytes = await readFile(vectorsPath), observationsBytes = await read
 const vectors = JSON.parse(vectorsBytes), expected = JSON.parse(observationsBytes);
 
 test("proposal reference retains all 353 pre-implementation source pins", async () => {
+  const reference = "4097114f0b70f58dce33ea3fc3aaf5964527c3f6";
+  const git = (...args) => execFileSync("git", args, { cwd: root });
+  const names = directory => git("ls-tree", "--name-only", "-z", `${reference}:${directory}`)
+    .toString("utf8").split("\0");
   const paths = [];
-  for (const name of await readdir(join(root, "packages/kernel/src"))) if (name.endsWith(".js")) paths.push("packages/kernel/src/" + name);
+  for (const name of names("packages/kernel/src")) if (name.endsWith(".js")) paths.push("packages/kernel/src/" + name);
   const excluded = new Set(["evidence_archive.py", "evidence_restore.py", "proposal_acceptance.py", "proposal_review.py"]);
-  for (const name of await readdir(join(root, "packages/portable-core"))) if (name.endsWith(".py") && !name.startsWith("test_") && !excluded.has(name)) paths.push("packages/portable-core/" + name);
+  for (const name of names("packages/portable-core")) if (name.endsWith(".py") && !name.startsWith("test_") && !excluded.has(name)) paths.push("packages/portable-core/" + name);
   async function dependencyFiles(path) {
     for (const entry of await readdir(join(root, path), { withFileTypes: true })) {
       const child = path + "/" + entry.name;
@@ -35,7 +39,12 @@ test("proposal reference retains all 353 pre-implementation source pins", async 
   paths.push("docs/schema/morivyx.core@0.1.yaml", "docs/validation/fixtures/decision-maintenance-base/.morivyx/schema.lock.yaml",
     "docs/validation/fixtures/decision-maintenance-base/.morivyx/revision.yaml", "tools/python-proposal-review-file-api-vectors.mjs");
   const pins = [];
-  for (const path of paths.sort()) pins.push({ path, sha256: sha(await readFile(join(root, path))) });
+  for (const path of paths.sort()) {
+    const bytes = path.startsWith("packages/kernel/node_modules/")
+      ? await readFile(join(root, path))
+      : git("show", `${reference}:${path}`);
+    pins.push({ path, sha256: sha(bytes) });
+  }
   assert.equal(pins.length, 353);
   assert.equal(sha(JSON.stringify(pins)), "9746dda8f850422efff17df4fc63fda43793be864d88a94ee739894ffc36873c");
 });
