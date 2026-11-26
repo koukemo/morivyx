@@ -12,6 +12,7 @@ import test from "node:test";
 import { writeCreatedDecisionPackage } from "../packages/kernel/src/decision-creation.js";
 import { writeRevisedDecisionPackage } from "../packages/kernel/src/decision-revision.js";
 import { logicalNodes, packageSource, sha } from "./python-package-file-api-conformance.test.mjs";
+import { verifyDecisionPackageReplaySources } from "./reference-source-integrity.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 let casesQueue = Promise.resolve();
@@ -295,8 +296,7 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
   test("original decision package writers replay frozen outcomes and complete layouts", async () => {
     assert.equal(frozen.reference.stage, "frozen-original");
     assert.equal(frozen.count, frozen.cases.length); assert.ok(frozen.count >= 2);
-    assert.equal(sha(await fs.promises.readFile(fileURLToPath(import.meta.url))), frozen.reference.normalizationHarnessSha256);
-    for (const [path, expected] of Object.entries(frozen.reference.sources)) assert.equal(sha(await fs.promises.readFile(join(root, path))), expected, path);
+    await verifyDecisionPackageReplaySources(root, bytes, await fs.promises.readFile(fileURLToPath(import.meta.url), "utf8"));
     for (const entry of frozen.cases) assert.deepEqual(await nodeDecisionPackageCase(entry.input, frozen.templates), entry.expected, entry.id);
   });
   test("Python reproduces every frozen decision package writer outcome", () => {

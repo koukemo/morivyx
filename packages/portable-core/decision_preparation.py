@@ -63,7 +63,7 @@ def checked(validator, value, path):
     try:
         validator(value)
     except ValidationError as error:
-        raise ValidationError(error.code, path + error.path) from None
+        raise ValidationError(error.code, path + ("#" + error.path if error.path else "")) from None
 
 
 def prepare(contents, request, operation, *, _clone=copy.deepcopy):

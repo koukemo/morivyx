@@ -13,6 +13,7 @@ description: 配布したCore定義、設計文書、採用済みの契約と用
 
 - [Coreの定義](schema/morivyx-core-0-1.md)
 - [機械可読のCore Schema](schema/morivyx.core@0.1.yaml)
+- [Core 0.2 の決定本文と入力例](schema/morivyx-core-0-2.md)
 - [明示した文字列項目名と長い項目名](yaml-explicit-keys.md)
 - [一行の項目名の長さの数え方](yaml-key-length.md)
 - [用語集](terminology/glossary.md)

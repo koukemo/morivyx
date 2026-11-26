@@ -74,6 +74,42 @@ test("independent Decision Markdown matches the unchanged fixed vector", () => {
   assert.deepEqual(JSON.parse(cli.stdout), actual.projection);
 });
 
+test("projects a Core 0.2 statement independently of the selected Option", () => {
+  const withOption = input();
+  const decision = withOption.elements[0];
+  decision.typeVersion = "0.2";
+  decision.attributes.statement = "変更履歴を端末内に保存する\r\n# 復元も端末内で行う";
+  decision.revision = revisionId(decision);
+  assert.ok(withOption.elements.some((entry) => entry.attributes.predicate === "selects"));
+  const withoutOption = { ...withOption, elements: [decision] };
+  const draft = structuredClone(withoutOption);
+  delete draft.elements[0].attributes.statement;
+  draft.elements[0].revision = revisionId(draft.elements[0]);
+  const cases = [
+    { name: "statement and selection", value: withOption, accepted: true },
+    { name: "statement alone", value: withoutOption, accepted: true },
+    { name: "draft without a statement", value: draft, accepted: true },
+  ];
+  for (const invalid of [null, [], 1, "", " \u00a0\ufeff\n"]) {
+    const value = structuredClone(withoutOption);
+    value.elements[0].attributes.statement = invalid;
+    cases.push({ name: `invalid statement ${JSON.stringify(invalid)}`, value, accepted: false });
+  }
+  const [related, standalone, undecided, ...invalid] = compare(cases);
+  for (const { projection } of [related, standalone]) {
+    assert.equal(projection.projectorVersion, "0.2");
+    assert.notEqual(projection.rulesDigest, vector.expected.rulesDigest);
+    assert.ok(projection.markdown.includes("## 決めたこと\n\n変更履歴を端末内に保存する\n\\# 復元も端末内で行う\n\n## 選択理由"));
+  }
+  assert.equal(undecided.projection.projectorVersion, "0.1");
+  assert.equal(undecided.projection.rulesDigest, vector.expected.rulesDigest);
+  assert.doesNotMatch(undecided.projection.markdown, /決めたこと/);
+  for (const error of invalid) {
+    assert.equal(error.code, "GRAPH_ELEMENT_INVALID");
+    assert.equal(error.path, "/elements/0#/attributes/statement");
+  }
+});
+
 test("independent Decision Markdown preserves escaping, ordering and the projection scope", () => {
   const cases = [];
   const add = (name, edit) => { const value = input(); edit(value); cases.push({ name, value, accepted: true }); };

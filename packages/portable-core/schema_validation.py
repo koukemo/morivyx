@@ -161,6 +161,11 @@ def validate_graph_element(element):
     text(element.get("revision"), code, "/revision", DIGEST)
     require(element.get("reviewState") in ("unreviewed", "proposed", "approved", "rejected"), code, "/reviewState")
     mapping(element.get("attributes"), code, "/attributes")
+    if (element["kind"] == "entity" and element["type"] == "core.decision"
+            and element["typeVersion"] == "0.2" and "statement" in element["attributes"]):
+        statement = element["attributes"]["statement"]
+        require(type(statement) is str and re.search(rf"[^{SPACE}]", statement) is not None,
+                code, "/attributes/statement")
     provenance = element.get("provenance")
     mapping(provenance, code, "/provenance")
     text(provenance.get("method"), code, "/provenance/method")

@@ -24,6 +24,10 @@ RULES = {
     "relationPredicates": list(PREDICATES),
     "sections": ["state", "question", "rationale", "consequences", "revisitTriggers", "challengeReview", "relations"],
 }
+STATEMENT_RULES = {
+    **RULES, "format": "morivyx.decision-markdown-rules/0.2", "projectorVersion": "0.2",
+    "sections": ["state", "question", "statement", *RULES["sections"][2:]],
+}
 CONFIGURATION = {"escaping": "markdown-backslash-v1", "headings": "ja-v1", "lineEnding": "lf"}
 
 
@@ -32,6 +36,7 @@ def digest_value(domain, value):
 
 
 RULES_DIGEST = digest_value("morivyx:decision-markdown-rules:v1", RULES)
+STATEMENT_RULES_DIGEST = digest_value("morivyx:decision-markdown-rules:v1", STATEMENT_RULES)
 CONFIGURATION_DIGEST = digest_value("morivyx:decision-markdown-configuration:v1", CONFIGURATION)
 
 
@@ -104,10 +109,13 @@ def project_decision_markdown(value):
     text_list(attributes.get("consequences"), "/decision/attributes/consequences", False)
     if "revisitTriggers" in attributes:
         text_list(attributes["revisitTriggers"], "/decision/attributes/revisitTriggers")
+    statement = attributes.get("statement") if decision["typeVersion"] == "0.2" else None
+    rules = RULES if statement is None else STATEMENT_RULES
     graph_revision = unicode_text(value["graphRevision"])
     metadata = {
         "graphRevision": graph_revision, "sourceId": decision["id"], "sourceRevision": decision["revision"],
-        "rulesDigest": RULES_DIGEST, "projectorId": RULES["projectorId"], "projectorVersion": RULES["projectorVersion"],
+        "rulesDigest": RULES_DIGEST if statement is None else STATEMENT_RULES_DIGEST,
+        "projectorId": rules["projectorId"], "projectorVersion": rules["projectorVersion"],
         "projectorPackageDigest": value["projectorPackageDigest"], "configurationDigest": CONFIGURATION_DIGEST,
     }
     lines = ["---", "type: Decision Projection", 'title: "Decisionの派生表現"',
@@ -116,7 +124,10 @@ def project_decision_markdown(value):
     lines += ["---", "", "# Decision", "", "## 状態", "",
               "- stable ID: `" + decision["id"] + "`", "- Revision ID: `" + decision["revision"] + "`",
               "- lifecycle: " + markdown_text(decision["lifecycle"]), "- review state: " + markdown_text(decision["reviewState"]),
-              "", "## 問い", "", markdown_text(attributes["question"]), "", "## 選択理由", "", markdown_text(attributes["rationale"]),
+              "", "## 問い", "", markdown_text(attributes["question"]), ""]
+    if statement is not None:
+        lines += ["## 決めたこと", "", markdown_text(statement), ""]
+    lines += ["## 選択理由", "", markdown_text(attributes["rationale"]),
               "", "## 結果", "", *render_list(attributes["consequences"]), "", "## 再検討条件", "",
               *render_list(attributes.get("revisitTriggers", [])), "", "## 反証確認", "",
               "    " + canonical_json(attributes["challengeReview"]) if "challengeReview" in attributes else "- なし",

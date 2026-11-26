@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { copyFile, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readFile, readdir, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,8 +10,10 @@ import { prepareDecisionRevision } from "../packages/kernel/src/decision-revisio
 import { applyChangeSet } from "../packages/kernel/src/changeset-apply.js";
 import { readGraphPackage } from "../packages/kernel/src/package-reader.js";
 import { validateGraph, validatePackage } from "../packages/kernel/src/validator.js";
-import { canonicalJson } from "../packages/kernel/src/canonical.js";
+import { canonicalJson, graphRootDigest, schemaDefinitionDigest, schemaLockDigest } from "../packages/kernel/src/canonical.js";
 import { resolveSchemaRegistry } from "../packages/kernel/src/schema-registry.js";
+import { readYamlRecord } from "../packages/kernel/src/yaml-reader.js";
+import { serializeYamlRecord } from "../packages/kernel/src/yaml-writer.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const script = join(root, "packages/portable-core/decision_preparation.py");
@@ -160,6 +162,74 @@ print(json.dumps(out,ensure_ascii=False))`;
   }
   const cli = run([script], JSON.stringify({ operation: "create", packageFiles: files, request: request() })); assert.equal(cli.status, 0, cli.stderr); assert.deepEqual(JSON.parse(cli.stdout), values[0].plan);
   console.info(`Decision preparation round trips: ${values.length}; plan, applied elements, exported reread and validation differences: 0`);
+});
+
+test("Core 0.2 creates and revises a Decision statement through the Node and Python workflows", async (t) => {
+  const directory = await realpath(await mkdtemp(join(tmpdir(), "morivyx-decision-statement-")));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const base = join(directory, "base");
+  const schemaPath = join(root, "docs/schema/morivyx.core@0.2.yaml");
+  const schema = await readYamlRecord(schemaPath);
+  const lock = {
+    format: "morivyx.schema-lock/0.1",
+    stableIdScheme: schema.stableIdScheme,
+    digestAlgorithm: schema.digestAlgorithm,
+    schemas: [{ schemaId: schema.schemaId, version: schema.version, digest: schemaDefinitionDigest(schema) }],
+  };
+  await materialize(base, {
+    "schema.lock.yaml": serializeYamlRecord(lock),
+    "schemas/morivyx.core@0.2.yaml": await readFile(schemaPath, "utf8"),
+    "revision.yaml": serializeYamlRecord({
+      format: "morivyx.graph-revision/0.1", id: "graph:statement-base", parentRevision: null,
+      rootDigest: graphRootDigest([]), schemaLockDigest: schemaLockDigest(lock),
+    }),
+  });
+  const creation = request();
+  creation.attributes.statement = "操作履歴を端末内に保存する。";
+  const revision = request("revise");
+  revision.attributes.statement = "操作履歴と索引を端末内に保存する。\n復元時は検査値を照合する。";
+  const cliPath = join(root, "packages/kernel/src/cli.js");
+  const workflow = join(root, "examples/python-decisions/workflow.py");
+  const cases = [];
+  let current = base;
+  let pythonCurrent = base;
+  for (const [operation, command, input] of [
+    ["create", "create-decision", creation],
+    ["revise", "revise-decision", revision],
+  ]) {
+    const prior = await readGraphPackage(current);
+    const contents = Object.fromEntries(
+      ["elements", "approvals", "changeSets", "migrations", "reports", "schemaLock", "revision", "calculatedSchemaLockDigest"]
+        .map((key) => [key, prior[key]]),
+    );
+    cases.push({ name: operation, operation, contents, request: input, accepted: true });
+    const requestPath = join(directory, `${operation}.yaml`);
+    const output = join(directory, operation);
+    await writeFile(requestPath, serializeYamlRecord(input));
+    const result = spawnSync(process.execPath, [cliPath, command, current, requestPath, output], { encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    assert.equal(JSON.parse(result.stdout).valid, true);
+    const stored = await readGraphPackage(output);
+    assert.equal(stored.elements.length, 1);
+    assert.equal(stored.elements[0].typeVersion, "0.2");
+    assert.equal(stored.elements[0].attributes.statement, input.attributes.statement);
+    assert.equal(stored.revision.parentRevision, prior.revision.id);
+    assert.ok((await validatePackage(output)).valid);
+    const pythonOutput = join(directory, `python-${operation}`);
+    await mkdir(pythonOutput);
+    const written = run([workflow, operation, join(pythonCurrent, ".morivyx"), join(pythonOutput, ".morivyx")], JSON.stringify(input));
+    assert.equal(written.status, 0, written.stderr);
+    const pythonStored = await readGraphPackage(pythonOutput);
+    assert.deepEqual(pythonStored.elements, stored.elements);
+    assert.deepEqual(pythonStored.revision, stored.revision);
+    current = output;
+    pythonCurrent = pythonOutput;
+  }
+  assert.equal((await readGraphPackage(join(directory, "create"))).elements[0].attributes.statement, creation.attributes.statement);
+  compare(cases);
+  const badRequest = structuredClone(creation);
+  badRequest.attributes.statement = " \t\ufeff";
+  compare([{ ...cases[0], name: "blank", request: badRequest, accepted: false }]);
 });
 
 test("bounded preparation CLI rejects invalid input without partial output or copied secrets", () => {
