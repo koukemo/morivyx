@@ -1,0 +1,12 @@
+# テキストのチェックアウトは LF にそろえる。
+* text=auto eol=lf
+
+# Windows のバッチファイルは CRLF でチェックアウトする。
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 画像と保存用のバイナリは改行を変換しない。
+*.png -text
+*.tar -text
+*.gz -text
+*.bundle -text
