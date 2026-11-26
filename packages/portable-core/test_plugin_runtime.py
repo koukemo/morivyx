@@ -103,6 +103,34 @@ class PluginRuntimeTests(unittest.TestCase):
                     self.assertEqual(process_outcome(options), case["expected"])
                     self.assertEqual(canonical_json(options) if case.get("inputDepth") else options, before)
 
+    def test_child_environment_preserves_only_windows_system_root(self):
+        case = next(case for case in VECTORS["processCases"] if case["expected"]["accepted"])
+        value = value_for(case)
+        grant = create_plugin_execution_grant(value["manifest"], value["request"], value["policy"])
+        expected = {plugin_runtime.GRANT_ENV: grant.canonical_json}
+        system_root = r"C:\Windows"
+        for platform, root, expected_windows_env in (
+            ("win32", system_root, {"SystemRoot": system_root}),
+            ("win32", "", {}),
+            ("darwin", system_root, {}),
+        ):
+            with self.subTest(platform=platform, has_system_root=bool(root)):
+                parent_env = {"UNRELATED": "synthetic"}
+                if root:
+                    parent_env["SystemRoot"] = root
+                with (
+                    patch.object(plugin_runtime.sys, "platform", platform),
+                    patch.dict(plugin_runtime.os.environ, parent_env, clear=True),
+                    patch.object(plugin_runtime.subprocess, "Popen", side_effect=OSError()) as spawn,
+                ):
+                    with self.assertRaises(ValidationError) as error:
+                        run_plugin_process(
+                            command=sys.executable, manifest=value["manifest"],
+                            request=value["request"], policy=value["policy"],
+                        )
+                self.assertEqual(error.exception.code, "PLUGIN_RUN_FAILED")
+                self.assertEqual(spawn.call_args.kwargs["env"], expected | expected_windows_env)
+
     def test_immutable_snapshot_raw_values_and_detached_mapping(self):
         case = next(case for case in VECTORS["grantCases"] if case["name"] == "valid/raw-unicode")
         value = value_for(case)

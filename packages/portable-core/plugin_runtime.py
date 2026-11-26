@@ -253,7 +253,7 @@ def _parse_result(data, request):
 
 
 def run_plugin_process(*, command=_UNSET, args=_UNSET, manifest=None, request=None, policy=None, cwd=_UNSET):
-    """Run a trusted executable with only grant data in its supplied environment.
+    """Run a trusted executable with grant data and Windows startup metadata.
 
     Enforce the wall-clock and combined stdout/stderr byte limits. Memory and
     cost limits cannot be enforced and are rejected before any child is started.
@@ -274,8 +274,13 @@ def run_plugin_process(*, command=_UNSET, args=_UNSET, manifest=None, request=No
         sent_request = _json_value(text)
         data = (text + "\n").encode("utf-8")
         deadline = time.monotonic() + resources["timeoutMs"] / 1000
+        child_env = {GRANT_ENV: grant.canonical_json}
+        if sys.platform == "win32":
+            system_root = os.environ.get("SystemRoot")
+            if system_root:
+                child_env["SystemRoot"] = system_root
         process = subprocess.Popen([command, *args], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   cwd=None if cwd is _UNSET else cwd, env={GRANT_ENV: grant.canonical_json},
+                                   cwd=None if cwd is _UNSET else cwd, env=child_env,
                                    bufsize=0, close_fds=True, shell=False)
         status, output = _exchange(process, data, int(resources["maxOutputBytes"]), deadline)
     except Exception:
